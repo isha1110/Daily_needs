@@ -1,0 +1,172 @@
+<resources>
+    <string name="app_name">Daily needs</string>
+    <string name="staples">Staples</string>
+    <string name="snack_and_beverages">Snack and Beverages</string>
+    <string name="packed_food">Packed Food</string>
+    <string name="personal_and_babycare">Personal and Babycare</string>
+    <string name="household_care">Household Care</string>
+    <string name="dairy_and_eggs">Dairy and Eggs</string>
+    <string name="covid_19_essentials">COVID-19 Essentials</string>
+    <string name="seasonal_essentials">Seasonal Essentials</string>
+    <string name="myorders">My Orders</string>
+    <string name="my_wishlist">My Wishlist</string>
+    <string name="profile_setting">My Profile</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="let_s_get_started">Let\'s Get Started!</string>
+    <string name="create_an_account_now">Create an Account now</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="password">Password</string>
+    <string name="create">Create</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login_here">Login here</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="login">Login</string>
+    <string name="or_connect_using">or connect using</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Signup</string>
+    <string name="enter_your_6_digit_otp">Enter your 4 digit OTP</string>
+    <string name="email_phone_number">Enter your email address</string>
+    <string name="verify">Verify</string>
+    <string name="enter_new_password">Enter new password</string>
+    <string name="new_password">New password</string>
+    <string name="confirmed_new_password">Confirm new password</string>
+    <string name="generate_password">Generate Password</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="enter_old_password">Enter current password</string>
+    <string name="old_password">Current Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="track_order">Track order</string>
+    <string name="aashirwad_atta">Aashirwad Atta</string>
+    <string name="size">Size :</string>
+    <string name="quantity">Quantity:</string>
+    <string name="paid">Paid : ₹</string>
+    <string name="you_saved">You Saved</string>
+    <string name="order_placed_on">Order Placed on:</string>
+    <string name="mode_of_payment">Mode of payment :</string>
+    <string name="online">Online</string>
+    <string name="status">Status :</string>
+    <string name="in_transit">In transit</string>
+    <string name="repeat_order">Repeat order</string>
+    <string name="sample_text">Buy more than 4 items and get extra 25% discount</string>
+    <string name="total">Total</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="bag_total">Bag Total</string>
+    <string name="bag_discount">Bag Discount</string>
+    <string name="coupon_discount">Coupon Discount</string>
+    <string name="order_total">Order Total</string>
+    <string name="delivery_charges">Delivery Charges</string>
+    <string name="free">Free</string>
+    <string name="price_details">Price details</string>
+    <string name="apply_coupon">Apply Coupon</string>
+    <string name="checkout">Checkout</string>
+    <string name="cart">Cart</string>
+    <string name="hello">Hello,</string>
+    <string name="log_in">Log in</string>
+    <string name="search_by_category">Search By Category</string>
+    <string name="sign_in_with_gmail">Sign in with Gmail</string>
+    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="price">Price :₹ </string>
+    <string name="logout">Logout</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="about_the_product">About the product</string>
+    <string name="sample_text1">lorem ispum Lroena asjdbao asjdakdba aoibdaiobda ooadsboasidas oabdoasbdoa abdoadonasbda oadbaodasdaod oabdpadpabdao</string>
+    <string name="bestsellers">Bestsellers</string>
+    <string name="all_bestseller">All Bestseller</string>
+    <string name="new_arrivals">New Arrivals</string>
+    <string name="all_new_arrivals">All New Arrivals</string>
+    <string name="abc_gmail_com">abc@gmail.com</string>
+    <string name="address">B-52,First floor,Roseland Apartment,New Delhi</string>
+    <string name="add_multiple_address">Add multiple address</string>
+    <string name="orders">Orders</string>
+    <string name="my_profile">My Profile</string>
+    <string name="snack_and_beveragess">Snack and \nBeverages</string>
+    <string name="packed_foods">Packed \nFood</string>
+    <string name="personalbabycare">Personal and\n Babycare</string>
+    <string name="householdcare">Household \n Care</string>
+    <string name="number">123456789</string>
+    <string name="cart_total">Total :</string>
+    <string name="rs_280">₹ 280</string>
+    <string name="out_of_stock">Out of stock</string>
+    <string name="rs_70_00">₹ 70.00</string>
+    <string name="_10_kg">10 kg</string>
+    <string-array name="list">
+        <item>10 kg</item>
+        <item>15 kg</item>
+        <item>20 kg</item>
+    </string-array>
+    <string name="mandatory_field_message">This field can\'t be empty</string>
+    <string name="forgetPassword">Forget Password</string>
+    <string name="password_mismatch_msg">Both passwords must match</string>
+    <string name="error_invalid_email">Invalid Email</string>
+    <string name="error_invalid_password">Invalid Password</string>
+    <string name="back_press_msg">Press the back button again to Exit!!!</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="ruppee_symbol">₹</string>
+    <string name="street_address">Street address</string>
+    <string name="street_address_line2">Street address line2</string>
+    <string name="city">City</string>
+    <string name="confirm">Confirm</string>
+    <string name="state">State</string>
+    <string name="add_new_address">Add New Address</string>
+    <string name="make_default">Make Default</string>
+    <string name="full_address">Full Address</string>
+    <string name="add_address">Add New Address</string>
+    <string-array name="locationList">
+        <item>Raj Nagar Extension</item>
+        <item>Sahibabad</item>
+        <item>Indirapuram</item>
+        <item>Vaishali</item>
+        <item>Kaushambi</item>
+        <item>Vasundhara</item>
+        <item>Dilshad Garden</item>
+        <item>Jhilmil</item>
+        <item>Krishna Nagar</item>
+    </string-array>
+    <string name="select_location">Select Location</string>
+    <string name="addressLocation">Address</string>
+    <string name="user">User</string>
+    <string name="cancel">CLEAR ALL</string>
+    <string name="online_payment">Online Payment</string>
+    <string name="proceed_to_pay">Proceed To Pay</string>
+    <string name="cash_on_delivery">Cash on Delivery</string>
+    <string name="select_delivery_address">Select Delivery Address</string>
+    <string name="mode_of_payment1">Mode Of Payment</string>
+    <string name="cancellation_message">Do you want to cancel the order?</string>
+    <string name="upload_image_message">Do you want to upload profile photo?</string>
+    <string name="default_address_msg">Please select address to make default</string>
+    <string name="razor_pay_test_key">rzp_test_hm6LqAvMYT37DA</string>
+    <string name="razor_pay_live_key">rzp_live_81ErEFw3BzXlHm</string>
+    <string name="something_went_wrong_message">Something went wrong while uploading image</string>
+    <string name="thank_you">THANK YOU</string>
+    <string name="for_choosing_us">For choosing us</string>
+    <string name="expected_delivey_message">We have received your order and you\n will get your order by </string>
+    <string name="order_id">Order Id -</string>
+    <string name="desibazaar_9">DESIBAZAAR-99999999</string>
+    <string name="view_cart">View Cart</string>
+    <string name="home">Home</string>
+    <string name="dal_pulsess"><![CDATA[Dal & Pulsess]]></string>
+    <string name="password_matching_msg">Both passwords must match</string>
+    <string name="view_all">View All</string>
+    <string name="search_here">Search Product</string>
+    <string name="txt_no_product_found">No Item Found</string>
+    <string name="txt_no_address_found">No Address Found</string>
+    <string name="zero_item">0 Item</string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="price_filter">Price</string>
+    <string name="brand">Brand</string>
+    <string name="apply">Apply</string>
+    <string name="low_to_high">Low to High</string>
+    <string name="high_to_low">High to Low</string>
+    <string name="no_item_available">No Item currently Available with selected filter</string>
+    <string name="sort">Sort</string>
+    <string name="close">CLOSE</string>
+    <string name="go_to_homepage">Go to Homepage</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="update">Update</string>
+    <string name="download_invoice"><u>DOWNLOAD INVOICE</u></string>
+</resources>

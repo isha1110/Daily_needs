@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorWhite"
+    tools:context=".HomeActivity"
+    tools:openDrawer="start">
+
+    <include
+        layout="@layout/app_bar_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:background="@color/colorWhite"
+        app:headerLayout="@layout/nav_header_home"
+        app:itemIconTint="@color/green_color"
+        app:itemTextColor="@color/colorBlack">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_145sdp"
+            android:layout_marginBottom="@dimen/_40sdp"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <ExpandableListView
+                    android:id="@+id/expandableListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:divider="@color/colorWhite"
+                    android:dividerHeight="0dp"
+                    android:focusableInTouchMode="true"
+                    android:groupIndicator="@null"
+                    android:nestedScrollingEnabled="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:nestedScrollingEnabled="true"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/dark_grey" />
+
+                    <TextView
+                        android:id="@+id/homePageTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_13sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:drawableStart="@drawable/home_icon"
+                        android:drawablePadding="@dimen/_15sdp"
+                        android:gravity="center|start"
+                        android:padding="@dimen/_7sdp"
+                        android:text="@string/home"
+                        android:onClick="onClick"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_11sdp"
+                        app:layout_constraintStart_toStartOf="@+id/textView58"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/myOrdersTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_13sdp"
+                        android:drawableStart="@drawable/my_orders_icon"
+                        android:drawablePadding="@dimen/_15sdp"
+                        android:gravity="center|start"
+                        android:padding="@dimen/_7sdp"
+                        android:text="My Orders"
+                        android:onClick="onClick"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_11sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView57" />
+
+                    <TextView
+                        android:id="@+id/myWishlistTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_13sdp"
+                        android:drawableStart="@drawable/my_wishlist_icon"
+                        android:drawablePadding="@dimen/_15sdp"
+                        android:gravity="center|start"
+                        android:padding="@dimen/_7sdp"
+                        android:text="@string/my_wishlist"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_11sdp"
+                        android:onClick="onClick"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView58" />
+
+                    <TextView
+                        android:id="@+id/profileSettingTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_13sdp"
+                        android:drawableStart="@drawable/my_profile_icon"
+                        android:drawablePadding="@dimen/_15sdp"
+                        android:gravity="center|start"
+                        android:padding="@dimen/_7sdp"
+                        android:onClick="onClick"
+                        android:text="@string/profile_setting"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_11sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView59" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="bottom"
+            android:background="@color/orange_color"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/logout"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>

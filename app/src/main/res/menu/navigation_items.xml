@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_staples"
+            android:title="@string/staples"
+            android:icon="@drawable/sidebar_icon_staple"/>
+        <item
+            android:id="@+id/nav_snack_and_beverages"
+            android:title="@string/snack_and_beverages"
+            android:icon="@drawable/sidebar_icon_snack"/>
+        <item
+            android:id="@+id/nav_packed_food"
+            android:title="@string/packed_food"
+            android:icon="@drawable/icon_packed_food"/>
+        <item
+            android:id="@+id/nav_personal_and_babycare"
+            android:title="@string/personal_and_babycare"
+            android:icon="@drawable/icon_personal"/>
+
+        <item
+            android:id="@+id/nav_household_care"
+            android:title="@string/household_care"
+            android:icon="@drawable/icon_household"/>
+        <item
+            android:id="@+id/nav_dairy_and_eggs"
+            android:title="@string/dairy_and_eggs"
+            android:icon="@drawable/sidebar_icon_dairy"/>
+        <item
+            android:id="@+id/nav_covid_19_essentials"
+            android:title="@string/covid_19_essentials"
+            android:icon="@drawable/sidebar_icon_covid"/>
+        <item
+            android:id="@+id/seasonal_essentials"
+            android:title="@string/seasonal_essentials"
+            android:icon="@drawable/sidebar_icon_seasonal"/>
+
+    </group>
+
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_myOrders"
+            android:title="@string/myorders"
+            android:icon="@drawable/sidebar_icon_order"/>
+        <item
+            android:id="@+id/nav_myWishlist"
+            android:title="@string/my_wishlist"
+            android:icon="@drawable/sidebar_icon_wishlist"/>
+        <item
+            android:id="@+id/nav_profile_setting"
+            android:title="@string/profile_setting"
+            android:icon="@drawable/sidebar_icon_profile"/>
+
+    </group>
+
+</menu>

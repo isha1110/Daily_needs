@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:width="@dimen/_25sdp"
+        android:height="@dimen/_25sdp"
+        android:drawable="@drawable/email_address"
+        tools:targetApi="m" />
+
+</layer-list>

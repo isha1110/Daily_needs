@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/orderItemContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:background="@drawable/bg"
+    android:paddingStart="@dimen/_14sdp"
+    android:paddingTop="@dimen/_10sdp"
+    android:paddingEnd="@dimen/_10sdp"
+    android:paddingBottom="@dimen/_10sdp">
+
+    <Button
+        android:id="@+id/repeatOrderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/button_bg_view_all"
+        android:onClick="onClick"
+        android:paddingStart="@dimen/_15sdp"
+        android:paddingEnd="@dimen/_15sdp"
+        android:text="@string/repeat_order"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/_9sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/paymentMode" />
+
+    <ImageView
+        android:id="@+id/orderStatusImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintBottom_toTopOf="@id/repeatOrderButton"
+        app:layout_constraintEnd_toEndOf="@id/repeatOrderButton"
+        app:layout_constraintStart_toStartOf="@id/repeatOrderButton"
+        app:layout_constraintTop_toTopOf="@id/orderIdNumber"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/orderIdNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#1234567"
+        android:textColor="@color/orange_color"
+        android:textSize="@dimen/_13sdp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_5sdp"
+        android:text="@string/order_placed_on"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="@id/orderIdNumber"
+        app:layout_constraintTop_toBottomOf="@id/orderIdNumber" />
+
+    <TextView
+        android:id="@+id/orderPlaced"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_2sdp"
+        android:text="11th July 2020"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@id/textView15"
+        app:layout_constraintTop_toTopOf="@id/textView15" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:text="@string/paid"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textView15"
+        app:layout_constraintTop_toBottomOf="@id/textView15" />
+
+    <TextView
+        android:id="@+id/pricePaid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingEnd="@dimen/_4sdp"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/textView18"
+        app:layout_constraintTop_toTopOf="@id/textView18" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_2sdp"
+        android:text="@string/mode_of_payment"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="@id/textView18"
+        app:layout_constraintTop_toBottomOf="@id/textView18" />
+
+    <TextView
+        android:id="@+id/paymentMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingEnd="@dimen/_5sdp"
+        android:text="@string/online"
+        android:textColor="@color/green_color"
+        android:textSize="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@id/textView21"
+        app:layout_constraintTop_toTopOf="@id/textView21" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:text="@string/status"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textView21"
+        app:layout_constraintTop_toBottomOf="@id/textView21" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_2sdp"
+        android:text="@string/in_transit"
+        android:textColor="@color/orange_color"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toStartOf="@id/repeatOrderButton"
+        app:layout_constraintStart_toEndOf="@id/textView24"
+        app:layout_constraintTop_toTopOf="@id/textView24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

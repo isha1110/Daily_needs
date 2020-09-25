@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="password_length">30</integer>
+    <integer name="email_length">35</integer>
+    <integer name="category_heading_length">2</integer>
+    <integer name="single_line_length">1</integer>
+    <integer name="address_length">300</integer>
+
+</resources>

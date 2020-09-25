@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/previous"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:onClick="onClick"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productRecycler"
+                app:srcCompat="@drawable/icon_navigation_right"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/next"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:onClick="onClick"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/previous"
+                app:layout_constraintStart_toEndOf="@id/previous"
+                app:layout_constraintTop_toTopOf="@id/previous"
+                app:srcCompat="@drawable/icon_navigation_left"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/backwardNewArrivalsImage"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:onClick="onClick"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/newArrivalsRecycler"
+                app:srcCompat="@drawable/icon_navigation_right"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/forwardNewArrivalsImage"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:onClick="onClick"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/backwardNewArrivalsImage"
+                app:layout_constraintStart_toEndOf="@id/backwardNewArrivalsImage"
+                app:layout_constraintTop_toTopOf="@id/backwardNewArrivalsImage"
+                app:srcCompat="@drawable/icon_navigation_left"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:tint="@color/dark_blue"
+                app:layout_constraintBottom_toBottomOf="@id/textView9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textView9"
+                app:srcCompat="@drawable/rec"
+                tools:ignore="ContentDescription" />
+
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:tint="@color/dark_blue"
+                app:layout_constraintBottom_toBottomOf="@id/textView12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textView12"
+                app:srcCompat="@drawable/rec"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:drawablePadding="@dimen/_15sdp"
+                android:text="@string/bestsellers"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/openAllBestsellers"
+                app:layout_constraintStart_toEndOf="@id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/openAllBestsellers" />
+
+            <TextView
+                android:id="@+id/openAllBestsellers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/button_bg_view_all"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="@string/view_all"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bannerCouponItemRecyclerView" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:drawablePadding="@dimen/_15sdp"
+                android:text="@string/new_arrivals"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/openNewArrivals"
+                app:layout_constraintStart_toEndOf="@id/imageView5"
+                app:layout_constraintTop_toTopOf="@+id/openNewArrivals" />
+
+            <TextView
+                android:id="@+id/openNewArrivals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/button_bg_view_all"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="@string/view_all"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/offersCardRecycler" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/productRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/openAllBestsellers"
+                tools:listitem="@layout/best_seller_item_list" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/newArrivalsRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/openNewArrivals"
+                tools:listitem="@layout/best_seller_item_list" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/offersCardRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productRecycler"
+                tools:listitem="@layout/offer_coupon_items" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categoryItemRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/category_items" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/bannerCouponItemRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categoryItemRecyclerView"
+                tools:listitem="@layout/banner_coupon_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/offersCouponsCardRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/offer_coupon_items"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/newArrivalsRecycler" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
