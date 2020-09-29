@@ -21,12 +21,13 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:menu="@menu/navigation_items"
         android:background="@color/colorWhite"
         app:headerLayout="@layout/nav_header_home"
-        app:itemIconTint="@color/green_color"
+        app:itemIconTint="@color/dull_orange"
         app:itemTextColor="@color/colorBlack">
 
-        <androidx.core.widget.NestedScrollView
+        <!--<androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_145sdp"
@@ -151,7 +152,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
+-->
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

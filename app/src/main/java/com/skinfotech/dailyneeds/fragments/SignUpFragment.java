@@ -38,7 +38,7 @@ public class SignUpFragment extends BaseFragment {
         mContentView = inflater.inflate(R.layout.fragment_signup, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, true);
         mActivity.isToggleButtonEnabled(false);
-        emailInput = mContentView.findViewById(R.id.userEmail);
+        emailInput = mContentView.findViewById(R.id.userPhoneNumber);
         passwordInput = mContentView.findViewById(R.id.password);
         userNameInput = mContentView.findViewById(R.id.userName);
         mobileInput = mContentView.findViewById(R.id.mobileNumber);

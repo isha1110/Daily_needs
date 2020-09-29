@@ -29,6 +29,7 @@ import com.skinfotech.dailyneeds.adapters.CustomExpandableAdapter;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.fragments.BaseFragment;
 import com.skinfotech.dailyneeds.fragments.CartFragment;
+import com.skinfotech.dailyneeds.fragments.CategoryListFrgament;
 import com.skinfotech.dailyneeds.fragments.FilterFragment;
 import com.skinfotech.dailyneeds.fragments.HomeScreenFragment;
 import com.skinfotech.dailyneeds.fragments.LoginFragment;
@@ -92,19 +93,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mSideNavigationDrawer.addDrawerListener(mToggleButton);
         mToggleButton.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorWhite));
         mToggleButton.syncState();
-        getSupportActionBar().setHomeButtonEnabled(true);
+        /*getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger_resize_icon);//your icon here
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger_resize_icon);//your icon here*/
         navigationView.setNavigationItemSelectedListener(this);
         SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREF_NAME, MODE_PRIVATE);
-        if (Constants.YES.equalsIgnoreCase(preferences.getString(Constants.USER_LOGIN_DONE, Constants.NO))) {
+        /*if (Constants.YES.equalsIgnoreCase(preferences.getString(Constants.USER_LOGIN_DONE, Constants.NO))) {
             launchFragment(new HomeScreenFragment(), false);
         } else {
             launchFragment(new LoginFragment(), false);
-        }
-        expandableListView = findViewById(R.id.expandableListView);
-        fetchSideNavigationDataServerCall();
-        findViewById(R.id.searchImage).setOnClickListener(v -> launchFragment(new SearchFragment(), true));
+        }*/
+        launchFragment(new HomeScreenFragment(), false);
+       // expandableListView = findViewById(R.id.expandableListView);
+        findViewById(R.id.searchTextView).setOnClickListener(v -> launchFragment(new SearchFragment(), true));
     }
 
     public void requestPermission() {
@@ -124,7 +125,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mToggleButton.setDrawerIndicatorEnabled(isEnable);
     }
 
-    private void populateExpandableList() {
+   /* private void populateExpandableList() {
         expandableListAdapter = new CustomExpandableAdapter(this, mSideNavigationHeaderList, mSideNavigationMap);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -174,9 +175,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             return false;
         });
-    }
+    }*/
 
-    private void prepareNewMenuData() {
+   /* private void prepareNewMenuData() {
         mSideNavigationHeaderList.clear();
         mSideNavigationMap.clear();
         for (SideNavigationResponse.NavigationOuterItem item : mNavigationOuterList) {
@@ -202,9 +203,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             mSideNavigationHeaderList.add(menuModel);
         }
         populateExpandableList();
-    }
+    }*/
 
-    private void fetchSideNavigationDataServerCall() {
+  /*  private void fetchSideNavigationDataServerCall() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -231,7 +232,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }).start();
-    }
+    }*/
 
     public void hideBackButton() {
         findViewById(R.id.backButtonToolbar).setVisibility(View.GONE);
@@ -252,7 +253,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void hideCartIcon() {
         findViewById(R.id.cartCountTextView).setVisibility(View.GONE);
         findViewById(R.id.cartImageView).setVisibility(View.GONE);
-        findViewById(R.id.searchImage).setVisibility(View.GONE);
+        findViewById(R.id.constraintLayout8).setVisibility(View.GONE);
     }
 
     public void startPayment(String cartPayableAmountStr) {
@@ -281,7 +282,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void showCartIcon() {
         findViewById(R.id.cartCountTextView).setVisibility(View.VISIBLE);
         findViewById(R.id.cartImageView).setVisibility(View.VISIBLE);
-        findViewById(R.id.searchImage).setVisibility(View.VISIBLE);
+        findViewById(R.id.constraintLayout8).setVisibility(View.VISIBLE);
     }
 
     public void setCartCount(String count) {
@@ -295,7 +296,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void updateSideNavigationHeaderProfile(ProfileResponse response) {
-        TextView userName = headerView.findViewById(R.id.userName);
+        /*TextView userName = headerView.findViewById(R.id.userName);
         ImageView userProfile = headerView.findViewById(R.id.userProfile);
         userName.setText(Utility.toCamelCase(response.getUserName()));
         String imageStr = response.getUserImage();
@@ -305,12 +306,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         userProfile.setOnClickListener(view -> {
             onBackPressed();
             launchFragment(new MyProfileFragment(), true);
-        });
+        });*/
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.nav_login:
+                launchFragment(new LoginFragment(), true);
+                break;
+
+            default:
+                break;
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -339,14 +347,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_up:
-                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
-                launchFragment(new SignUpFragment(), false);
-                break;
-            case R.id.log_in:
-                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
-                launchFragment(new LoginFragment(), false);
-                break;
             case R.id.logout:
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
                 getCurrentFragment().storeStringDataInSharedPref(Constants.USER_LOGIN_DONE, Constants.NO);
@@ -356,24 +356,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.cartImageView:
                 launchFragment(new CartFragment(), true);
                 break;
-            case R.id.homePageTextView:
-                launchFragment(new HomeScreenFragment(), false);
-                onBackPressed();
-                break;
-            case R.id.myOrdersTextView:
-                launchFragment(new MyOrderFragment(), true);
-                onBackPressed();
-                break;
-            case R.id.myWishlistTextView:
-                launchFragment(new MyWishListFragment(), true);
-                onBackPressed();
-                break;
-            case R.id.profileSettingTextView:
-                launchFragment(new MyProfileFragment(), true);
-                onBackPressed();
-                break;
-            case R.id.filterImageIcon:
-                launchFragment(new FilterFragment(), true);
+            case R.id.categoryTextView:
+                launchFragment(new CategoryListFrgament(),true);
                 break;
             default:
                 BaseFragment fragment = getCurrentFragment();

@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
+import com.skinfotech.dailyneeds.models.Item;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeCouponsRequest;
@@ -53,6 +56,8 @@ public class HomeScreenFragment extends BaseFragment {
     private static final String TAG = "HomeScreenFragment";
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private BannerItemListAdapter mBannerItemListAdapter;
+    private RecyclerView mCategoryRecyclerView;
+    private CategoryAdapter categoryAdapter;
 
     @Nullable
     @Override
@@ -85,10 +90,8 @@ public class HomeScreenFragment extends BaseFragment {
         ToolBarManager.getInstance().setHeaderTitle("");
         mActivity.isToggleButtonEnabled(true);
         bestSellerRecyclerView = mContentView.findViewById(R.id.productRecycler);
-        mNewArrivalsRecycler = mContentView.findViewById(R.id.newArrivalsRecycler);
         RecyclerView offersCardRecycler = mContentView.findViewById(R.id.offersCardRecycler);
         RecyclerView categoryItemListRecycler = mContentView.findViewById(R.id.categoryItemRecyclerView);
-        RecyclerView offersCouponsCardRecycler = mContentView.findViewById(R.id.offersCouponsCardRecycler);
         RecyclerView bannerCouponItemRecycler = mContentView.findViewById(R.id.bannerCouponItemRecyclerView);
         mBestSellerAdapter = new BestSellerAdapter();
         mNewArrivalAdapter = new BestSellerAdapter();
@@ -100,17 +103,18 @@ public class HomeScreenFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
         bestSellerRecyclerView.setLayoutManager(layoutManager);
         bestSellerRecyclerView.setAdapter(mBestSellerAdapter);
-        mNewArrivalsRecycler.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mNewArrivalsRecycler.setAdapter(mNewArrivalAdapter);
         offersCardRecycler.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         offersCardRecycler.setAdapter(mCouponsListAdapter);
         mCategoryItemListAdapter = new CategoryItemListAdapter();
-        categoryItemListRecycler.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 3);
+        categoryItemListRecycler.setLayoutManager(gridLayoutManager);
         categoryItemListRecycler.setAdapter(mCategoryItemListAdapter);
-        offersCouponsCardRecycler.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        offersCouponsCardRecycler.setAdapter(mCouponsList2Adapter);
         bannerCouponItemRecycler.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         bannerCouponItemRecycler.setAdapter(mBannerItemListAdapter);
+        mCategoryRecyclerView = mContentView.findViewById(R.id.parentCategoryRecyclerView);
+        categoryAdapter = new CategoryAdapter();
+        mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        mCategoryRecyclerView.setAdapter(categoryAdapter);
     }
 
     private void fetchCategoriesServerCall() {
@@ -173,7 +177,6 @@ public class HomeScreenFragment extends BaseFragment {
                     if (profileResponse != null) {
                         if (Constants.SUCCESS.equalsIgnoreCase(profileResponse.getErrorCode())) {
                             mActivity.setCartCount(profileResponse.getCartCount());
-                            mActivity.updateSideNavigationHeaderProfile(profileResponse);
                         }
                     }
                 }
@@ -268,42 +271,12 @@ public class HomeScreenFragment extends BaseFragment {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.nav_staples:
-            case R.id.seasonal_essentials:
-            case R.id.nav_dairy_and_eggs:
-            case R.id.nav_covid_19_essentials:
-            case R.id.nav_household_care:
-            case R.id.nav_personal_and_babycare:
-            case R.id.nav_packed_food:
-            case R.id.nav_snack_and_beverages:
-                launchFragment(new ProductCategoryFragment(), true);
-                break;
-            case R.id.next:
-                if (mRecyclerViewSelectedPosition < mBestSellerAdapter.getItemCount()) {
-                    bestSellerRecyclerView.scrollToPosition(++mRecyclerViewSelectedPosition);
-                }
-                break;
-            case R.id.previous:
-                if (mRecyclerViewSelectedPosition < mBestSellerAdapter.getItemCount()) {
-                    bestSellerRecyclerView.scrollToPosition(--mRecyclerViewSelectedPosition);
-                }
-                break;
-            case R.id.forwardNewArrivalsImage:
-                if (mRecyclerViewSelectedPosition < mBestSellerAdapter.getItemCount()) {
-                    mNewArrivalsRecycler.scrollToPosition(++mRecyclerViewSelectedPosition);
-                }
-                break;
-            case R.id.backwardNewArrivalsImage:
-                if (mRecyclerViewSelectedPosition < mBestSellerAdapter.getItemCount()) {
-                    mNewArrivalsRecycler.scrollToPosition(--mRecyclerViewSelectedPosition);
-                }
-                break;
             case R.id.openAllBestsellers:
                 launchFragment(new ProductCategoryFragment("", Constants.IModes.BEST_SELLER), true);
                 break;
-            case R.id.openNewArrivals:
+            /*case R.id.openNewArrivals:
                 launchFragment(new ProductCategoryFragment("", Constants.IModes.NEW_ARRIVAL), true);
-                break;
+                break;*/
 
         }
     }
@@ -328,6 +301,7 @@ public class HomeScreenFragment extends BaseFragment {
         mActivity.showCartIcon();
         mActivity.hideFilterIcon();
     }
+
 
     private class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.RecyclerViewHolder> {
 
@@ -515,14 +489,14 @@ public class HomeScreenFragment extends BaseFragment {
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-            private ConstraintLayout constraintLayout;
+            private LinearLayout constraintLayout;
             private ImageView iconImage;
             private TextView categoryName;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 categoryName = itemView.findViewById(R.id.categoryName);
-                iconImage = itemView.findViewById(R.id.iconImage);
+                iconImage = itemView.findViewById(R.id.subCategoryImageView);
                 constraintLayout = itemView.findViewById(R.id.categoryContainer);
                 constraintLayout.setOnClickListener(v -> {
                     CategoryResponse.CategoryItem item = categoryItemList.get(getAdapterPosition());
@@ -573,6 +547,94 @@ public class HomeScreenFragment extends BaseFragment {
             }
         }
     }
+
+    private class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.RecyclerViewHolder>  {
+
+
+        @NonNull
+        @Override
+        public CategoryAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_subcategory_item, parent, false);
+            return new RecyclerViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull CategoryAdapter.RecyclerViewHolder holder, int position) {
+            GridLayoutManager layoutManager = new GridLayoutManager(
+                    holder.recyclerView.getContext(),
+                    3
+            );
+            SubCategoryAdapter subItemAdapter = new SubCategoryAdapter();
+            holder.recyclerView.setLayoutManager(layoutManager);
+            holder.recyclerView.setAdapter(subItemAdapter);
+            holder.categoryNameTextView.setOnClickListener(v -> {
+                if (holder.childLayoutContainer.getVisibility() == View.VISIBLE) {
+                    holder.childLayoutContainer.setVisibility(View.GONE);
+                    holder.constraintLayout12.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorWhite));
+                    holder.categoryNameTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_down, 0);
+
+                } else {
+                    holder.constraintLayout12.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.light_pink));
+                    holder.constraintLayout.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.light_pink));
+                    holder.childLayoutContainer.setVisibility(View.VISIBLE);
+                    holder.categoryNameTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_up, 0);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return 5;
+        }
+
+        private class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+            private ConstraintLayout constraintLayout;
+            private TextView categoryNameTextView;
+            private RecyclerView recyclerView;
+            private ConstraintLayout childLayoutContainer;
+            private ConstraintLayout constraintLayout12;
+
+            RecyclerViewHolder(@NonNull View itemView) {
+                super(itemView);
+                constraintLayout = itemView.findViewById(R.id.constraintContainer);
+                constraintLayout12 = itemView.findViewById(R.id.constraintLayout12);
+                categoryNameTextView = itemView.findViewById(R.id.categoryNameTextView);
+                recyclerView = itemView.findViewById(R.id.childCategoryRecyclerView);
+                childLayoutContainer = itemView.findViewById(R.id.childLayoutContainer);
+
+            }
+        }
+    }
+
+    private class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.RecyclerViewHolder> {
+
+
+        @NonNull
+        @Override
+        public SubCategoryAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.child_subcategory_item, parent, false);
+            return new RecyclerViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull SubCategoryAdapter.RecyclerViewHolder holder, int position) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 5;
+        }
+
+        private class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+            RecyclerViewHolder(@NonNull View itemView) {
+                super(itemView);
+            }
+        }
+    }
+
 
 
     private void setFadeAnimation(View view) {

@@ -84,7 +84,7 @@
         tools:ignore="RtlSymmetry" />
 
     <EditText
-        android:id="@+id/userEmail"
+        android:id="@+id/userPhoneNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_20sdp"
@@ -124,9 +124,9 @@
         android:paddingTop="@dimen/_6sdp"
         android:paddingBottom="@dimen/_6sdp"
         android:textSize="@dimen/_11sdp"
-        app:layout_constraintEnd_toEndOf="@id/userEmail"
-        app:layout_constraintStart_toStartOf="@id/userEmail"
-        app:layout_constraintTop_toBottomOf="@id/userEmail"
+        app:layout_constraintEnd_toEndOf="@id/userPhoneNumber"
+        app:layout_constraintStart_toStartOf="@id/userPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@id/userPhoneNumber"
         tools:ignore="RtlSymmetry" />
 
     <EditText

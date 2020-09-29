@@ -12,7 +12,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarLayout"
@@ -25,18 +25,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="16dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/backButtonToolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:paddingEnd="@dimen/_10sdp"
                 android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
                 android:src="@drawable/ic_keyboard_arrow_white"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
@@ -55,7 +53,7 @@
                 app:srcCompat="@drawable/icon_cart"
                 tools:ignore="ContentDescription" />
 
-            <ImageView
+            <!--   <ImageView
                 android:id="@+id/searchImage"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="0dp"
@@ -65,7 +63,7 @@
                 app:layout_constraintEnd_toStartOf="@id/cartImageView"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_search_black"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription" />-->
 
             <TextView
                 android:id="@+id/AppTitle"
@@ -95,7 +93,7 @@
                 app:layout_constraintStart_toStartOf="@id/AppTitle"
                 app:layout_constraintTop_toBottomOf="@id/AppTitle" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,7 +102,7 @@
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/textView10"
-                app:layout_constraintTop_toTopOf="@id/textView10" />
+                app:layout_constraintTop_toTopOf="@id/textView10" />-->
 
             <TextView
                 android:id="@+id/cartCountTextView"
@@ -113,10 +111,10 @@
                 android:background="@drawable/notification_bg_green"
                 android:gravity="start"
                 android:maxLines="1"
-                android:paddingBottom="@dimen/_1sdp"
-                android:paddingEnd="@dimen/_5sdp"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingTop="@dimen/_1sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_1sdp"
                 android:text=""
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_8sdp"
@@ -130,10 +128,10 @@
                 android:id="@+id/filterImageIcon"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:tint="@color/colorWhite"
-                android:onClick="onClick"
-                android:visibility="gone"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:onClick="onClick"
+                android:tint="@color/colorWhite"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -143,6 +141,55 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/toolBar"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
+
+        <TextView
+            android:id="@+id/categoryTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_border"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:text="@string/categories"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_11sdp"
+            android:onClick="onClick"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/searchTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/white_border"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/_7sdp"
+            android:gravity="center|start"
+            android:paddingStart="@dimen/_15sdp"
+            android:text="@string/search_for_products"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintBottom_toBottomOf="@id/categoryTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/categoryTextView"
+            app:layout_constraintTop_toTopOf="@id/categoryTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

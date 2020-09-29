@@ -26,7 +26,6 @@ public class LoginFragment extends BaseFragment {
 
     private boolean mIsDoubleBackPress = false;
     private EditText emailInput;
-    private EditText passwordInput;
     private boolean isEmailValid;
     private boolean isPasswordValid;
     private static final String TAG = "LoginFragment";
@@ -35,20 +34,17 @@ public class LoginFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_login, container, false);
-        ToolBarManager.getInstance().hideToolBar(mActivity, true);
+        ToolBarManager.getInstance().hideToolBar(mActivity, false);
+        ToolBarManager.getInstance().onBackPressed(this);
         mActivity.isToggleButtonEnabled(false);
-        emailInput = mContentView.findViewById(R.id.userEmail);
-        passwordInput = mContentView.findViewById(R.id.password);
+        emailInput = mContentView.findViewById(R.id.userPhoneNumber);
         return mContentView;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.signupTextView:
-                launchFragment(new SignUpFragment(), true);
-                break;
-            case R.id.userLogin:
+           /* case R.id.userLogin:
                 if (Utility.isEmpty(emailInput)) {
                     emailInput.setError(mActivity.getString(R.string.mandatory_field_message));
                     emailInput.requestFocus();
@@ -60,7 +56,7 @@ public class LoginFragment extends BaseFragment {
                 } else {
                     isEmailValid = true;
                 }
-                if (Utility.isEmpty(passwordInput)) {
+                *//*if (Utility.isEmpty(passwordInput)) {
                     passwordInput.setError(mActivity.getString(R.string.mandatory_field_message));
                     passwordInput.requestFocus();
                     isPasswordValid = false;
@@ -70,14 +66,11 @@ public class LoginFragment extends BaseFragment {
                     isPasswordValid = false;
                 } else {
                     isPasswordValid = true;
-                }
+                }*//*
                 if (isEmailValid && isPasswordValid) {
                     doLoginServerCall();
                 }
-                break;
-            case R.id.forgetPassword:
-                launchFragment(new ForgotPasswordFragment(), true);
-                break;
+                break;*/
         }
     }
 
@@ -88,10 +81,8 @@ public class LoginFragment extends BaseFragment {
             public void run() {
                 try {
                     String email = emailInput.getText().toString();
-                    String password = passwordInput.getText().toString();
                     LoginRequest request = new LoginRequest();
                     request.setEmailAddress(email);
-                    request.setPassword(password);
                     Call<CommonResponse> call = RetrofitApi.getAppServicesObject().login(request);
                     final Response<CommonResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
@@ -132,7 +123,7 @@ public class LoginFragment extends BaseFragment {
         }
     }
 
-    @Override
+    /*@Override
     public boolean onBackPressed() {
         if (mIsDoubleBackPress) {
             super.onBackPressedToExit(this);
@@ -142,12 +133,13 @@ public class LoginFragment extends BaseFragment {
         mIsDoubleBackPress = true;
         new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
         return true;
-    }
+    }*/
 
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
+        mActivity.showBackButton();
+        mActivity.hideCartIcon();
         hideKeyboard();
     }
 

@@ -97,7 +97,7 @@ public class MyProfileFragment extends BaseFragment {
     }
 
     private void setupProfileFromResponse(ProfileResponse profileResponse) {
-        TextView emailTextView = mContentView.findViewById(R.id.userEmail);
+        TextView emailTextView = mContentView.findViewById(R.id.userPhoneNumber);
         TextView mobileTextView = mContentView.findViewById(R.id.phoneNumber);
         TextView addressTextView = mContentView.findViewById(R.id.address);
         usernameTextView = mContentView.findViewById(R.id.userNameTextView);

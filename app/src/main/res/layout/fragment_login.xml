@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/loginsign_bg">
 
-    <Button
+    <!--<Button
         android:id="@+id/userLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,22 +19,22 @@
         android:textSize="@dimen/_14sdp"
         app:layout_constraintEnd_toEndOf="@id/password"
         app:layout_constraintStart_toStartOf="@id/password"
-        app:layout_constraintTop_toBottomOf="@id/forgetPassword" />
+        app:layout_constraintTop_toBottomOf="@id/forgetPassword" />-->
 
     <EditText
-        android:id="@+id/userEmail"
+        android:id="@+id/userPhoneNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_40sdp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="@dimen/_40sdp"
         android:background="@drawable/edit_text_bg_border"
-        android:drawableStart="@drawable/email_icon"
+        android:drawableStart="@drawable/person_icon"
         android:drawablePadding="@dimen/_10sdp"
         android:ems="10"
-        android:hint="@string/email"
+        android:hint="@string/phone_number"
         android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
+        android:inputType="phone"
         android:maxLength="@integer/email_length"
         android:paddingStart="@dimen/_10sdp"
         android:paddingTop="@dimen/_6sdp"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="@id/guideline3"
         tools:ignore="RtlSymmetry" />
 
-    <EditText
+    <!--<EditText
         android:id="@+id/password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -67,8 +67,8 @@
         app:layout_constraintStart_toStartOf="@id/userEmail"
         app:layout_constraintTop_toBottomOf="@id/userEmail"
         tools:ignore="RtlSymmetry" />
-
-    <TextView
+-->
+    <!--<TextView
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -82,21 +82,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView22"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0" />-->
 
-    <TextView
-        android:id="@+id/forgetPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:onClick="onClick"
-        android:text="@string/forget_password"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_11sdp"
-        app:layout_constraintEnd_toEndOf="@id/password"
-        app:layout_constraintTop_toBottomOf="@id/password" />
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,132 +95,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/password"
         app:layout_constraintStart_toStartOf="@id/password"
-        app:layout_constraintTop_toBottomOf="@id/userLogin" />
+        app:layout_constraintTop_toBottomOf="@id/userLogin" />-->
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:onClick="onClick"
-        android:text="@string/don_t_have_an_account"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_11sdp"
-        app:layout_constraintBottom_toBottomOf="@id/guideline6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.39"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline5"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/gmailLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/gmail_bg"
-        android:minWidth="@dimen/_120sdp"
-        android:minHeight="@dimen/_30sdp"
-        android:paddingEnd="@dimen/_13sdp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/guideline5"
-        app:layout_constraintEnd_toStartOf="@id/facebookLogin"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView6"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="RtlSymmetry">
-
-        <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/gmail"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/textView31"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:text="@string/sign_in_with_gmail"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_9sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/view"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="@dimen/_1sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:background="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageView9"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/facebookLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/facebook_bg"
-        android:minWidth="@dimen/_120sdp"
-        android:minHeight="@dimen/_30sdp"
-        android:paddingEnd="@dimen/_13sdp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/gmailLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/gmailLogin"
-        app:layout_constraintTop_toTopOf="@id/gmailLogin"
-        tools:ignore="RtlSymmetry">
-
-        <ImageView
-            android:id="@+id/imageView26"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/facebook"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/textView32"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:text="@string/sign_in_with_facebook"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_9sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/view2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="@dimen/_1sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:background="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageView26"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -275,28 +140,14 @@
 
     <ImageView
         android:id="@+id/imageView22"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_120sdp"
         android:layout_marginTop="@dimen/_50sdp"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_daily_needs"
+        app:srcCompat="@drawable/logo"
         tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/signupTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_3sdp"
-        android:onClick="onClick"
-        android:text="@string/sign_up"
-        android:textColor="@color/orange_color"
-        android:textSize="@dimen/_11sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/textView7"
-        app:layout_constraintTop_toTopOf="@id/textView7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

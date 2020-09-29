@@ -19,5 +19,15 @@
     <color name="more_light_color">#66ffffff</color>
     <color name="status_bar_color">#272727</color>
     <color name="dark_blue">#3f57aa</color>
+    <color name="light_blue">#70c9e8</color>
+    <color name="dark_blue1">#423999</color>
+    <color name="carrot_orange">#ff6b06</color>
+    <color name="yellow">#ffd400</color>
+    <color name="dull_orange">#f49600</color>
+    <color name="light_pink">#fffcdc</color>
+
+
+
+
 
 </resources>

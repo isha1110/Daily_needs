@@ -8,12 +8,13 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_width="@dimen/_170sdp"
+        android:layout_height="@dimen/_170sdp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_daily_needs"
+        app:srcCompat="@drawable/logo"
         tools:ignore="ContentDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>
