@@ -1,6 +1,7 @@
 package com.skinfotech.dailyneeds.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,26 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
+import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
-import com.skinfotech.dailyneeds.models.Item;
+import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
+import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class CategoryListFrgament extends BaseFragment  {
     private RecyclerView mCategoryRecyclerView;
     private CategoryAdapter categoryAdapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,24 +46,64 @@ public class CategoryListFrgament extends BaseFragment  {
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
-        ToolBarManager.getInstance().setHeaderTitle("");
+        ToolBarManager.getInstance().setHeaderTitle("All Categories");
         mActivity.isToggleButtonEnabled(false);
         ToolBarManager.getInstance().onBackPressed(this);
         mCategoryRecyclerView = mContentView.findViewById(R.id.subCategoryRecyclerView);
         categoryAdapter = new CategoryAdapter();
         mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mCategoryRecyclerView.setAdapter(categoryAdapter);
+        fetchCategoriesServerCall();
     }
+    private void fetchCategoriesServerCall() {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<CategoryResponse> call = RetrofitApi.getAppServicesObject().fetchCategories();
+                    final Response<CategoryResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (Exception e) {
+                    stopProgress();
+                    showToast(e.getMessage());
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<CategoryResponse> response) {
+                if (response.isSuccessful()) {
+                    CategoryResponse categoryResponse = response.body();
+                    if (categoryResponse != null) {
+                        if (Constants.SUCCESS.equalsIgnoreCase(categoryResponse.getErrorCode())) {
+                            List<CategoryResponse.CategoryItem> categoryItemList = categoryResponse.getCategoryList();
+                            if (!Utility.isEmpty(categoryItemList)) {
+                                categoryAdapter.setCategoryItemList(categoryItemList);
+                                categoryAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
         mActivity.showBackButton();
         hideKeyboard();
-        mActivity.hideCartIcon();
-        mActivity.hideFilterIcon();
+        mActivity.showCartIcon();
+        mActivity.hideSearchIcon();
     }
-    private class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.RecyclerViewHolder>  {
 
+    private class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.RecyclerViewHolder> {
+        private List<CategoryResponse.CategoryItem> categoryItemList = new ArrayList<>();
+
+        public void setCategoryItemList(List<CategoryResponse.CategoryItem> categoryItemList) {
+            this.categoryItemList = categoryItemList;
+        }
 
         @NonNull
         @Override
@@ -62,11 +114,17 @@ public class CategoryListFrgament extends BaseFragment  {
 
         @Override
         public void onBindViewHolder(@NonNull CategoryAdapter.RecyclerViewHolder holder, int position) {
+            CategoryResponse.CategoryItem item = categoryItemList.get(position);
+            if (!Utility.isEmpty(item.getCategoryImage()))
+            {
+                Picasso.get().load(item.getCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.downImageView);
+            }
+            holder.categoryNameTextView.setText(Utility.toCamelCase(item.getCategoryName()));
             GridLayoutManager layoutManager = new GridLayoutManager(
                     holder.recyclerView.getContext(),
                     3
             );
-           SubCategoryAdapter subItemAdapter = new SubCategoryAdapter();
+            SubCategoryAdapter subItemAdapter = new SubCategoryAdapter();
             holder.recyclerView.setLayoutManager(layoutManager);
             holder.recyclerView.setAdapter(subItemAdapter);
             holder.categoryNameTextView.setOnClickListener(v -> {
@@ -86,7 +144,7 @@ public class CategoryListFrgament extends BaseFragment  {
 
         @Override
         public int getItemCount() {
-            return 5;
+            return categoryItemList.size();
         }
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -100,6 +158,7 @@ public class CategoryListFrgament extends BaseFragment  {
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
+                downImageView = itemView.findViewById(R.id.productImageView);
                 constraintLayout = itemView.findViewById(R.id.constraintContainer);
                 constraintLayout12 = itemView.findViewById(R.id.constraintLayout12);
                 categoryNameTextView = itemView.findViewById(R.id.categoryNameTextView);
@@ -131,12 +190,15 @@ public class CategoryListFrgament extends BaseFragment  {
         }
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
+            private ConstraintLayout constraintLayout;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
+                constraintLayout = itemView.findViewById(R.id.constraintContainer);
+                constraintLayout.setOnClickListener(v -> {
+                    launchFragment(new ProductCategoryFragment(), true);
+                });
             }
         }
     }
-
-
 }

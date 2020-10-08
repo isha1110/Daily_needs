@@ -37,12 +37,10 @@
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
             android:scaleType="fitXY"
             android:src="@drawable/icon_qty_minus"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/quantityValue"
-            app:layout_constraintStart_toEndOf="@id/selectQuantity"
+            app:layout_constraintStart_toStartOf="@id/selectQuantity"
             app:layout_constraintTop_toTopOf="@id/selectQuantity"
             tools:ignore="ContentDescription" />
 
@@ -50,11 +48,9 @@
             android:id="@+id/addQuantity"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@id/minusQuantity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/quantityValue"
             app:layout_constraintTop_toTopOf="@id/minusQuantity"
             app:srcCompat="@drawable/icon_qty_plus"
@@ -74,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@id/productImage"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/saveAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -82,15 +78,15 @@
             android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@id/textView17"
             app:layout_constraintStart_toEndOf="@id/textView25"
-            app:layout_constraintTop_toBottomOf="@id/textView17" />
+            app:layout_constraintTop_toBottomOf="@id/textView17" />-->
 
         <TextView
             android:id="@+id/productName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_35sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:ellipsize="marquee"
             android:maxLines="@integer/category_heading_length"
             android:minLines="2"
@@ -132,6 +128,9 @@
             android:id="@+id/measureTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:background="@drawable/edit_text_bg_border"
             android:gravity="center"
             android:minWidth="@dimen/_40sdp"
@@ -139,18 +138,20 @@
             android:textColor="@color/green_color"
             android:textSize="@dimen/_8sdp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="@id/quantityValue"
-            app:layout_constraintEnd_toEndOf="@id/productImage"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/productImage"
-            app:layout_constraintTop_toTopOf="@id/quantityValue" />
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintStart_toStartOf="@id/textView23"
-    app:layout_constraintTop_toBottomOf="@id/textView24">
-</androidx.constraintlayout.widget.ConstraintLayout>
-        <TextView
+            app:layout_constraintStart_toEndOf="@id/productImage"
+            app:layout_constraintTop_toBottomOf="@id/productMrpPrice" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textView23"
+            app:layout_constraintTop_toBottomOf="@id/textView24">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+       <!-- <TextView
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -162,7 +163,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/textView23"
-            app:layout_constraintTop_toBottomOf="@id/textView24" />
+            app:layout_constraintTop_toBottomOf="@id/textView24" />-->
 
         <TextView
             android:id="@+id/quantityValue"
@@ -183,7 +184,8 @@
             android:id="@+id/textView23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_15sdp"
             android:text="@string/ruppee_symbol"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12sdp"
@@ -194,7 +196,7 @@
         <TextView
             android:id="@+id/textView24"
             android:layout_width="wrap_content"
-            android:layout_height="18dp"
+            android:layout_height="wrap_content"
             android:text="@string/ruppee_symbol"
             android:textColor="@color/red_color"
             android:textSize="@dimen/_10sdp"
@@ -203,27 +205,50 @@
             app:layout_constraintTop_toBottomOf="@id/textView23" />
 
         <TextView
-            android:id="@+id/textView25"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/ruppee_symbol"
-            android:textColor="@color/green_color"
-            android:textSize="@dimen/_9sdp"
-            app:layout_constraintBottom_toBottomOf="@id/saveAmount"
-            app:layout_constraintStart_toStartOf="@id/textView17"
-            app:layout_constraintTop_toTopOf="@id/saveAmount" />
-        <ImageView
             android:id="@+id/addToCart"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:background="@drawable/white_background"
-            android:padding="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/orange_bg"
+            android:gravity="center"
+            android:singleLine="true"
+            android:paddingStart="@dimen/_25sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_25sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="ADD"
+            android:onClick="onClick"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_11sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_cart"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/addQuantity"
+            app:layout_constraintTop_toBottomOf="@id/measureTextView" />
+
+        <TextView
+            android:id="@+id/percentOFFTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/green_bg"
+            android:paddingStart="@dimen/_7sdp"
+            android:paddingTop="@dimen/_3sdp"
+            android:paddingEnd="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_3sdp"
+            android:text="16% OFF"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_11sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/productImage"
+            app:layout_constraintTop_toTopOf="@id/productImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

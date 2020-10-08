@@ -27,8 +27,6 @@ public class ProductDetailResponse extends CommonResponse {
     private String mProductQuantity = "";
     @SerializedName("description")
     private String mProductDescription = "";
-    @SerializedName("wishlist")
-    private boolean mIsWishListDone;
     @SerializedName("sizeList")
     private List<SizeList> mSizeList = new ArrayList<>();
 
@@ -84,10 +82,6 @@ public class ProductDetailResponse extends CommonResponse {
 
     public String getProductQuantity() {
         return mProductQuantity;
-    }
-
-    public boolean isWishListDone() {
-        return mIsWishListDone;
     }
 
     public static class SizeList {

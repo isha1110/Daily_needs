@@ -57,7 +57,8 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
         mContentView = inflater.inflate(R.layout.fragment_my_order, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.myorders));
-        mActivity.isToggleButtonEnabled(true);
+        ToolBarManager.getInstance().onBackPressed(this);
+        mActivity.isToggleButtonEnabled(false);
         bottomSheetDialog = new BottomSheetDialog(mActivity, R.style.BottomSheetDialogTheme);
         bottomSheetDialog.setContentView(R.layout.bottomsheet_select_address);
         RecyclerView selectAddressRecyclerView = bottomSheetDialog.findViewById(R.id.selectAddressListRecycler);
@@ -254,10 +255,10 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
-        mActivity.hideCartIcon();
+        mActivity.showBackButton();
+        mActivity.showCartIcon();
+        mActivity.hideSearchIcon();
         hideKeyboard();
-        mActivity.hideFilterIcon();
     }
 
     @Override

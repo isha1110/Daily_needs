@@ -60,10 +60,10 @@ public class OrderDetailFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
-        mActivity.hideCartIcon();
+        mActivity.showBackButton();
+        mActivity.showCartIcon();
+        mActivity.hideSearchIcon();
         hideKeyboard();
-        mActivity.hideFilterIcon();
     }
 
     private void fetchOrderDetailsServerCall() {
@@ -104,7 +104,8 @@ public class OrderDetailFragment extends BaseFragment {
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle(mOrderDisplayId);
-        mActivity.isToggleButtonEnabled(true);
+        ToolBarManager.getInstance().onBackPressed(this);
+        mActivity.isToggleButtonEnabled(false);
         RecyclerView recyclerView = mContentView.findViewById(R.id.productRecyclerView);
         cartTotalPrice = mContentView.findViewById(R.id.cartTotalPrice);
         youSaved = mContentView.findViewById(R.id.youSaved);

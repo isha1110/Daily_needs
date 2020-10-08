@@ -41,12 +41,6 @@ public class SearchFragment extends BaseFragment {
     private LinearLayout searchLinearLayout;
     private boolean isFilter=false;
 
-    SearchFragment(List<ProductResponse.ProductItem> filterProductList,boolean isFilter) {
-        this.mFilterProductList = filterProductList;
-        this.isFilter=isFilter;
-
-    }
-
     public SearchFragment() {
     }
 
@@ -74,18 +68,6 @@ public class SearchFragment extends BaseFragment {
             }
             return false;
         });
-        if (Utility.isNotEmpty(mFilterProductList)) {
-            if(isFilter == true) {
-                mContentView.findViewById(R.id.searchLinearLayout).setVisibility(View.GONE);
-                mSearchItemListAdapter.setProductList(mFilterProductList);
-                mSearchItemListAdapter.notifyDataSetChanged();
-            }else{
-                mContentView.findViewById(R.id.searchLinearLayout).setVisibility(View.VISIBLE);
-
-            }
-
-        }
-
         return mContentView;
     }
 
@@ -152,6 +134,7 @@ public class SearchFragment extends BaseFragment {
         super.onStart();
         mActivity.showBackButton();
         mActivity.hideCartIcon();
+        mActivity.hideSearchIcon();
         hideKeyboard();
     }
 
@@ -204,7 +187,7 @@ public class SearchFragment extends BaseFragment {
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 quantityValue = itemView.findViewById(R.id.quantityValue);
-                saveAmount = itemView.findViewById(R.id.saveAmount);
+                saveAmount = itemView.findViewById(R.id.percentOFFTextView);
                 productName = itemView.findViewById(R.id.productName);
                 productMeasure = itemView.findViewById(R.id.measureTextView);
                 productOriginalPrice = itemView.findViewById(R.id.productMrpPrice);
@@ -212,7 +195,7 @@ public class SearchFragment extends BaseFragment {
                 productImage = itemView.findViewById(R.id.productImage);
                 ImageView minusQuantity = itemView.findViewById(R.id.minusQuantity);
                 ImageView addQuantity = itemView.findViewById(R.id.addQuantity);
-                ImageView addToCart = itemView.findViewById(R.id.addToCart);
+                TextView addToCart = itemView.findViewById(R.id.addToCart);
                 addToCart.setOnClickListener(view -> {
                     ProductResponse.ProductItem item = productList.get(getAdapterPosition());
                     CommonProductRequest request = new CommonProductRequest();

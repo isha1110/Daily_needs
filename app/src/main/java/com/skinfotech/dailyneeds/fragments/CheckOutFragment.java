@@ -60,10 +60,10 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
+        mActivity.showBackButton();
         mActivity.hideCartIcon();
+        mActivity.hideSearchIcon();
         hideKeyboard();
-        mActivity.hideFilterIcon();
     }
 
     @Override
@@ -187,7 +187,8 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.checkout));
-        mActivity.isToggleButtonEnabled(true);
+        ToolBarManager.getInstance().onBackPressed(this);
+        mActivity.isToggleButtonEnabled(false);
         bottomSheetDialog = new BottomSheetDialog(mActivity, R.style.BottomSheetDialogTheme);
         bottomSheetDialog.setContentView(R.layout.bottomsheet_select_address);
         selectAddressRecyclerView = bottomSheetDialog.findViewById(R.id.selectAddressListRecycler);

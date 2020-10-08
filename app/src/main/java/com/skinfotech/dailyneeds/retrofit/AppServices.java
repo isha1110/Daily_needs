@@ -21,6 +21,7 @@ import com.skinfotech.dailyneeds.models.requests.SubCategoryRequest;
 import com.skinfotech.dailyneeds.models.requests.VerifyEmailRequest;
 import com.skinfotech.dailyneeds.models.requests.VerifyOtpRequest;
 import com.skinfotech.dailyneeds.models.responses.BrandListResponse;
+import com.skinfotech.dailyneeds.models.responses.CardResponse;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
 import com.skinfotech.dailyneeds.models.responses.CheckOutResponse;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
@@ -44,41 +45,23 @@ public interface AppServices {
     @POST("login.php")
     Call<CommonResponse> login(@Body LoginRequest request);
 
-    @POST("registration.php")
-    Call<CommonResponse> registration(@Body RegistrationRequest request);
-
-    @POST("verify_email.php")
-    Call<CommonResponse> verifyEmail(@Body VerifyEmailRequest request);
-
-    @POST("fetch_profile.php")
-    Call<ProfileResponse> fetchProfile(@Body CommonRequest request);
-
-    @POST("fetch_categories.php")
-    Call<CategoryResponse> fetchCategories();
+    @POST("verify_otp.php")
+    Call<CommonResponse> getVerifyOtpResponse(@Body VerifyOtpRequest request);
 
     @POST("fetch_cards.php")
-    Call<CategoryResponse> fetchCards(@Body HomeCouponsRequest request);
+    Call<CardResponse> fetchCards(@Body HomeCouponsRequest request);
 
-    @POST("fetch_home_products.php")
-    Call<ProductResponse> fetchHomeProducts(@Body HomeProductsRequest request);
+    @POST("fetch_category.php")
+    Call<CategoryResponse> fetchCategories();
+
+    @POST("fetch_new_products.php")
+    Call<ProductResponse> fetchHomeProducts();
 
     @POST("fetch_sub_categories.php")
     Call<CategoryResponse> fetchSubCategories(@Body SubCategoryRequest request);
 
-    @POST("fetch_products.php")
-    Call<ProductResponse> fetchAllProducts(@Body AllProductRequest request);
-
     @POST("search_products.php")
     Call<ProductResponse> fetchSearchProducts(@Body SearchRequest request);
-
-    @POST("fetch_cart.php")
-    Call<ProductResponse> fetchCart(@Body CommonRequest request);
-
-    @POST("fetch_checkout_details.php")
-    Call<CheckOutResponse> fetchCheckout(@Body CommonRequest request);
-
-    @POST("save_payment.php")
-    Call<PaymentResponse> savePayment(@Body PaymentRequest request);
 
     @POST("add_to_cart.php")
     Call<CommonResponse> addToCart(@Body CommonProductRequest request);
@@ -86,29 +69,30 @@ public interface AppServices {
     @POST("remove_from_cart.php")
     Call<CommonResponse> removeFromCart(@Body CommonProductRequest request);
 
+    @POST("fetch_cart.php")
+    Call<ProductResponse> fetchCart(@Body CommonRequest request);
+
     @POST("fetch_my_orders.php")
     Call<MyOrderResponse> fetchMyOrders(@Body CommonRequest request);
 
     @POST("cancel_order.php")
     Call<MyOrderResponse> cancelOrders(@Body OrderDetailRequest request);
 
-    @POST("upload_profile_photo.php")
-    Call<ProfileResponse> uploadProfilePhoto(@Body ProfilePhotoRequest request);
-
     @POST("repeat_order.php")
     Call<PaymentResponse> repeatOrders(@Body OrderDetailRequest request);
-
-    @POST("fetch_side_navigation.php")
-    Call<SideNavigationResponse> fetchSideNavigation();
 
     @POST("fetch_order_details.php")
     Call<OrderDetailResponse> fetchOrderDetails(@Body OrderDetailRequest request);
 
-    @POST("add_remove_wishlist.php")
-    Call<CommonResponse> doWishList(@Body CommonProductRequest request);
+    @POST("fetch_products.php")
+    Call<ProductResponse> fetchAllProducts(@Body AllProductRequest request);
 
-    @POST("fetch_wishlist.php")
-    Call<ProductResponse> fetchWishList(@Body CommonRequest request);
+
+    @POST("fetch_checkout_details.php")
+    Call<CheckOutResponse> fetchCheckout(@Body CommonRequest request);
+
+    @POST("save_payment.php")
+    Call<PaymentResponse> savePayment(@Body PaymentRequest request);
 
     @POST("fetch_address.php")
     Call<AddressResponse> fetchAddress(@Body CommonRequest request);
@@ -119,32 +103,10 @@ public interface AppServices {
     @POST("fetch_price_by_unit_id.php")
     Call<ProductDetailResponse> productDetailByUnitId(@Body CommonProductRequest request);
 
-    @POST("change_password.php")
-    Call<CommonResponse> changePassword(@Body ChangePasswordRequest request);
-
-    @POST("update_password.php")
-    Call<CommonResponse> updatePassword(@Body ForgotPasswordRequest request);
-
     @POST("save_address.php")
     Call<CommonResponse> saveAddress(@Body SaveAddressRequest request);
 
     @POST("make_default_address.php")
     Call<AddressResponse> makeDefaultAddress(@Body DefaultAddressRequest request);
-
-    @POST("verify_otp.php")
-    Call<CommonResponse> getVerifyOtpResponse(@Body VerifyOtpRequest request);
-
-    @Multipart
-    @POST("upload_profile_photo.php")
-    Call<ProfileResponse> uploadAudioFile(@Part MultipartBody.Part file, @Part("userId") RequestBody userId);
-
-    @POST("fetch_brand_list.php")
-    Call<BrandListResponse> fetchBrandList(@Body AllProductRequest request);
-
-    @POST("save_apply_changes.php")
-    Call<ProductResponse> saveApplyChanges(@Body AllProductRequest request);
-
-    @POST("update_profile.php")
-    Call<CommonResponse> saveProfileResponse(@Body ProfileRequest request);
 
 }

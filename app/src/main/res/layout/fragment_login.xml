@@ -1,102 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/loginsign_bg">
-
-    <!--<Button
-        android:id="@+id/userLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/button_bg_login"
-        android:onClick="onClick"
-        android:text="@string/login"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/_14sdp"
-        app:layout_constraintEnd_toEndOf="@id/password"
-        app:layout_constraintStart_toStartOf="@id/password"
-        app:layout_constraintTop_toBottomOf="@id/forgetPassword" />-->
-
-    <EditText
-        android:id="@+id/userPhoneNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_40sdp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="@dimen/_40sdp"
-        android:background="@drawable/edit_text_bg_border"
-        android:drawableStart="@drawable/person_icon"
-        android:drawablePadding="@dimen/_10sdp"
-        android:ems="10"
-        android:hint="@string/phone_number"
-        android:importantForAutofill="no"
-        android:inputType="phone"
-        android:maxLength="@integer/email_length"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingTop="@dimen/_6sdp"
-        android:paddingBottom="@dimen/_6sdp"
-        android:textSize="@dimen/_11sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline3"
-        tools:ignore="RtlSymmetry" />
-
-    <!--<EditText
-        android:id="@+id/password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/edit_text_bg_border"
-        android:drawableStart="@drawable/password_icon"
-        android:drawablePadding="@dimen/_10sdp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
-        android:maxLength="@integer/password_length"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingTop="@dimen/_6sdp"
-        android:paddingBottom="@dimen/_6sdp"
-        android:textSize="@dimen/_11sdp"
-        app:layout_constraintEnd_toEndOf="@id/userEmail"
-        app:layout_constraintStart_toStartOf="@id/userEmail"
-        app:layout_constraintTop_toBottomOf="@id/userEmail"
-        tools:ignore="RtlSymmetry" />
--->
-    <!--<TextView
-        android:id="@+id/textView4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:gravity="center"
-        android:text="@string/welcome_back"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_17sdp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView22"
-        app:layout_constraintVertical_bias="0.0" />-->
-
-
-   <!-- <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="@string/or_connect_using"
-        android:textSize="@dimen/_13sdp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/password"
-        app:layout_constraintStart_toStartOf="@id/password"
-        app:layout_constraintTop_toBottomOf="@id/userLogin" />-->
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/off_white">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -138,16 +46,224 @@
         app:layout_constraintGuide_begin="20dp"
         app:layout_constraintGuide_percent="1.0" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:background="@color/colorWhite"
+        android:elevation="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:text="We will send an SMS"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView4">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone Number"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:paddingStart="@dimen/_5sdp"
+                android:textColor="@color/dull_orange"
+                android:textColorHint="@color/blue" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/nextTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:padding="@dimen/_13sdp"
+            android:text="Next"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:background="@color/colorWhite"
+        android:elevation="@dimen/_10sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/otpTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:text="@string/enter_your_6_digit_otp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/otp1"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/edit_text_bg_border"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="1"
+            android:minWidth="@dimen/_30sdp"
+            android:nextFocusForward="@+id/otp2"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_15sdp"
+            android:singleLine="true"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintEnd_toStartOf="@id/otp2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/otpTextView"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="LabelFor,RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/otp2"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="0dp"
+            android:background="@drawable/edit_text_bg_border"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="1"
+            android:minWidth="@dimen/_30sdp"
+            android:nextFocusForward="@+id/otp2"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:singleLine="true"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintBottom_toBottomOf="@id/otp1"
+            app:layout_constraintEnd_toStartOf="@id/otp3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/otp1"
+            app:layout_constraintTop_toTopOf="@id/otp1"
+            tools:ignore="LabelFor,RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/otp3"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="0dp"
+            android:background="@drawable/edit_text_bg_border"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="1"
+            android:minWidth="@dimen/_30sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:singleLine="true"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintBottom_toBottomOf="@id/otp2"
+            app:layout_constraintEnd_toStartOf="@id/otp4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/otp2"
+            app:layout_constraintTop_toTopOf="@id/otp2"
+            tools:ignore="LabelFor,RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/otp4"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/_50sdp"
+            android:background="@drawable/edit_text_bg_border"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="1"
+            android:minWidth="@dimen/_30sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/otp3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/otp3"
+            app:layout_constraintTop_toTopOf="@id/otp3"
+            tools:ignore="LabelFor,RtlSymmetry" />
+
+        <Button
+            android:id="@+id/verifyOtp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/blue"
+            android:onClick="onClick"
+            android:text="@string/verify_otp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/otp1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ImageView
-        android:id="@+id/imageView22"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_120sdp"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:id="@+id/imageView9"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_130sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo"
-        tools:ignore="ContentDescription" />
+        app:srcCompat="@drawable/logo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,15 +54,16 @@ public class CartFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
-        mActivity.hideCartIcon();
-        mActivity.hideFilterIcon();
+        mActivity.showBackButton();
+        mActivity.showCartIcon();
+        mActivity.hideSearchIcon();
     }
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.cart));
-        mActivity.isToggleButtonEnabled(true);
+        ToolBarManager.getInstance().onBackPressed(this);
+        mActivity.isToggleButtonEnabled(false);
         RecyclerView recyclerView = mContentView.findViewById(R.id.cartItemRecycler);
         cartGroup = mContentView.findViewById(R.id.cartGroup);
         noItemFoundContainer = mContentView.findViewById(R.id.noItemFoundContainer);
@@ -142,8 +143,8 @@ public class CartFragment extends BaseFragment {
             String sizeStr = item.getProductMeasure().concat(" ").concat(item.getProductUnit());
             holder.measureTextView.setText(sizeStr);
             holder.mQuantity.setText(item.getProductQuantity() + " quantity");
-            double diff = Double.parseDouble(item.getProductPrice()) - Double.parseDouble(item.getProductSpecialPrice());
-            holder.saveAmount.setText(String.valueOf(diff));
+            //double diff = Double.parseDouble(item.getProductPrice()) - Double.parseDouble(item.getProductSpecialPrice());
+           // holder.saveAmount.setText(String.valueOf(diff));
         }
 
         @Override

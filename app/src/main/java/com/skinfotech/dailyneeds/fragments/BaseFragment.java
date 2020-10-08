@@ -160,38 +160,6 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         }).start();
     }
 
-    protected void onWishListSuccessServerCall(CommonResponse commonResponse) {
-    }
-
-    void wishListServerCall(CommonProductRequest request) {
-        showProgress();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Call<CommonResponse> call = RetrofitApi.getAppServicesObject().doWishList(request);
-                    final Response<CommonResponse> response = call.execute();
-                    updateOnUiThread(() -> handleResponse(response));
-                } catch (Exception e) {
-                    stopProgress();
-                    showToast(e.getMessage());
-                }
-            }
-
-            private void handleResponse(Response<CommonResponse> response) {
-                stopProgress();
-                if (response.isSuccessful()) {
-                    CommonResponse commonResponse = response.body();
-                    if (commonResponse != null) {
-                        if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
-                            onWishListSuccessServerCall(commonResponse);
-                        }
-                        showToast(commonResponse.getErrorMessage());
-                    }
-                }
-            }
-        }).start();
-    }
 
     void updateOnUiThread(Runnable runnable) {
         new Handler(Looper.getMainLooper()).post(runnable);

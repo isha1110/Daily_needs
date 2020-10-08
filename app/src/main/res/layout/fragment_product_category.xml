@@ -11,40 +11,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <!--<androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productCategoryRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_60sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_50sdp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categoryItemRecyclerView"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:itemCount="2"
-            tools:listitem="@layout/product_category_item" />
+            tools:listitem="@layout/product_category_item" />-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categoryItemRecyclerView"
+        <!-- <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/categoryItemRecyclerView"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="@dimen/_20sdp"
+             android:layout_marginEnd="@dimen/_10sdp"
+             android:orientation="horizontal"
+             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             tools:itemCount="6"
+             tools:listitem="@layout/sub_category_item_list" />-->
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/productCategoryViewPager"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:itemCount="6"
-            tools:listitem="@layout/sub_category_item_list" />
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/categoryTabLayout" />
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+       <!-- <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -105,20 +116,34 @@
                 app:layout_constraintEnd_toEndOf="@id/imageView18"
                 app:layout_constraintTop_toTopOf="@id/imageView23" />
 
-           <!-- <TextView
-                android:id="@+id/textView39"
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/categoryTabLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabContentStart="@dimen/_20sdp"
+            app:tabIndicatorHeight="@dimen/_4sdp"
+            app:tabIndicatorColor="@color/carrot_orange"
+            app:tabMode="scrollable">
+
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:text="@string/cart_total"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/_14sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/cartTotalPrice"
-                app:layout_constraintEnd_toStartOf="@id/cartTotalPrice"
-                app:layout_constraintTop_toTopOf="@+id/cartCount" />-->
+                android:text="@string/staples" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/snack_and_beverages" />
+
+        </com.google.android.material.tabs.TabLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

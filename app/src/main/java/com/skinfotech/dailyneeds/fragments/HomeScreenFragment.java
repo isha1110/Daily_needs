@@ -1,5 +1,7 @@
 package com.skinfotech.dailyneeds.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -24,11 +28,12 @@ import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
-import com.skinfotech.dailyneeds.models.Item;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeCouponsRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeProductsRequest;
+import com.skinfotech.dailyneeds.models.responses.CardResponse;
+import com.skinfotech.dailyneeds.models.responses.CategoryProductItem;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.skinfotech.dailyneeds.models.responses.ProfileResponse;
@@ -45,13 +50,10 @@ import static com.skinfotech.dailyneeds.Constants.USER_ID;
 public class HomeScreenFragment extends BaseFragment {
 
     private boolean mIsDoubleBackPress = false;
-    private BestSellerAdapter mBestSellerAdapter;
-    private BestSellerAdapter mNewArrivalAdapter;
-    private RecyclerView bestSellerRecyclerView;
+    private NewProductListAdapter mNewArrivalAdapter;
     private int mRecyclerViewSelectedPosition = 0;
     private RecyclerView mNewArrivalsRecycler;
     private CouponsListAdapter mCouponsListAdapter;
-    private CouponsListAdapter mCouponsList2Adapter;
     private CategoryItemListAdapter mCategoryItemListAdapter;
     private static final String TAG = "HomeScreenFragment";
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -65,21 +67,15 @@ public class HomeScreenFragment extends BaseFragment {
         mContentView = inflater.inflate(R.layout.fragment_home_screen, container, false);
         setupUI();
         mSwipeRefreshLayout = mContentView.findViewById(R.id.swipeRefreshLayout);
-        fetchHomeProductsServerCall(Constants.IProductModes.BEST_SELLER);
-        fetchHomeProductsServerCall(Constants.IProductModes.NEW);
-        fetchProfileServerCall();
-        fetchCardsServerCall(Constants.ICouponModes.BEST_SELLER_COUPONS);
-        fetchCardsServerCall(Constants.ICouponModes.NEW_COUPONS);
-        fetchCardsServerCall(Constants.ICouponModes.BANNER_COUPONS);
+        fetchHomeProductsServerCall();
+        fetchCardsServerCall(Constants.ICouponModes.TOP_CARD);
+        fetchCardsServerCall(Constants.ICouponModes.BOTTOM_CARD);
         fetchCategoriesServerCall();
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            fetchProfileServerCall();
-            fetchHomeProductsServerCall(Constants.IProductModes.BEST_SELLER);
-            fetchHomeProductsServerCall(Constants.IProductModes.NEW);
+            fetchHomeProductsServerCall();
             fetchCategoriesServerCall();
-            fetchCardsServerCall(Constants.ICouponModes.BEST_SELLER_COUPONS);
-            fetchCardsServerCall(Constants.ICouponModes.NEW_COUPONS);
-            fetchCardsServerCall(Constants.ICouponModes.BANNER_COUPONS);
+            fetchCardsServerCall(Constants.ICouponModes.TOP_CARD);
+            fetchCardsServerCall(Constants.ICouponModes.BOTTOM_CARD);
             mSwipeRefreshLayout.setRefreshing(false);
         });
         return mContentView;
@@ -87,22 +83,20 @@ public class HomeScreenFragment extends BaseFragment {
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
-        ToolBarManager.getInstance().setHeaderTitle("");
+        ToolBarManager.getInstance().setHeaderTitle("Raj Nagar Extension");
         mActivity.isToggleButtonEnabled(true);
-        bestSellerRecyclerView = mContentView.findViewById(R.id.productRecycler);
+        mNewArrivalsRecycler = mContentView.findViewById(R.id.productRecycler);
         RecyclerView offersCardRecycler = mContentView.findViewById(R.id.offersCardRecycler);
         RecyclerView categoryItemListRecycler = mContentView.findViewById(R.id.categoryItemRecyclerView);
         RecyclerView bannerCouponItemRecycler = mContentView.findViewById(R.id.bannerCouponItemRecyclerView);
-        mBestSellerAdapter = new BestSellerAdapter();
-        mNewArrivalAdapter = new BestSellerAdapter();
+        mNewArrivalAdapter = new NewProductListAdapter();
         mCouponsListAdapter = new CouponsListAdapter();
-        mCouponsList2Adapter = new CouponsListAdapter();
         SnapHelper snapHelper = new PagerSnapHelper();
         mBannerItemListAdapter = new BannerItemListAdapter();
         snapHelper.attachToRecyclerView(bannerCouponItemRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
-        bestSellerRecyclerView.setLayoutManager(layoutManager);
-        bestSellerRecyclerView.setAdapter(mBestSellerAdapter);
+        mNewArrivalsRecycler.setLayoutManager(layoutManager);
+        mNewArrivalsRecycler.setAdapter(mNewArrivalAdapter);
         offersCardRecycler.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         offersCardRecycler.setAdapter(mCouponsListAdapter);
         mCategoryItemListAdapter = new CategoryItemListAdapter();
@@ -142,6 +136,8 @@ public class HomeScreenFragment extends BaseFragment {
                             if (!Utility.isEmpty(categoryItemList)) {
                                 mCategoryItemListAdapter.setCategoryItemList(categoryItemList);
                                 mCategoryItemListAdapter.notifyDataSetChanged();
+                                categoryAdapter.setCategoryItemList(categoryItemList);
+                                categoryAdapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -153,36 +149,7 @@ public class HomeScreenFragment extends BaseFragment {
 
     @Override
     protected void cartAddedSuccessCallBack() {
-        updateOnUiThread(this::fetchProfileServerCall);
-    }
 
-    private void fetchProfileServerCall() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Call<ProfileResponse> call = RetrofitApi.getAppServicesObject().fetchProfile(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
-                    final Response<ProfileResponse> response = call.execute();
-                    updateOnUiThread(() -> handleResponse(response));
-                } catch (Exception e) {
-                    stopProgress();
-                    showToast(e.getMessage());
-                    Log.e(TAG, e.getMessage(), e);
-                }
-            }
-
-            private void handleResponse(Response<ProfileResponse> response) {
-                if (response.isSuccessful()) {
-                    ProfileResponse profileResponse = response.body();
-                    if (profileResponse != null) {
-                        if (Constants.SUCCESS.equalsIgnoreCase(profileResponse.getErrorCode())) {
-                            mActivity.setCartCount(profileResponse.getCartCount());
-                        }
-                    }
-                }
-                stopProgress();
-            }
-        }).start();
     }
 
     private void fetchCardsServerCall(String mode) {
@@ -192,8 +159,8 @@ public class HomeScreenFragment extends BaseFragment {
                 try {
                     HomeCouponsRequest request = new HomeCouponsRequest(mode);
                     request.setUserId(getStringDataFromSharedPref(USER_ID));
-                    Call<CategoryResponse> call = RetrofitApi.getAppServicesObject().fetchCards(request);
-                    final Response<CategoryResponse> response = call.execute();
+                    Call<CardResponse> call = RetrofitApi.getAppServicesObject().fetchCards(request);
+                    final Response<CardResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (Exception e) {
                     stopProgress();
@@ -202,21 +169,18 @@ public class HomeScreenFragment extends BaseFragment {
                 }
             }
 
-            private void handleResponse(Response<CategoryResponse> response) {
+            private void handleResponse(Response<CardResponse> response) {
                 if (response.isSuccessful()) {
-                    CategoryResponse categoryResponse = response.body();
-                    if (categoryResponse != null) {
-                        if (Constants.SUCCESS.equalsIgnoreCase(categoryResponse.getErrorCode())) {
-                            List<CategoryResponse.CategoryItem> categoryItemList = categoryResponse.getCategoryList();
-                            if (!Utility.isEmpty(categoryItemList)) {
-                                if (mode.equalsIgnoreCase(Constants.ICouponModes.BEST_SELLER_COUPONS)) {
-                                    mCouponsListAdapter.setCategoryItemList(categoryItemList);
+                    CardResponse cardResponse = response.body();
+                    if (cardResponse != null) {
+                        if (Constants.SUCCESS.equalsIgnoreCase(cardResponse.getErrorCode())) {
+                            List<CardResponse.CardItem> cardItemList = cardResponse.getCardItems();
+                            if (!Utility.isEmpty(cardItemList)) {
+                                if (mode.equalsIgnoreCase(Constants.ICouponModes.TOP_CARD)) {
+                                    mCouponsListAdapter.setCategoryItemList(cardItemList);
                                     mCouponsListAdapter.notifyDataSetChanged();
-                                } else if (mode.equalsIgnoreCase(Constants.ICouponModes.NEW_COUPONS)) {
-                                    mCouponsList2Adapter.setCategoryItemList(categoryItemList);
-                                    mCouponsList2Adapter.notifyDataSetChanged();
                                 } else {
-                                    mBannerItemListAdapter.setCategoryItemList(categoryItemList);
+                                    mBannerItemListAdapter.setCategoryItemList(cardItemList);
                                     mBannerItemListAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -228,14 +192,12 @@ public class HomeScreenFragment extends BaseFragment {
         }).start();
     }
 
-    private void fetchHomeProductsServerCall(String mode) {
+    private void fetchHomeProductsServerCall() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    HomeProductsRequest request = new HomeProductsRequest(mode);
-                    request.setUserId(getStringDataFromSharedPref(USER_ID));
-                    Call<ProductResponse> call = RetrofitApi.getAppServicesObject().fetchHomeProducts(request);
+                    Call<ProductResponse> call = RetrofitApi.getAppServicesObject().fetchHomeProducts();
                     final Response<ProductResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (Exception e) {
@@ -252,13 +214,8 @@ public class HomeScreenFragment extends BaseFragment {
                         if (Constants.SUCCESS.equalsIgnoreCase(categoryResponse.getErrorCode())) {
                             List<ProductResponse.ProductItem> productList = categoryResponse.getProductList();
                             if (!Utility.isEmpty(productList)) {
-                                if (mode.equalsIgnoreCase(Constants.IProductModes.BEST_SELLER)) {
-                                    mBestSellerAdapter.setProductList(productList);
-                                    mBestSellerAdapter.notifyDataSetChanged();
-                                } else {
                                     mNewArrivalAdapter.setProductList(productList);
                                     mNewArrivalAdapter.notifyDataSetChanged();
-                                }
                             }
                         }
                     }
@@ -272,7 +229,7 @@ public class HomeScreenFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.openAllBestsellers:
-                launchFragment(new ProductCategoryFragment("", Constants.IModes.BEST_SELLER), true);
+                launchFragment(new ProductCategoryFragment(), true);
                 break;
             /*case R.id.openNewArrivals:
                 launchFragment(new ProductCategoryFragment("", Constants.IModes.NEW_ARRIVAL), true);
@@ -299,11 +256,11 @@ public class HomeScreenFragment extends BaseFragment {
         mActivity.hideBackButton();
         hideKeyboard();
         mActivity.showCartIcon();
-        mActivity.hideFilterIcon();
+        mActivity.showSearchIcon();
     }
 
 
-    private class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.RecyclerViewHolder> {
+    private class NewProductListAdapter extends RecyclerView.Adapter<NewProductListAdapter.RecyclerViewHolder> {
 
         private List<ProductResponse.ProductItem> productList = new ArrayList<>();
 
@@ -313,13 +270,13 @@ public class HomeScreenFragment extends BaseFragment {
 
         @NonNull
         @Override
-        public BestSellerAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public NewProductListAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.best_seller_item_list, parent, false);
             return new RecyclerViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull BestSellerAdapter.RecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull NewProductListAdapter.RecyclerViewHolder holder, int position) {
             ProductResponse.ProductItem item = productList.get(position);
             setFadeAnimation(holder.bestSellerItemContainer);
             holder.productName.setText(item.getProductName());
@@ -328,11 +285,10 @@ public class HomeScreenFragment extends BaseFragment {
             if (!Utility.isEmpty(item.getProductImage())) {
                 Picasso.get().load(item.getProductImage()).placeholder(R.drawable.default_image).into(holder.productImage);
             }
-            double difference = Double.parseDouble(item.getProductPrice()) - Double.parseDouble(item.getProductSpecialPrice());
-            holder.saveAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(difference)));
             String measureStr = item.getProductMeasure().concat(" ").concat(item.getProductUnit());
             holder.measureTextView.setText(measureStr);
             holder.mQuantity.setText(String.valueOf(item.getCount()));
+            holder.saveAmount.setText(item.getProductDiscount()+"% OFF");
         }
 
         @Override
@@ -355,11 +311,11 @@ public class HomeScreenFragment extends BaseFragment {
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 measureTextView = itemView.findViewById(R.id.measureTextView);
-                saveAmount = itemView.findViewById(R.id.saveAmount);
+                saveAmount = itemView.findViewById(R.id.percentOFFTextView);
                 productOriginalPrice = itemView.findViewById(R.id.productMrpPrice);
                 productImage = itemView.findViewById(R.id.productImage);
                 bestSellerItemContainer = itemView.findViewById(R.id.bestSellerItemContainer);
-                ImageView addToCart = itemView.findViewById(R.id.addToCart);
+                TextView addToCart = itemView.findViewById(R.id.addToCart);
                 mCategoryContainer = itemView.findViewById(R.id.categoryContainer);
                 ImageView minusQuantity = itemView.findViewById(R.id.minusQuantity);
                 ImageView addQuantity = itemView.findViewById(R.id.addQuantity);
@@ -373,26 +329,32 @@ public class HomeScreenFragment extends BaseFragment {
                         return;
                     }
                     counter--;
-                    double originalPrice = counter * Double.parseDouble(item.getProductPrice());
-                    double discountPrice = counter * Double.parseDouble(item.getProductSpecialPrice());
+                    float originalPrice = (float) (counter * Double.parseDouble(item.getProductPrice()));
+                    float discountPrice = (float) (counter * Double.parseDouble(item.getProductSpecialPrice()));
+                    // float saveAmountPrice = (float) (counter * Double.parseDouble(item.getProductDiscount()));
+                    //saveAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(saveAmountPrice)));
                     productDiscountPrice.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
                     productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
                     mQuantity.setText(String.valueOf(counter));
-                    double difference = originalPrice - discountPrice;
-                    saveAmount.setText(String.valueOf(difference));
+                    float difference = originalPrice - discountPrice;
+                    float saveAmountPrice=(difference/originalPrice)*100;
+                    saveAmount.setText(saveAmountPrice+"% OFF");
                     item.setCount(counter);
                 });
                 addQuantity.setOnClickListener(v -> {
                     ProductResponse.ProductItem item = productList.get(getAdapterPosition());
                     int counter = item.getCount();
                     counter++;
-                    double originalPrice = counter * Double.parseDouble(item.getProductPrice());
-                    double discountPrice = counter * Double.parseDouble(item.getProductSpecialPrice());
+                    float originalPrice = (float) (counter * Double.parseDouble(item.getProductPrice()));
+                    float discountPrice = (float) (counter * Double.parseDouble(item.getProductSpecialPrice()));
+                   // float saveAmountPrice = (float) (counter * Double.parseDouble(item.getProductDiscount()));
+                    //saveAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(saveAmountPrice)));
                     productDiscountPrice.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
                     productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
                     mQuantity.setText(String.valueOf(counter));
-                    double difference = originalPrice - discountPrice;
-                    saveAmount.setText(String.valueOf(difference));
+                    float difference = originalPrice - discountPrice;
+                    float saveAmountPrice=(difference/originalPrice)*100;
+                    saveAmount.setText(saveAmountPrice+"% OFF");
                     item.setCount(counter);
                 });
                 addToCart.setOnClickListener(view -> {
@@ -418,10 +380,10 @@ public class HomeScreenFragment extends BaseFragment {
 
     private class CouponsListAdapter extends RecyclerView.Adapter<CouponsListAdapter.RecyclerViewHolder> {
 
-        private List<CategoryResponse.CategoryItem> categoryItemList = new ArrayList<>();
+        private List<CardResponse.CardItem> cardItemList = new ArrayList<>();
 
-        public void setCategoryItemList(List<CategoryResponse.CategoryItem> categoryItemList) {
-            this.categoryItemList = categoryItemList;
+        public void setCategoryItemList(List<CardResponse.CardItem> cardItemList) {
+            this.cardItemList = cardItemList;
         }
 
         @NonNull
@@ -433,14 +395,14 @@ public class HomeScreenFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull CouponsListAdapter.RecyclerViewHolder holder, int position) {
-            if (!Utility.isEmpty(categoryItemList.get(position).getCategoryImage())) {
-                Picasso.get().load(categoryItemList.get(position).getCategoryImage()).placeholder(R.drawable.default_image).into(holder.couponImageView);
+            if (!Utility.isEmpty(cardItemList.get(position).getCardImage())) {
+                Picasso.get().load(cardItemList.get(position).getCardImage()).placeholder(R.drawable.default_image).into(holder.couponImageView);
             }
         }
 
         @Override
         public int getItemCount() {
-            return categoryItemList.size();
+            return cardItemList.size();
         }
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -451,8 +413,8 @@ public class HomeScreenFragment extends BaseFragment {
                 super(itemView);
                 couponImageView = itemView.findViewById(R.id.couponImage);
                 couponImageView.setOnClickListener(view -> {
-                    CategoryResponse.CategoryItem item = categoryItemList.get(getAdapterPosition());
-                    launchFragment(new ProductCategoryFragment(item.getCategoryId(), Constants.IModes.CARDS), true);
+                   CardResponse.CardItem item = cardItemList.get(getAdapterPosition());
+                    launchFragment(new ProductCategoryFragment(item.getCardId(), Constants.IModes.CARDS), true);
                 });
             }
         }
@@ -476,8 +438,9 @@ public class HomeScreenFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(@NonNull CategoryItemListAdapter.RecyclerViewHolder holder, int position) {
             CategoryResponse.CategoryItem item = categoryItemList.get(position);
-            if (!Utility.isEmpty(item.getCategoryImage())) {
-                Picasso.get().load(item.getCategoryImage()).placeholder(R.drawable.icon_snack).into(holder.iconImage);
+            if (!Utility.isEmpty(item.getCategoryImage()))
+            {
+                Picasso.get().load(item.getCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
             }
             holder.categoryName.setText(Utility.toCamelCase(item.getCategoryName()));
         }
@@ -500,7 +463,7 @@ public class HomeScreenFragment extends BaseFragment {
                 constraintLayout = itemView.findViewById(R.id.categoryContainer);
                 constraintLayout.setOnClickListener(v -> {
                     CategoryResponse.CategoryItem item = categoryItemList.get(getAdapterPosition());
-                    launchFragment(new ProductCategoryFragment(item.getCategoryId(), Constants.IModes.CATEGORIES), true);
+                    launchFragment(new ProductCategoryFragment(/*item.getCategoryId(), Constants.IModes.CATEGORIES*/), true);
                 });
             }
         }
@@ -508,10 +471,10 @@ public class HomeScreenFragment extends BaseFragment {
 
     private class BannerItemListAdapter extends RecyclerView.Adapter<BannerItemListAdapter.RecyclerViewHolder> {
 
-        private List<CategoryResponse.CategoryItem> categoryItemList = new ArrayList<>();
+        private List<CardResponse.CardItem> cardItemList = new ArrayList<>();
 
-        public void setCategoryItemList(List<CategoryResponse.CategoryItem> categoryItemList) {
-            this.categoryItemList = categoryItemList;
+        public void setCategoryItemList(List<CardResponse.CardItem> cardItemList) {
+            this.cardItemList = cardItemList;
         }
 
         @NonNull
@@ -523,14 +486,14 @@ public class HomeScreenFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull BannerItemListAdapter.RecyclerViewHolder holder, int position) {
-            if (!Utility.isEmpty(categoryItemList.get(position).getCategoryImage())) {
-                Picasso.get().load(categoryItemList.get(position).getCategoryImage()).placeholder(R.drawable.category_page).into(holder.bannerImageView);
+            if (!Utility.isEmpty(cardItemList.get(position).getCardImage())) {
+                Picasso.get().load(cardItemList.get(position).getCardImage()).placeholder(R.drawable.category_page).into(holder.bannerImageView);
             }
         }
 
         @Override
         public int getItemCount() {
-            return categoryItemList.size();
+            return cardItemList.size();
         }
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -541,15 +504,19 @@ public class HomeScreenFragment extends BaseFragment {
                 super(itemView);
                 bannerImageView = itemView.findViewById(R.id.bannerImage);
                 bannerImageView.setOnClickListener(view -> {
-                    CategoryResponse.CategoryItem item = categoryItemList.get(getAdapterPosition());
-                    launchFragment(new ProductCategoryFragment(item.getCategoryId(), Constants.IModes.CARDS), true);
+                    CardResponse.CardItem item = cardItemList.get(getAdapterPosition());
+                    launchFragment(new ProductCategoryFragment(/*item.getCategoryId(), Constants.IModes.CARDS*/), true);
                 });
             }
         }
     }
 
     private class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.RecyclerViewHolder>  {
+        private List<CategoryResponse.CategoryItem> categoryItemList = new ArrayList<>();
 
+        public void setCategoryItemList(List<CategoryResponse.CategoryItem> categoryItemList) {
+            this.categoryItemList = categoryItemList;
+        }
 
         @NonNull
         @Override
@@ -560,6 +527,11 @@ public class HomeScreenFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull CategoryAdapter.RecyclerViewHolder holder, int position) {
+            CategoryResponse.CategoryItem item = categoryItemList.get(position);
+            if (!Utility.isEmpty(item.getCategoryImage())) {
+                Picasso.get().load(item.getCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
+            }
+            holder.categoryNameTextView.setText(Utility.toCamelCase(item.getCategoryName()));
             GridLayoutManager layoutManager = new GridLayoutManager(
                     holder.recyclerView.getContext(),
                     3
@@ -584,7 +556,7 @@ public class HomeScreenFragment extends BaseFragment {
 
         @Override
         public int getItemCount() {
-            return 5;
+            return categoryItemList.size();
         }
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -594,9 +566,11 @@ public class HomeScreenFragment extends BaseFragment {
             private RecyclerView recyclerView;
             private ConstraintLayout childLayoutContainer;
             private ConstraintLayout constraintLayout12;
+            private ImageView iconImage;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
+                iconImage = itemView.findViewById(R.id.productImageView);
                 constraintLayout = itemView.findViewById(R.id.constraintContainer);
                 constraintLayout12 = itemView.findViewById(R.id.constraintLayout12);
                 categoryNameTextView = itemView.findViewById(R.id.categoryNameTextView);
@@ -608,8 +582,11 @@ public class HomeScreenFragment extends BaseFragment {
     }
 
     private class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.RecyclerViewHolder> {
+        private List<CategoryProductItem> categoryItemList = new ArrayList<>();
 
-
+        public void setCategoryItemList(List<CategoryProductItem> categoryItemList) {
+            this.categoryItemList = categoryItemList;
+        }
         @NonNull
         @Override
         public SubCategoryAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -619,7 +596,11 @@ public class HomeScreenFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull SubCategoryAdapter.RecyclerViewHolder holder, int position) {
-
+            CategoryProductItem item = categoryItemList.get(position);
+            if (!Utility.isEmpty(item.getSubCategoryImage())) {
+                Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
+            }
+            holder.categoryNameTextView.setText(Utility.toCamelCase(item.getSubCategoryName()));
         }
 
         @Override
@@ -628,9 +609,18 @@ public class HomeScreenFragment extends BaseFragment {
         }
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
+            private ConstraintLayout constraintLayout;
+            private TextView categoryNameTextView;
+            private ImageView iconImage;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
+                iconImage = itemView.findViewById(R.id.subCategoryImageView);
+                categoryNameTextView = itemView.findViewById(R.id.subCategoryName);
+                constraintLayout = itemView.findViewById(R.id.constraintContainer);
+                constraintLayout.setOnClickListener(v -> {
+                    launchFragment(new ProductCategoryFragment(),true);
+                });
             }
         }
     }

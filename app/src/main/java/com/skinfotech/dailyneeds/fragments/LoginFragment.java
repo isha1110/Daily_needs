@@ -1,146 +1,213 @@
 package com.skinfotech.dailyneeds.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.requests.LoginRequest;
+import com.skinfotech.dailyneeds.models.requests.VerifyOtpRequest;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
-import com.google.android.material.snackbar.Snackbar;
+
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class LoginFragment extends BaseFragment {
 
-    private boolean mIsDoubleBackPress = false;
-    private EditText emailInput;
+    private TextInputEditText mobileNumber;
     private boolean isEmailValid;
-    private boolean isPasswordValid;
     private static final String TAG = "LoginFragment";
+    private ConstraintLayout constraintLayout1;
+    private ConstraintLayout constraintLayout;
+    private EditText otpField1;
+    private EditText otpField2;
+    private EditText otpField3;
+    private EditText otpField4;
+    private Button mVerifyOtp;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_login, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
+        ToolBarManager.getInstance().setHeaderTitle("");
         ToolBarManager.getInstance().onBackPressed(this);
         mActivity.isToggleButtonEnabled(false);
-        emailInput = mContentView.findViewById(R.id.userPhoneNumber);
+        mobileNumber = mContentView.findViewById(R.id.userPhoneNumber);
+        constraintLayout1 = mContentView.findViewById(R.id.constraintContainer);
+        constraintLayout = mContentView.findViewById(R.id.constraintLayout);
+        otpField1 = mContentView.findViewById(R.id.otp1);
+        otpField1.addTextChangedListener(new GenericTextWatcher(otpField1));
+        otpField2 = mContentView.findViewById(R.id.otp2);
+        otpField2.addTextChangedListener(new GenericTextWatcher(otpField2));
+        otpField3 = mContentView.findViewById(R.id.otp3);
+        otpField3.addTextChangedListener(new GenericTextWatcher(otpField3));
+        otpField4 = mContentView.findViewById(R.id.otp4);
+        otpField4.addTextChangedListener(new GenericTextWatcher(otpField4));
+        mVerifyOtp = mContentView.findViewById(R.id.verifyOtp);
+        mVerifyOtp.setOnClickListener(this);
         return mContentView;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-           /* case R.id.userLogin:
-                if (Utility.isEmpty(emailInput)) {
-                    emailInput.setError(mActivity.getString(R.string.mandatory_field_message));
-                    emailInput.requestFocus();
-                    isEmailValid = false;
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput.getText().toString()).matches()) {
-                    emailInput.setError(getResources().getString(R.string.error_invalid_email));
-                    emailInput.requestFocus();
-                    isEmailValid = false;
-                } else {
-                    isEmailValid = true;
+            case R.id.nextTextView:
+                if (Utility.isEmpty(mobileNumber)) {
+                    mobileNumber.setError(mActivity.getString(R.string.mandatory_field_message));
+                    mobileNumber.requestFocus();
                 }
-                *//*if (Utility.isEmpty(passwordInput)) {
-                    passwordInput.setError(mActivity.getString(R.string.mandatory_field_message));
-                    passwordInput.requestFocus();
-                    isPasswordValid = false;
-                } else if (passwordInput.getText().length() < 6) {
-                    passwordInput.setError(getResources().getString(R.string.error_invalid_password));
-                    passwordInput.requestFocus();
-                    isPasswordValid = false;
-                } else {
-                    isPasswordValid = true;
-                }*//*
-                if (isEmailValid && isPasswordValid) {
-                    doLoginServerCall();
-                }
-                break;*/
+                verifyMobileNumberOnServer();
+                break;
         }
     }
-
-    private void doLoginServerCall() {
-        showProgress();
+    private void verifyMobileNumberOnServer() {
         new Thread(new Runnable() {
-            @Override
             public void run() {
                 try {
-                    String email = emailInput.getText().toString();
-                    LoginRequest request = new LoginRequest();
-                    request.setEmailAddress(email);
-                    Call<CommonResponse> call = RetrofitApi.getAppServicesObject().login(request);
-                    final Response<CommonResponse> response = call.execute();
-                    updateOnUiThread(() -> handleResponse(response));
-                } catch (Exception e) {
-                    stopProgress();
-                    showToast(e.getMessage());
-                    Log.e(TAG, e.getMessage(), e);
-                }
-            }
-
-            private void handleResponse(Response<CommonResponse> response) {
-                if (response.isSuccessful()) {
-                    CommonResponse commonResponse = response.body();
-                    if (commonResponse != null) {
-                        if (Constants.SUCCESS.equalsIgnoreCase(commonResponse.getErrorCode())) {
-                            storeStringDataInSharedPref(Constants.USER_ID , commonResponse.getUserId());
-                            storeStringDataInSharedPref(Constants.USER_LOGIN_DONE , Constants.YES);
-                            launchFragment(new HomeScreenFragment(), false);
+                    String mobileNumberStr = mobileNumber.getText().toString();
+                    Call<CommonResponse> responseCall = RetrofitApi.getAppServicesObject().login(new LoginRequest(mobileNumberStr));
+                    final Response<CommonResponse> commonResponse = responseCall.execute();
+                    updateOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (commonResponse.isSuccessful()) {
+                                CommonResponse response = commonResponse.body();
+                                if (response != null && !response.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
+                                    storeStringDataInSharedPref(Constants.OTP , response.getOtp());
+                                    constraintLayout.setVisibility(View.GONE);
+                                    constraintLayout1.setVisibility(View.VISIBLE);
+                                } else if (response != null) {
+                                   // showToast(mActivity.getString(R.string.msg_no_mobile_number_registered));
+                                }
+                            }
+                            stopProgress();
                         }
-                        showToast(commonResponse.getErrorMessage());
-                    }
+                    });
+                } catch (IOException e) {
+                    Log.e(TAG, e.getMessage(), e);
+                    updateOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            stopProgress();
+                        }
+                    });
                 }
-                stopProgress();
             }
         }).start();
     }
 
-    private boolean validateEmailAddress(EditText editText) {
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        String email = editText.getText().toString().toLowerCase().trim();
-        if (email.isEmpty() && email.matches(emailPattern)) {
-            Toast.makeText(mActivity, "valid email address", Toast.LENGTH_SHORT).show();
-            return true;
-        } else {
-            Toast.makeText(mActivity, "Invalid email address", Toast.LENGTH_SHORT).show();
-            emailInput.requestFocus();
-            return false;
+    public class GenericTextWatcher implements TextWatcher {
+
+        private View view;
+
+        GenericTextWatcher(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            /*
+             *
+             * */
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            /*
+             *
+             * */
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String otpText = s.toString();
+            switch (view.getId()) {
+                case R.id.otp1:
+                    if (otpText.length() == 1) {
+                        otpField2.requestFocus();
+                    }
+                    break;
+                case R.id.otp2:
+                    if (otpText.length() == 1) {
+                        otpField3.requestFocus();
+                    } else if (otpText.length() == 0) {
+                        otpField1.requestFocus();
+                    }
+                    break;
+                case R.id.otp3:
+                    if (otpText.length() == 1) {
+                        otpField4.requestFocus();
+                    } else if (otpText.length() == 0) {
+                        otpField2.requestFocus();
+                    }
+                    break;
+                case R.id.otp4:
+                    if (otpText.length() == 0) {
+                        otpField3.requestFocus();
+                    }
+                    verifyOtpServerCall();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void verifyOtpServerCall() {
+            final String finalEnteredOtp = otpField1.getText().toString() + otpField2.getText().toString() + otpField3.getText().toString()
+                    + otpField4.getText().toString();
+            String mobileNumberStr = mobileNumber.getText().toString();
+            showProgress();
+            new Thread(() -> {
+                try {
+                    Call<CommonResponse> call = RetrofitApi.getAppServicesObject().getVerifyOtpResponse(new VerifyOtpRequest(finalEnteredOtp,mobileNumberStr));
+                    final Response<CommonResponse> response = call.execute();
+                    updateOnUiThread(() -> {
+                        if (response.isSuccessful()) {
+                            CommonResponse commonResponse = response.body();
+                            if (commonResponse != null && commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
+                                storeStringDataInSharedPref(Constants.USER_ID , commonResponse.getUserId());
+                                storeStringDataInSharedPref(Constants.USER_LOGIN_DONE , Constants.YES);
+                                launchFragment(new HomeScreenFragment(),false);
+                            } else if (commonResponse != null) {
+                                showToast(commonResponse.getErrorMessage());
+                            }
+                        }
+                        stopProgress();
+                    });
+                } catch (IOException e) {
+                    stopProgress();
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }).start();
         }
     }
-
-    /*@Override
-    public boolean onBackPressed() {
-        if (mIsDoubleBackPress) {
-            super.onBackPressedToExit(this);
-            return true;
-        }
-        Snackbar.make(mContentView, getString(R.string.back_press_msg), Snackbar.LENGTH_SHORT).show();
-        mIsDoubleBackPress = true;
-        new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
-        return true;
-    }*/
 
     @Override
     public void onStart() {
         super.onStart();
         mActivity.showBackButton();
         mActivity.hideCartIcon();
+        mActivity.hideSearchIcon();
         hideKeyboard();
     }
-
 }

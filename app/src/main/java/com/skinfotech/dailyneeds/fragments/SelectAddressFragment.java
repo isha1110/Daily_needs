@@ -45,7 +45,8 @@ public class SelectAddressFragment extends BaseFragment {
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle(TAG);
-        mActivity.isToggleButtonEnabled(true);
+        ToolBarManager.getInstance().onBackPressed(this);
+        mActivity.isToggleButtonEnabled(false);
         RecyclerView addressRecyclerView = mContentView.findViewById(R.id.selectAddressRecycler);
         addressGroup = mContentView.findViewById(R.id.addressGroup);
         mAddressListAdapter = new AddressListAdapter(mAddressResponseList);
@@ -152,8 +153,9 @@ public class SelectAddressFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
-        mActivity.hideFilterIcon();
+        mActivity.showBackButton();
+        mActivity.hideSearchIcon();
+        mActivity.showCartIcon();
     }
 
     private class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.RecyclerViewHolder> {

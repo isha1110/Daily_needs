@@ -29,7 +29,6 @@ public class ProductDetailFragment extends BaseFragment {
     private TextView mQuantityTextView;
     private TextView mProductPrice;
     private CommonProductRequest mCommonProductRequest = new CommonProductRequest();
-    private ImageView wishListImageView;
     private ProductQuantityListAdapter mProductQuantityListAdapter;
     private int mSelectedSizeListItem;
     private TextView productOriginalAmount;
@@ -56,8 +55,8 @@ public class ProductDetailFragment extends BaseFragment {
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle(TAG);
-        mActivity.isToggleButtonEnabled(true);
-        wishListImageView = mContentView.findViewById(R.id.addToWishList);
+        mActivity.isToggleButtonEnabled(false);
+        ToolBarManager.getInstance().onBackPressed(this);
         mQuantityTextView = mContentView.findViewById(R.id.quantityValue);
         mProductPrice = mContentView.findViewById(R.id.productAmount);
         RecyclerView recyclerView = mContentView.findViewById(R.id.productQuantityRecyclerView);
@@ -99,18 +98,21 @@ public class ProductDetailFragment extends BaseFragment {
         TextView productName = mContentView.findViewById(R.id.productName);
         productOriginalAmount = mContentView.findViewById(R.id.productOriginalAmount);
         productSpecialAmount = mContentView.findViewById(R.id.productAmount);
-        mSaveAmount = mContentView.findViewById(R.id.saveAmount);
+        mSaveAmount = mContentView.findViewById(R.id.percentOFFTextView);
         TextView productDescription = mContentView.findViewById(R.id.productDescription);
         if (!Utility.isEmpty(response.getProductImage())) {
             Picasso.get().load(response.getProductImage()).placeholder(R.drawable.default_image).into(productImage);
         }
         productDescription.setText(response.getProductDescription());
         productName.setText(response.getProductName());
-        productSpecialAmount.setText(Utility.getAmountInCurrencyFormat(response.getProductSpecialPrice()));
-        productOriginalAmount.setText(Utility.getAmountInCurrencyFormat(response.getProductPrice()));
-        double difference = Double.parseDouble(response.getProductPrice()) - Double.parseDouble(response.getProductSpecialPrice());
-        mSaveAmount.setText(getString(R.string.ruppee_symbol)+Utility.getAmountInCurrencyFormat(String.valueOf(difference)));
-        wishListImageView.setImageDrawable(getResources().getDrawable(response.isWishListDone() ? R.drawable.red_heart_icon : R.drawable.icon_wishlist));
+        double originalPrice =  Double.parseDouble(response.getProductPrice());
+        double discountPrice =  Double.parseDouble(response.getProductSpecialPrice());
+        productSpecialAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
+        productOriginalAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
+        float difference = (float) (originalPrice-discountPrice);
+        //mSaveAmount.setText(response.get()+"% OFF");
+        float DiscountPercent= (float) ((difference/originalPrice)*100);
+        mSaveAmount.setText(DiscountPercent+"% OFF");
         List<ProductDetailResponse.SizeList> sizeList = response.getSizeList();
         if (!Utility.isEmpty(sizeList)) {
             mProductQuantityListAdapter.setSizeList(sizeList);
@@ -135,7 +137,7 @@ public class ProductDetailFragment extends BaseFragment {
                 productSpecialAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
                 productOriginalAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
                 mQuantityTextView.setText(String.valueOf(counter));
-                double difference = originalPrice - discountPrice;
+                float difference = (float) (originalPrice - discountPrice);
                 mSaveAmount.setText(String.valueOf(difference));
                 productDetailResponse.setCount(counter);
                 break;
@@ -154,23 +156,16 @@ public class ProductDetailFragment extends BaseFragment {
                 mSaveAmount.setText(String.valueOf(difference1));
                 productDetailResponse.setCount(counter);
                 break;
-            case R.id.addToWishList:
-                wishListServerCall(mCommonProductRequest);
-                break;
         }
     }
 
-    @Override
-    protected void onWishListSuccessServerCall(CommonResponse commonResponse) {
-        productDetailServerCall(mCommonProductRequest);
-    }
 
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
-        mActivity.hideCartIcon();
-        mActivity.hideFilterIcon();
+        mActivity.showBackButton();
+        mActivity.showCartIcon();
+        mActivity.hideSearchIcon();
     }
 
     private class ProductQuantityListAdapter extends RecyclerView.Adapter<ProductQuantityListAdapter.RecyclerViewHolder> implements View.OnClickListener {

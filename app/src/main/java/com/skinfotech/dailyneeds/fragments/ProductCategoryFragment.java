@@ -14,9 +14,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
+import com.skinfotech.dailyneeds.adapters.MyProductCategoryPagerAdapter;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.requests.AllProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
@@ -39,9 +43,7 @@ public class ProductCategoryFragment extends BaseFragment {
 
     private View view;
     private BottomSheetDialog bottomSheetDialog;
-    private ProductsAdapter mProductAdapter;
     private SubCategoryItemListAdapter mSubCategoryAdapter;
-    private CartItemListAdapter mCartAdapter;
     private static final String TAG = "ProductCategoryFragment";
     private String mCategoryId = "";
     private String mSubCategoryId = "";
@@ -62,6 +64,8 @@ public class ProductCategoryFragment extends BaseFragment {
     private int scrollOutItems;
    // private OrderDetailResponse productItem;
     private ProductResponse categoryResponse;
+    private TabLayout categoriesTabs;
+    private ViewPager productCategoriesPager;
 
     public ProductCategoryFragment(String id, String modes) {
         if (modes.equalsIgnoreCase(Constants.IModes.CARDS)) {
@@ -72,13 +76,13 @@ public class ProductCategoryFragment extends BaseFragment {
             mModeStr = Constants.IModes.NEW_ARRIVAL;
         } else if (modes.equalsIgnoreCase(Constants.IModes.BEST_SELLER)) {
             mModeStr = Constants.IModes.BEST_SELLER;
-        } else if (modes.equalsIgnoreCase(Constants.IModes.SIDE_NAVIGATION)) {
+        }/* else if (modes.equalsIgnoreCase(Constants.IModes.SIDE_NAVIGATION)) {
             mIsFromSideNavigation = true;
             mIsSubCategoryFetched = true;
             String[] idSplit = id.split(Constants.SPLIT);
             mCategoryId = idSplit[0];
             mSubCategoryId = idSplit[1];
-        }
+        }*/
     }
 
     public ProductCategoryFragment() {
@@ -90,18 +94,16 @@ public class ProductCategoryFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_product_category, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle("");
-        mActivity.isToggleButtonEnabled(true);
-        bottomSheetDialog = new BottomSheetDialog(mActivity, R.style.BottomSheetDialogTheme);
-        bottomSheetDialog.setContentView(R.layout.fragment_bottom_cart_slide);
+        ToolBarManager.getInstance().onBackPressed(this);
+        mActivity.isToggleButtonEnabled(false);
         setupUI();
-        if (mIsFromSideNavigation) {
+        /*if (mIsFromSideNavigation) {
             fetchAllProductsServerCall(mSubCategoryId, "");
             fetchSubCategoryServerCall(mSubCategoryId, "");
         } else {
             fetchAllProductsServerCall("", "");
             fetchSubCategoryServerCall("", "");
-        }
-        fetchCartServerCall();
+        }*/
         return view;
     }
 
@@ -112,36 +114,16 @@ public class ProductCategoryFragment extends BaseFragment {
                 launchFragment(new CheckOutFragment(), true);
                 bottomSheetDialog.dismiss();
                 break;
-            case R.id.constraintLayout2:
-                if (cartCountTextView.getText().toString().equals(getString(R.string.zero_item))) {
-                    showToast(getString(R.string.txt_no_product_found));
-                    return;
-                }
-                bottomSheetDialog.show();
-                break;
         }
     }
 
     private void setupUI() {
-        cartCountTextView = view.findViewById(R.id.cartCount);
-        cartTotalTextView = view.findViewById(R.id.cartTotalPrice);
-        RecyclerView recyclerView = view.findViewById(R.id.productCategoryRecycler);
-        mProductAdapter = new ProductsAdapter();
-        RecyclerView mSubCategoryItemRecycler = view.findViewById(R.id.categoryItemRecyclerView);
         mSubCategoryAdapter = new SubCategoryItemListAdapter();
-        RecyclerView cartItemListRecycler = bottomSheetDialog.findViewById(R.id.cartItemListRecycler);
-        mCartAdapter = new CartItemListAdapter();
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(mProductAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
-        mSubCategoryItemRecycler.setLayoutManager(layoutManager);
-        mSubCategoryItemRecycler.setAdapter(mSubCategoryAdapter);
-        LinearLayoutManager cartLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        /*LinearLayoutManager cartLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
         if (null != cartItemListRecycler) {
             cartItemListRecycler.setLayoutManager(cartLayoutManager);
             cartItemListRecycler.setAdapter(mCartAdapter);
-        }
+        }*/
         //This commented code is done in case we have to enable the pagination in the recycler view
         /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -164,22 +146,26 @@ public class ProductCategoryFragment extends BaseFragment {
                 }
             }
         });*/
+        productCategoriesPager = view.findViewById(R.id.productCategoryViewPager);
+        categoriesTabs = view.findViewById(R.id.categoryTabLayout);
+        productCategoriesPager.setAdapter(new MyProductCategoryPagerAdapter(mActivity.getSupportFragmentManager()));
+        categoriesTabs.setupWithViewPager(productCategoriesPager);
     }
 
-    @Override
+    /*@Override
     protected void cartAddedSuccessCallBack() {
         fetchCartServerCall();
-    }
+    }*/
 
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
-        mActivity.hideCartIcon();
-        mActivity.showFilterIcon();
+        mActivity.showBackButton();
+        mActivity.showCartIcon();
+        mActivity.hideSearchIcon();
     }
 
-    private void fetchCartServerCall() {
+    /*private void fetchCartServerCall() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -204,8 +190,6 @@ public class ProductCategoryFragment extends BaseFragment {
                         if (Constants.SUCCESS.equalsIgnoreCase(categoryResponse.getErrorCode())) {
                             List<ProductResponse.ProductItem> productList = categoryResponse.getProductList();
                             if (!Utility.isEmpty(productList)) {
-                                String cartCountStr = productList.size() + " items";
-                                cartCountTextView.setText(cartCountStr);
                                 mCartAdapter.setProductList(productList);
                                 mCartAdapter.notifyDataSetChanged();
                             }
@@ -216,12 +200,12 @@ public class ProductCategoryFragment extends BaseFragment {
                 stopProgress();
             }
         }).start();
-    }
+    }*/
 
-    @Override
+    /*@Override
     protected void cartRemovedSuccessCallBack() {
         fetchCartServerCall();
-    }
+    }*/
 
     private void fetchSubCategoryServerCall(String subCategoryId, String subSubCategoryId) {
         showProgress();
@@ -265,7 +249,7 @@ public class ProductCategoryFragment extends BaseFragment {
         }).start();
     }
 
-    private void fetchAllProductsServerCall(String subCategoryId, String subSubCategoryId) {
+   /* private void fetchAllProductsServerCall(String subCategoryId, String subSubCategoryId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -311,9 +295,9 @@ public class ProductCategoryFragment extends BaseFragment {
                 stopProgress();
             }
         }).start();
-    }
+    }*/
 
-    private class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.RecyclerViewHolder> {
+    /*private class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.RecyclerViewHolder> {
 
         private List<ProductResponse.ProductItem> productList = new ArrayList<>();
 
@@ -406,7 +390,7 @@ public class ProductCategoryFragment extends BaseFragment {
             }
         }
     }
-
+*/
     private class SubCategoryItemListAdapter extends RecyclerView.Adapter<SubCategoryItemListAdapter.RecyclerViewHolder> {
 
         private List<CategoryResponse.CategoryItem> productList = new ArrayList<>();
@@ -445,84 +429,12 @@ public class ProductCategoryFragment extends BaseFragment {
                     if (!mIsSubCategoryFetched) {
                         mIsSubCategoryFetched = true;
                         fetchSubCategoryServerCall(item.getCategoryId(), "");
-                        fetchAllProductsServerCall(item.getCategoryId(), "");
+                       // fetchAllProductsServerCall(item.getCategoryId(), "");
                     } else if (!mIsSubSubCategoryFetched) {
                         mIsSubSubCategoryFetched = true;
-                        fetchSubCategoryServerCall("", item.getCategoryId());
-                        fetchAllProductsServerCall("", item.getCategoryId());
+                        //fetchSubCategoryServerCall("", item.getCategoryId());
+                        //fetchAllProductsServerCall("", item.getCategoryId());
                     }
-                });
-            }
-        }
-    }
-
-    private class CartItemListAdapter extends RecyclerView.Adapter<CartItemListAdapter.RecyclerViewHolder> {
-
-        private List<ProductResponse.ProductItem> productList = new ArrayList<>();
-
-        public void setProductList(List<ProductResponse.ProductItem> productList) {
-            this.productList = productList;
-        }
-
-        @NonNull
-        @Override
-        public CartItemListAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item_list, parent, false);
-            return new CartItemListAdapter.RecyclerViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull CartItemListAdapter.RecyclerViewHolder holder, int position) {
-            ProductResponse.ProductItem item = productList.get(position);
-            if (!Utility.isEmpty(item.getProductImage())) {
-                Picasso.get().load(item.getProductImage()).placeholder(R.drawable.default_image).into(holder.productImage);
-            }
-            holder.productName.setText(item.getProductName());
-            holder.productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductPrice()));
-            holder.mProductPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductSpecialPrice()));
-            String sizeStr = item.getProductMeasure().concat(" ").concat(item.getProductUnit());
-            holder.measureTextView.setText(sizeStr);
-            String quantityStr = item.getProductQuantity() + " quantity";
-            holder.mQuantity.setText(quantityStr);
-            double diff = Double.parseDouble(item.getProductPrice()) - Double.parseDouble(item.getProductSpecialPrice());
-            holder.saveAmount.setText(String.valueOf(diff));
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return productList.size();
-        }
-
-        private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-            private TextView mQuantity;
-            private TextView mProductPrice;
-            private TextView productOriginalPrice;
-            private TextView saveAmount;
-            private TextView measureTextView;
-            private ImageView productImage;
-            private TextView productName;
-
-            RecyclerViewHolder(@NonNull View itemView) {
-                super(itemView);
-                measureTextView = itemView.findViewById(R.id.measureTextView);
-                saveAmount = itemView.findViewById(R.id.amountSaved);
-                productName = itemView.findViewById(R.id.productName);
-                productOriginalPrice = itemView.findViewById(R.id.mrpPrice);
-                productImage = itemView.findViewById(R.id.productImage);
-                itemView.findViewById(R.id.quantityMinus).setVisibility(View.GONE);
-                itemView.findViewById(R.id.quantityAdd).setVisibility(View.GONE);
-                mQuantity = itemView.findViewById(R.id.productQuantity);
-                ImageView cancelItem = itemView.findViewById(R.id.cancleItem);
-                mProductPrice = itemView.findViewById(R.id.amountPaid);
-                cancelItem.setOnClickListener(v -> {
-                    ProductResponse.ProductItem item = productList.get(getAdapterPosition());
-                    CommonProductRequest request = new CommonProductRequest();
-                    request.setUserId(getStringDataFromSharedPref(USER_ID));
-                    request.setProductsId(item.getProductId());
-                    request.setProductsSizeId(item.getProductPUId());
-                    removeFromCartServerCall(request);
                 });
             }
         }

@@ -10,6 +10,12 @@ public class CommonResponse {
     private String mErrorMessage = "";
     @SerializedName("userId")
     private String mUserId = "";
+    @SerializedName("otp")
+    private String otp = "";
+
+    public String getOtp() {
+        return otp;
+    }
 
     public String getUserId() {
         return mUserId;

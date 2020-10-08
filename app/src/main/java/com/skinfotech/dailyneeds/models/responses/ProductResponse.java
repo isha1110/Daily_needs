@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ProductResponse extends CommonResponse {
 
-    @SerializedName("categoryList")
+    @SerializedName("productList")
     private List<ProductItem> mProductList = new ArrayList<>();
     @SerializedName("isDataAvailable")
     private boolean mIsDataAvailable = false;
@@ -29,39 +29,35 @@ public class ProductResponse extends CommonResponse {
 
     public static class ProductItem {
 
-        @SerializedName("id")
+        @SerializedName("productId")
         private String mProductId = "";
-        @SerializedName("image")
-        private String mProductImage = "";
-        @SerializedName("product_name")
+        @SerializedName("productName")
         private String mProductName = "";
-        @SerializedName("puId")
+        @SerializedName("productImage")
+        private String mProductImage = "";
+        @SerializedName("productMeasureId")
         private String mProductPUId = "";
-        @SerializedName("price")
+        @SerializedName("productMRP")
         private String mProductPrice = "";
-        @SerializedName("special_price")
+        @SerializedName("productSellingPrice")
         private String mProductSpecialPrice = "";
-        @SerializedName("measure")
+        @SerializedName("productMeasure")
         private String mProductMeasure = "";
-        @SerializedName("unit")
+        @SerializedName("productUnit")
         private String mProductUnit = "";
         @SerializedName("quantity")
         private String mProductQuantity = "";
-        @SerializedName("wishlist")
-        private boolean mIsWishListDone;
+        @SerializedName("productDiscount")
+        private String mProductDiscount = "";
 
-        public void setWishListDone(boolean wishListDone) {
-            mIsWishListDone = wishListDone;
+        public String getProductDiscount() {
+            return mProductDiscount;
         }
 
         private transient int mCount = 1;
 
         public String getProductQuantity() {
             return mProductQuantity;
-        }
-
-        public boolean isWishListDone() {
-            return mIsWishListDone;
         }
 
         public int getCount() {

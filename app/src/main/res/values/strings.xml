@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Daily needs</string>
+    <string name="app_name">Daily Needs</string>
     <string name="staples">Staples</string>
     <string name="snack_and_beverages">Snack and Beverages</string>
     <string name="packed_food">Packed Food</string>
@@ -180,4 +180,5 @@
     <string name="welcome">Welcome</string>
     <string name="categories">Categories</string>
     <string name="search_for_products">Search for products</string>
+    <string name="delivery_location">Delivery Location</string>
 </resources>

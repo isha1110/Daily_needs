@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class VerifyOtpRequest {
 
-    @SerializedName("email")
-    private String mEmailAddress = "";
+    @SerializedName("mobileNumber")
+    private String mMobileNumber = "";
     @SerializedName("otp")
     private String mOtpEntered = "";
 
-    public VerifyOtpRequest(String otpEntered, String emailAddress) {
-        mEmailAddress = emailAddress;
+    public VerifyOtpRequest(String otpEntered, String mobileNumber) {
+        mMobileNumber = mobileNumber;
         mOtpEntered = otpEntered;
     }
 }

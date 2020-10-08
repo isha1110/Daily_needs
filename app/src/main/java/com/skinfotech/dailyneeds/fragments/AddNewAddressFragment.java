@@ -35,7 +35,8 @@ public class AddNewAddressFragment extends BaseFragment {
         mContentView = inflater.inflate(R.layout.fragment_add_new_address, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.add_address));
-        mActivity.isToggleButtonEnabled(true);
+        ToolBarManager.getInstance().onBackPressed(this);
+        mActivity.isToggleButtonEnabled(false);
         enterAddressText = mContentView.findViewById(R.id.enterAddressText);
         mSelectLocation = mContentView.findViewById(R.id.selectLocation);
         mSelectLocation.setPrompt(mActivity.getString(R.string.select_location));
@@ -92,7 +93,8 @@ public class AddNewAddressFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.hideBackButton();
-        mActivity.hideFilterIcon();
+        mActivity.showCartIcon();
+        mActivity.hideSearchIcon();
+        mActivity.showBackButton();
     }
 }

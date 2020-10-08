@@ -7,6 +7,7 @@
     android:layout_marginTop="@dimen/_10sdp"
     android:layout_marginStart="@dimen/_4sdp"
     android:layout_marginEnd="@dimen/_4sdp"
+    android:elevation="@dimen/_3sdp"
     android:orientation="vertical">
 
     <TextView
@@ -38,36 +39,23 @@
             android:id="@+id/productImage"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_70sdp"
-            android:layout_marginTop="@dimen/_15sdp"
             android:scaleType="fitXY"
             android:src="@drawable/icon_aata"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/wishlistIcon"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/productImage"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_wishlist"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
             tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/addToCart"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/productName"
+            app:layout_constraintEnd_toEndOf="@id/productName"
             app:layout_constraintStart_toEndOf="@id/productName"
-            app:layout_constraintTop_toTopOf="@+id/productQuantity"
+            app:layout_constraintTop_toTopOf="@id/productQuantity"
             app:srcCompat="@drawable/icon_cart"
             tools:ignore="ContentDescription" />
 
@@ -85,12 +73,14 @@
             android:id="@+id/textView40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/_50sdp"
             android:background="@drawable/strike_through_black"
             android:text="Rs 90"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_9sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="@id/productPrice"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/productPrice"
             app:layout_constraintTop_toTopOf="@id/productPrice" />
 
@@ -124,6 +114,22 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/productPrice"
             app:layout_constraintTop_toBottomOf="@id/productPrice" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="13% OFF"
+            android:gravity="center"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/text_border"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

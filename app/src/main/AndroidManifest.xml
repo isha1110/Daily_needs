@@ -10,9 +10,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app_icon_daily_needs"
+        android:icon="@drawable/logo1"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/app_icon_daily_needs"
+        android:roundIcon="@drawable/logo1"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"

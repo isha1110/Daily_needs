@@ -2,17 +2,22 @@ package com.skinfotech.dailyneeds;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -24,32 +29,28 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.skinfotech.dailyneeds.adapters.CustomExpandableAdapter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
+import com.skinfotech.dailyneeds.fragments.AddNewAddressFragment;
 import com.skinfotech.dailyneeds.fragments.BaseFragment;
 import com.skinfotech.dailyneeds.fragments.CartFragment;
 import com.skinfotech.dailyneeds.fragments.CategoryListFrgament;
-import com.skinfotech.dailyneeds.fragments.FilterFragment;
 import com.skinfotech.dailyneeds.fragments.HomeScreenFragment;
 import com.skinfotech.dailyneeds.fragments.LoginFragment;
 import com.skinfotech.dailyneeds.fragments.MyOrderFragment;
-import com.skinfotech.dailyneeds.fragments.MyProfileFragment;
-import com.skinfotech.dailyneeds.fragments.MyWishListFragment;
-import com.skinfotech.dailyneeds.fragments.ProductCategoryFragment;
 import com.skinfotech.dailyneeds.fragments.SearchFragment;
-import com.skinfotech.dailyneeds.fragments.SignUpFragment;
+import com.skinfotech.dailyneeds.fragments.SelectAddressFragment;
 import com.skinfotech.dailyneeds.models.MenuModel;
 import com.skinfotech.dailyneeds.models.responses.ProfileResponse;
 import com.skinfotech.dailyneeds.models.responses.SideNavigationResponse;
-import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 import com.google.android.material.navigation.NavigationView;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
-import com.squareup.picasso.Picasso;
+
 import org.json.JSONObject;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -57,9 +58,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import static com.skinfotech.dailyneeds.Constants.SUCCESS;
+import static com.skinfotech.dailyneeds.Constants.IS_SKIP_LOGIN;
+import static com.skinfotech.dailyneeds.Constants.NO;
+import static com.skinfotech.dailyneeds.Constants.SHARED_PREF_NAME;
+import static com.skinfotech.dailyneeds.Constants.USER_ID;
+import static com.skinfotech.dailyneeds.Constants.USER_LOGIN_DONE;
+import static com.skinfotech.dailyneeds.Constants.USER_TYPE;
+import static com.skinfotech.dailyneeds.Constants.YES;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PaymentResultListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PaymentResultListener,RadioGroup.OnCheckedChangeListener {
 
     private ActionBarDrawerToggle mToggleButton;
     private DrawerLayout mSideNavigationDrawer;
@@ -70,12 +77,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Checkout mCheckoutInstance = new Checkout();
     private static final String TAG = "HomeActivity";
     private View headerView;
+    private BottomSheetDialog bottomSheetDialog;
+    private RecyclerView selectAddressRecyclerView;
     private List<SideNavigationResponse.NavigationOuterItem> mNavigationOuterList = new ArrayList<>();
     private String[] mPermissionArray = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
+    private SelectAddressListAdapter mSelectAddressListAdapter;
+    private String mSelectedPaymentMode = "";
+    private String mSelectedAddressId = "";
+    private RadioButton onlineRadioButton;
+    private RadioButton cashRadioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,152 +101,64 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.backButtonToolbar).setVisibility(View.GONE);
         mSideNavigationDrawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        MenuItem logoutItem = menu.findItem(R.id.nav_login);
+        SharedPreferences preferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        if (YES.equalsIgnoreCase(preferences.getString(USER_LOGIN_DONE, NO))) {
+            logoutItem.setTitle("Login");
+        }else {
+            launchFragment(new HomeScreenFragment(), false);
+        }
         headerView = navigationView.getHeaderView(0);
         mToggleButton = new ActionBarDrawerToggle(
                 this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mSideNavigationDrawer.addDrawerListener(mToggleButton);
         mToggleButton.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorWhite));
         mToggleButton.syncState();
-        /*getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger_resize_icon);//your icon here*/
         navigationView.setNavigationItemSelectedListener(this);
-        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREF_NAME, MODE_PRIVATE);
-        /*if (Constants.YES.equalsIgnoreCase(preferences.getString(Constants.USER_LOGIN_DONE, Constants.NO))) {
-            launchFragment(new HomeScreenFragment(), false);
-        } else {
-            launchFragment(new LoginFragment(), false);
-        }*/
-        launchFragment(new HomeScreenFragment(), false);
-       // expandableListView = findViewById(R.id.expandableListView);
         findViewById(R.id.searchTextView).setOnClickListener(v -> launchFragment(new SearchFragment(), true));
+        //findViewById(R.id.editImage).setOnClickListener(v -> bottomSheetDialog.show());
+        findViewById(R.id.constraintContainer).setOnClickListener(v -> bottomSheetDialog.show());
+        bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+        bottomSheetDialog.setContentView(R.layout.bottomsheet_select_address_list);
+        bottomSheetDialog.findViewById(R.id.addNewAddressLayout).setOnClickListener(v -> {
+            bottomSheetDialog.dismiss();
+            launchFragment(new AddNewAddressFragment(),true);
+        });
+        selectAddressRecyclerView = bottomSheetDialog.findViewById(R.id.selectAddressRecycler);
+        mSelectAddressListAdapter = new SelectAddressListAdapter();
+        selectAddressRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        selectAddressRecyclerView.setAdapter(mSelectAddressListAdapter);
+        //RadioGroup paymentMode = bottomSheetDialog.findViewById(R.id.paymentMode);
+       /* if (null != paymentMode) {
+            paymentMode.setOnCheckedChangeListener(this);
+        }
+        mSelectAddressListAdapter = new SelectAddressListAdapter();
+        if (null != selectAddressRecyclerView) {
+            selectAddressRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            selectAddressRecyclerView.setAdapter(mSelectAddressListAdapter);
+        }
+        onlineRadioButton = bottomSheetDialog.findViewById(R.id.onlinePayment);
+        if (null != onlineRadioButton) {
+            onlineRadioButton.setChecked(true);
+        }
+        cashRadioButton = bottomSheetDialog.findViewById(R.id.cashPayment);
+*/
     }
-
-    public void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if ((checkSelfPermission(mPermissionArray[0]) != PackageManager.PERMISSION_GRANTED)
-                    && (checkSelfPermission(mPermissionArray[1]) != PackageManager.PERMISSION_GRANTED)
-                    && (checkSelfPermission(mPermissionArray[2]) != PackageManager.PERMISSION_GRANTED)) {
-                if (shouldShowRequestPermissionRationale(mPermissionArray[2])) {
-                    showToast("Camera permission is needed for to Capture Profile photo");
-                }
-                requestPermissions(mPermissionArray, Constants.PERMISSION_REQUEST_CODE);
-            }
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.onlinePayment:
+                mSelectedPaymentMode = onlineRadioButton.getText().toString();
+                break;
+            case R.id.cashPayment:
+                mSelectedPaymentMode = cashRadioButton.getText().toString();
+                break;
         }
     }
-
     public void isToggleButtonEnabled(boolean isEnable) {
         mToggleButton.setDrawerIndicatorEnabled(isEnable);
     }
-
-   /* private void populateExpandableList() {
-        expandableListAdapter = new CustomExpandableAdapter(this, mSideNavigationHeaderList, mSideNavigationMap);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
-            setListViewHeight(parent, groupPosition);
-            if (mSideNavigationHeaderList.get(groupPosition).root) {
-                switch (groupPosition) {
-                    case 0:
-                    case 6:
-                    case 5:
-                    case 4:
-                    case 3:
-                    case 2:
-                    case 1:
-                    case 7:
-                        break;
-                }
-            }
-            return false;
-        });
-        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            if (mSideNavigationMap.get(mSideNavigationHeaderList.get(groupPosition)) != null) {
-                switch (childPosition) {
-                    case 0:
-                    case 15:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 10:
-                    case 11:
-                    case 12:
-                    case 13:
-                    case 14:
-                    case 16:
-                        MenuModel headerItem = mSideNavigationHeaderList.get(groupPosition);
-                        List<MenuModel> menuModelList = mSideNavigationMap.get(headerItem);
-                        String idFromSideNavigation = headerItem.menuId + Constants.SPLIT + menuModelList.get(childPosition).menuId;
-                        launchFragment(new ProductCategoryFragment(idFromSideNavigation, Constants.IModes.SIDE_NAVIGATION), false);
-                        onBackPressed();
-                        break;
-                }
-            }
-            return false;
-        });
-    }*/
-
-   /* private void prepareNewMenuData() {
-        mSideNavigationHeaderList.clear();
-        mSideNavigationMap.clear();
-        for (SideNavigationResponse.NavigationOuterItem item : mNavigationOuterList) {
-            MenuModel menuModel = new MenuModel(item.getOuterItemName(),
-                    true,
-                    true,
-                    item.getOuterItemImage(),
-                    R.drawable.ic_keyboard_arrow_offwhite,
-                    item.getOuterItemId());
-            int childCount = 0;
-            List<MenuModel> childModelsList = new ArrayList<>();
-            for (SideNavigationResponse.NavigationInnerItem innerItem : item.getInnerNavigationList()) {
-                MenuModel innerMenuModel = new MenuModel(innerItem.getInnerItemName(),
-                        childCount == 0,
-                        childCount == 0,
-                        "",
-                        R.drawable.ic_keyboard_arrow_offwhite,
-                        innerItem.getInnerItemId());
-                childCount++;
-                childModelsList.add(innerMenuModel);
-            }
-            mSideNavigationMap.put(menuModel, childModelsList);
-            mSideNavigationHeaderList.add(menuModel);
-        }
-        populateExpandableList();
-    }*/
-
-  /*  private void fetchSideNavigationDataServerCall() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Call<SideNavigationResponse> call = RetrofitApi.getAppServicesObject().fetchSideNavigation();
-                    final Response<SideNavigationResponse> response = call.execute();
-                    runOnUiThread(() -> handleResponse(response));
-                } catch (Exception e) {
-                    showToast(e.getMessage());
-                }
-            }
-
-            private void handleResponse(Response<SideNavigationResponse> response) {
-                if (response.isSuccessful()) {
-                    SideNavigationResponse navigationResponse = response.body();
-                    if (navigationResponse != null) {
-                        if (navigationResponse.getErrorCode().equalsIgnoreCase(SUCCESS)) {
-                            mNavigationOuterList = navigationResponse.getNavigationList();
-                            if (Utility.isNotEmpty(mNavigationOuterList)) {
-                                prepareNewMenuData();
-                            }
-                        }
-                    }
-                }
-            }
-        }).start();
-    }*/
 
     public void hideBackButton() {
         findViewById(R.id.backButtonToolbar).setVisibility(View.GONE);
@@ -242,18 +168,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.backButtonToolbar).setVisibility(View.VISIBLE);
     }
 
-    public void showFilterIcon() {
-        findViewById(R.id.filterImageIcon).setVisibility(View.VISIBLE);
-    }
-
-    public void hideFilterIcon() {
-        findViewById(R.id.filterImageIcon).setVisibility(View.GONE);
-    }
-
     public void hideCartIcon() {
         findViewById(R.id.cartCountTextView).setVisibility(View.GONE);
         findViewById(R.id.cartImageView).setVisibility(View.GONE);
-        findViewById(R.id.constraintLayout8).setVisibility(View.GONE);
     }
 
     public void startPayment(String cartPayableAmountStr) {
@@ -282,7 +199,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void showCartIcon() {
         findViewById(R.id.cartCountTextView).setVisibility(View.VISIBLE);
         findViewById(R.id.cartImageView).setVisibility(View.VISIBLE);
+    }
+    public void showSearchIcon() {
         findViewById(R.id.constraintLayout8).setVisibility(View.VISIBLE);
+        findViewById(R.id.editImage).setVisibility(View.VISIBLE);
+        findViewById(R.id.deliveryLocationTextView).setVisibility(View.VISIBLE);
+    }
+    public void hideSearchIcon() {
+        findViewById(R.id.constraintLayout8).setVisibility(View.GONE);
+        findViewById(R.id.editImage).setVisibility(View.GONE);
+        findViewById(R.id.deliveryLocationTextView).setVisibility(View.GONE);
     }
 
     public void setCartCount(String count) {
@@ -311,17 +237,56 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
         switch (item.getItemId()) {
             case R.id.nav_login:
-                launchFragment(new LoginFragment(), true);
+               logout();
                 break;
-
+            case R.id.nav_my_cart:
+                if (sharedPreferences.getString(IS_SKIP_LOGIN, NO).equalsIgnoreCase(YES)) {
+                    showLoginDialog();
+                } else {
+                    launchFragment(new CartFragment(), true);
+                }
+                break;
+            case R.id.nav_myOrders:
+                if (sharedPreferences.getString(IS_SKIP_LOGIN, NO).equalsIgnoreCase(YES)) {
+                    showLoginDialog();
+                } else {
+                    launchFragment(new MyOrderFragment(), true);
+                }
+                break;
+            case R.id.nav_myAddress:
+                if (sharedPreferences.getString(IS_SKIP_LOGIN, NO).equalsIgnoreCase(YES)) {
+                    showLoginDialog();
+                } else {
+                    launchFragment(new SelectAddressFragment(), true);
+                }
+                break;
             default:
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void showLoginDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage("Do you want to Login?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> logout())
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    public void logout() {
+        SharedPreferences.Editor preferencesEditor = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).edit();
+        preferencesEditor.putString(USER_LOGIN_DONE, Constants.NO);
+        preferencesEditor.putString(USER_ID, "");
+        preferencesEditor.putString(USER_TYPE, "");
+        preferencesEditor.apply();
+        launchFragment(new HomeScreenFragment(), false);
+        finish();
     }
 
     public void showToast(final String msg) {
@@ -347,12 +312,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.logout:
-                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
-                getCurrentFragment().storeStringDataInSharedPref(Constants.USER_LOGIN_DONE, Constants.NO);
-                getCurrentFragment().storeStringDataInSharedPref(Constants.USER_ID, "");
-                launchFragment(new LoginFragment(), false);
-                break;
             case R.id.cartImageView:
                 launchFragment(new CartFragment(), true);
                 break;
@@ -465,5 +424,66 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         params.height = height;
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+    private class SelectAddressListAdapter extends RecyclerView.Adapter<SelectAddressListAdapter.RecyclerViewHolder> {
+        /*private List<AddressResponse.AddressItem> mAddressList = new ArrayList<>();
+
+        public void setAddressList(List<AddressResponse.AddressItem> addressList) {
+            mAddressList = addressList;
+        }*/
+        private int lastSelectedPosition = -1;
+
+        @NonNull
+        @Override
+        public SelectAddressListAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_address_bottom_sheet_item, parent, false);
+            return new SelectAddressListAdapter.RecyclerViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull SelectAddressListAdapter.RecyclerViewHolder holder, int position) {
+            holder.selectAddressListButton.setChecked(lastSelectedPosition == position);
+            /*AddressResponse.AddressItem currentItem = mAddressList.get(position);
+            holder.selectAddressListButton.setText(currentItem.getAddressStr());
+            holder.selectAddressListButton.setChecked(currentItem.isDefaultAddress());
+            if (currentItem.isDefaultAddress()) {
+               // mSelectedAddressId = currentItem.getAddressId();
+            }*/
+        }
+
+        @Override
+        public int getItemCount() {
+            return 2;
+        }
+
+        private class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+            private RadioButton selectAddressListButton;
+            RecyclerViewHolder(@NonNull View itemView) {
+                super(itemView);
+                selectAddressListButton = itemView.findViewById(R.id.selectAddressButton);
+                selectAddressListButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lastSelectedPosition = getAdapterPosition();
+                        notifyDataSetChanged();
+
+                    }
+                });
+                /*selectAddressListButton = itemView.findViewById(R.id.selectAddressButton);
+                selectAddressListButton.setOnClickListener(view -> {
+                    setDefaultValueToAddressList();
+                    AddressResponse.AddressItem currentItem = mAddressList.get(getAdapterPosition());
+                    currentItem.setDefaultAddress(true);
+                    notifyDataSetChanged();
+                });*/
+            }
+
+           /* private void setDefaultValueToAddressList() {
+                for (AddressResponse.AddressItem addressItem : mAddressList) {
+                    addressItem.setDefaultAddress(false);
+                }
+            }*/
+        }
     }
 }

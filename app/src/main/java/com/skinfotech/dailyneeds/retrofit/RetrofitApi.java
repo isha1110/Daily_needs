@@ -17,7 +17,7 @@ public class RetrofitApi {
          * */
     }
 
-    private static final String BASE_URL = "https://www.desibazaar.co.in/api/";
+    private static final String BASE_URL = "https://skinfotechies.in/demo/dailyneeds/api/";
 
     private static AppServices sAppServices = null;
 
