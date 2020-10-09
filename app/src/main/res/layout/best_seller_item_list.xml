@@ -230,25 +230,45 @@
             app:layout_constraintStart_toEndOf="@id/addQuantity"
             app:layout_constraintTop_toBottomOf="@id/measureTextView" />
 
-        <TextView
-            android:id="@+id/percentOFFTextView"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/green_bg"
-            android:paddingStart="@dimen/_7sdp"
-            android:paddingTop="@dimen/_3sdp"
-            android:paddingEnd="@dimen/_7sdp"
-            android:paddingBottom="@dimen/_3sdp"
-            android:text="16% OFF"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_11sdp"
-            android:textStyle="bold"
+            android:layout_marginStart="@dimen/_15sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
+            android:background="@drawable/green_bg"
             app:layout_constraintStart_toEndOf="@id/productImage"
-            app:layout_constraintTop_toTopOf="@id/productImage" />
+            app:layout_constraintTop_toTopOf="@id/productImage">
+
+            <TextView
+                android:id="@+id/percentOFFTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="4"
+                android:paddingStart="@dimen/_7sdp"
+                android:paddingTop="@dimen/_3sdp"
+                android:paddingBottom="@dimen/_3sdp"
+                android:text="16"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="% OFF"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="bold"
+                android:paddingEnd="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/percentOFFTextView"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

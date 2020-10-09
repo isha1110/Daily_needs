@@ -8,7 +8,7 @@ public class CommonProductRequest extends CommonRequest {
     private String mProductsId;
     @SerializedName("quantity")
     private String mProductsQuantity;
-    @SerializedName("sizeId")
+    @SerializedName("productMeasureId")
     private String mProductsSizeId;
 
     public void setProductsId(String productsId) {

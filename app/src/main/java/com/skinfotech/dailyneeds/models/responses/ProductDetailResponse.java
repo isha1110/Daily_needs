@@ -27,10 +27,16 @@ public class ProductDetailResponse extends CommonResponse {
     private String mProductQuantity = "";
     @SerializedName("description")
     private String mProductDescription = "";
+    @SerializedName("productDiscount")
+    private String mProductDiscount = "";
     @SerializedName("sizeList")
     private List<SizeList> mSizeList = new ArrayList<>();
 
     private transient int mCount = 1;
+
+    public String getProductDiscount() {
+        return mProductDiscount;
+    }
 
     public int getCount() {
         return mCount;

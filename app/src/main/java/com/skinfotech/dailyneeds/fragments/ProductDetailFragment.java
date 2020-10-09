@@ -105,14 +105,9 @@ public class ProductDetailFragment extends BaseFragment {
         }
         productDescription.setText(response.getProductDescription());
         productName.setText(response.getProductName());
-        double originalPrice =  Double.parseDouble(response.getProductPrice());
-        double discountPrice =  Double.parseDouble(response.getProductSpecialPrice());
-        productSpecialAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
-        productOriginalAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
-        float difference = (float) (originalPrice-discountPrice);
-        //mSaveAmount.setText(response.get()+"% OFF");
-        float DiscountPercent= (float) ((difference/originalPrice)*100);
-        mSaveAmount.setText(DiscountPercent+"% OFF");
+        productSpecialAmount.setText(Utility.getAmountInCurrencyFormat(response.getProductSpecialPrice()));
+        productOriginalAmount.setText(Utility.getAmountInCurrencyFormat(response.getProductPrice()));
+        mSaveAmount.setText(Utility.getAmountInCurrencyFormat(response.getProductDiscount())+"% OFF");
         List<ProductDetailResponse.SizeList> sizeList = response.getSizeList();
         if (!Utility.isEmpty(sizeList)) {
             mProductQuantityListAdapter.setSizeList(sizeList);

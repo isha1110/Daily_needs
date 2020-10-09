@@ -157,8 +157,6 @@ public class CartFragment extends BaseFragment {
             private ImageView mMinusQuantity;
             private ImageView mAddQuantity;
             private TextView mQuantity;
-            private int counter = 1;
-            private int counter1 = 250;
             private ImageView mCancelItem;
             private TextView mProductPrice;
             private TextView productOriginalPrice;
@@ -167,7 +165,6 @@ public class CartFragment extends BaseFragment {
             private ImageView productImage;
             private TextView productName;
 
-            @SuppressLint("SetTextI18n")
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 measureTextView = itemView.findViewById(R.id.measureTextView);
@@ -182,24 +179,6 @@ public class CartFragment extends BaseFragment {
                 mQuantity = itemView.findViewById(R.id.productQuantity);
                 mCancelItem = itemView.findViewById(R.id.cancleItem);
                 mProductPrice = itemView.findViewById(R.id.amountPaid);
-                mMinusQuantity.setOnClickListener(v -> {
-                    counter--;
-                    counter1 = counter1 - 250;
-                    if (counter < 1) {
-                        counter = 1;
-                    }
-                    if (counter1 < 250) {
-                        counter1 = 250;
-                    }
-                    mProductPrice.setText(counter1 + "");
-                    mQuantity.setText(counter + "");
-                });
-                mAddQuantity.setOnClickListener(v -> {
-                    counter++;
-                    counter1 = counter1 + 250;
-                    mProductPrice.setText(counter1 + "");
-                    mQuantity.setText(counter + "");
-                });
                 productImage.setOnClickListener(v -> {
                     ProductResponse.ProductItem item = productList.get(getAdapterPosition());
                     CommonProductRequest request = new CommonProductRequest();

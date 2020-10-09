@@ -24,135 +24,80 @@
         app:menu="@menu/navigation_items"
         android:background="@color/colorWhite"
         app:headerLayout="@layout/nav_header_home"
-        app:itemIconTint="@color/dull_orange"
+        app:itemIconTint="@color/pink"
+        android:theme="@style/NavigationView"
+
         app:itemTextColor="@color/colorBlack">
 
-        <!--<androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_145sdp"
-            android:layout_marginBottom="@dimen/_40sdp"
-            android:fillViewport="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:orientation="vertical">
-
-                <ExpandableListView
-                    android:id="@+id/expandableListView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:divider="@color/colorWhite"
-                    android:dividerHeight="0dp"
-                    android:focusableInTouchMode="true"
-                    android:groupIndicator="@null"
-                    android:nestedScrollingEnabled="true" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:nestedScrollingEnabled="true"
-                    android:orientation="vertical">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1sdp"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:background="@color/dark_grey" />
-
-                    <TextView
-                        android:id="@+id/homePageTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_13sdp"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:drawableStart="@drawable/home_icon"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:gravity="center|start"
-                        android:padding="@dimen/_7sdp"
-                        android:text="@string/home"
-                        android:onClick="onClick"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_11sdp"
-                        app:layout_constraintStart_toStartOf="@+id/textView58"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/myOrdersTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_13sdp"
-                        android:drawableStart="@drawable/my_orders_icon"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:gravity="center|start"
-                        android:padding="@dimen/_7sdp"
-                        android:text="My Orders"
-                        android:onClick="onClick"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView57" />
-
-                    <TextView
-                        android:id="@+id/myWishlistTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_13sdp"
-                        android:drawableStart="@drawable/my_wishlist_icon"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:gravity="center|start"
-                        android:padding="@dimen/_7sdp"
-                        android:text="@string/my_wishlist"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_11sdp"
-                        android:onClick="onClick"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView58" />
-
-                    <TextView
-                        android:id="@+id/profileSettingTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_13sdp"
-                        android:drawableStart="@drawable/my_profile_icon"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:gravity="center|start"
-                        android:padding="@dimen/_7sdp"
-                        android:onClick="onClick"
-                        android:text="@string/profile_setting"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView59" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
         <TextView
             android:id="@+id/logout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/orange_color"
-            android:gravity="center"
             android:onClick="onClick"
-            android:text="@string/logout"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp"
-            android:textStyle="bold"
+            android:drawableTint="@color/pink"
+            android:text="@string/customer_support"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="@dimen/_120sdp"
+            android:gravity="start|center"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:drawableStart="@drawable/headphone_icon_resize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
--->
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:onClick="onClick"
+            android:text="9999 9999 99"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_15sdp"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="@dimen/_105sdp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:drawablePadding="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:onClick="onClick"
+            android:text="@string/rate_us"
+            android:drawableTint="@color/pink"
+            android:drawablePadding="@dimen/_10sdp"
+            android:gravity="start|center"
+            android:drawableStart="@drawable/rate_icon_resize"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_75sdp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="sans-serif"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:onClick="onClick"
+            android:drawableTint="@color/pink"
+            android:drawablePadding="@dimen/_10sdp"
+            android:drawableStart="@drawable/share_icon_resize"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_40sdp"
+            android:textColor="@color/colorBlack"
+            android:gravity="start|center"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="sans-serif"
+            android:text="@string/share" />
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

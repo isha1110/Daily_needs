@@ -93,9 +93,9 @@ public class LoginFragment extends BaseFragment {
                             if (commonResponse.isSuccessful()) {
                                 CommonResponse response = commonResponse.body();
                                 if (response != null && !response.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
-                                    storeStringDataInSharedPref(Constants.OTP , response.getOtp());
                                     constraintLayout.setVisibility(View.GONE);
                                     constraintLayout1.setVisibility(View.VISIBLE);
+                                    storeStringDataInSharedPref(Constants.OTP , response.getOtp());
                                 } else if (response != null) {
                                    // showToast(mActivity.getString(R.string.msg_no_mobile_number_registered));
                                 }
@@ -183,10 +183,12 @@ public class LoginFragment extends BaseFragment {
                     final Response<CommonResponse> response = call.execute();
                     updateOnUiThread(() -> {
                         if (response.isSuccessful()) {
+                            mVerifyOtp.requestFocus();
                             CommonResponse commonResponse = response.body();
                             if (commonResponse != null && commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
                                 storeStringDataInSharedPref(Constants.USER_ID , commonResponse.getUserId());
                                 storeStringDataInSharedPref(Constants.USER_LOGIN_DONE , Constants.YES);
+                                mVerifyOtp.callOnClick();
                                 launchFragment(new HomeScreenFragment(),false);
                             } else if (commonResponse != null) {
                                 showToast(commonResponse.getErrorMessage());

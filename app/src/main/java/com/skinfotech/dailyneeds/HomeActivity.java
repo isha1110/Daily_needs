@@ -106,9 +106,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences preferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         if (YES.equalsIgnoreCase(preferences.getString(USER_LOGIN_DONE, NO))) {
             logoutItem.setTitle("Login");
-        }else {
-            launchFragment(new HomeScreenFragment(), false);
         }
+        launchFragment(new HomeScreenFragment(), false);
         headerView = navigationView.getHeaderView(0);
         mToggleButton = new ActionBarDrawerToggle(
                 this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -117,7 +116,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mToggleButton.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         findViewById(R.id.searchTextView).setOnClickListener(v -> launchFragment(new SearchFragment(), true));
-        //findViewById(R.id.editImage).setOnClickListener(v -> bottomSheetDialog.show());
         findViewById(R.id.constraintContainer).setOnClickListener(v -> bottomSheetDialog.show());
         bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         bottomSheetDialog.setContentView(R.layout.bottomsheet_select_address_list);
@@ -129,21 +127,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mSelectAddressListAdapter = new SelectAddressListAdapter();
         selectAddressRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         selectAddressRecyclerView.setAdapter(mSelectAddressListAdapter);
-        //RadioGroup paymentMode = bottomSheetDialog.findViewById(R.id.paymentMode);
-       /* if (null != paymentMode) {
-            paymentMode.setOnCheckedChangeListener(this);
-        }
-        mSelectAddressListAdapter = new SelectAddressListAdapter();
-        if (null != selectAddressRecyclerView) {
-            selectAddressRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            selectAddressRecyclerView.setAdapter(mSelectAddressListAdapter);
-        }
-        onlineRadioButton = bottomSheetDialog.findViewById(R.id.onlinePayment);
-        if (null != onlineRadioButton) {
-            onlineRadioButton.setChecked(true);
-        }
-        cashRadioButton = bottomSheetDialog.findViewById(R.id.cashPayment);
-*/
     }
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -240,7 +223,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
         switch (item.getItemId()) {
             case R.id.nav_login:
-               logout();
+                showLoginDialog();
+
+                //launchFragment(new LoginFragment(), true);
                 break;
             case R.id.nav_my_cart:
                 if (sharedPreferences.getString(IS_SKIP_LOGIN, NO).equalsIgnoreCase(YES)) {
@@ -285,8 +270,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         preferencesEditor.putString(USER_ID, "");
         preferencesEditor.putString(USER_TYPE, "");
         preferencesEditor.apply();
-        launchFragment(new HomeScreenFragment(), false);
-        finish();
+        launchFragment(new LoginFragment(), true);
     }
 
     public void showToast(final String msg) {

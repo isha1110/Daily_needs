@@ -6,31 +6,42 @@
     <group
         android:id="@+id/group1"
         android:checkableBehavior="none">
-        <item
-            android:id="@+id/nav_login"
-            android:icon="@drawable/user"
-            android:title="@string/logout" />
+
         <item
             android:id="@+id/nav_myAddress"
             android:icon="@drawable/multi_address_icon"
             android:title="@string/my_address" />
+    </group>
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="none">
         <item
             android:id="@+id/nav_myOrders"
             android:icon="@drawable/sidebar_icon_order"
             android:title="@string/myorders" />
+    </group>
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="none">
         <item
             android:id="@+id/nav_my_cart"
             android:icon="@drawable/icon_cart"
             android:title="@string/my_cart" />
-
-
+    </group>
+    <group
+        android:id="@+id/group4"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/about_us"
+            android:title="@string/about_us" />
     </group>
 
     <group
-        android:id="@+id/group2"
+        android:id="@+id/group5"
         android:checkableBehavior="none">
 
-        <item
+        <!--<item
             android:id="@+id/nav_customer_support"
             android:title="@string/customer_support"
             android:icon="@drawable/headphones"/>
@@ -41,16 +52,16 @@
         <item
             android:id="@+id/nav_share"
             android:title="@string/share"
-            android:icon="@drawable/side5"/>
-        <item
-            android:id="@+id/nav_about"
-            android:title="@string/about_us"
-            android:icon="@drawable/about_us"/>
+            android:icon="@drawable/side5"/>-->
+
         <!--<item
             android:id="@+id/nav_logout"
             android:title="@string/logout"
             android:visible="true"/>-->
-
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/user"
+            android:title="@string/logout" />
     </group>
 
 </menu>
