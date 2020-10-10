@@ -15,14 +15,19 @@ public class CategoryResponse extends CommonResponse {
     }
 
     public static class CategoryItem {
+
         @SerializedName("subCategoryList")
-        private List<CategoryProductItem> mCategoryProductList = new ArrayList<>();
+        private List<SubCategoryProductItem> mCategoryProductList = new ArrayList<>();
         @SerializedName("categoryId")
         private String mCategoryId = "";
         @SerializedName("categoryName")
         private String mCategoryName = "";
         @SerializedName("categoryImage")
         private String mCategoryImage = "";
+
+        public List<SubCategoryProductItem> getmCategoryProductList() {
+            return mCategoryProductList;
+        }
 
         public String getCategoryImage() {
             return mCategoryImage;

@@ -2,10 +2,10 @@ package com.skinfotech.dailyneeds.models.responses;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CategoryProductItem {
+public class SubCategoryProductItem {
     @SerializedName("subCategoryId")
     private String mSubCategoryId = "";
-    @SerializedName("subcategoryName")
+    @SerializedName("subCategoryName")
     private String mSubCategoryName = "";
     @SerializedName("subCategoryImage")
     private String mSubCategoryImage = "";

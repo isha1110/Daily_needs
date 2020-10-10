@@ -33,10 +33,10 @@ import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeCouponsRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeProductsRequest;
 import com.skinfotech.dailyneeds.models.responses.CardResponse;
-import com.skinfotech.dailyneeds.models.responses.CategoryProductItem;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.skinfotech.dailyneeds.models.responses.ProfileResponse;
+import com.skinfotech.dailyneeds.models.responses.SubCategoryProductItem;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -536,7 +536,7 @@ public class HomeScreenFragment extends BaseFragment {
                     holder.recyclerView.getContext(),
                     3
             );
-            SubCategoryAdapter subItemAdapter = new SubCategoryAdapter();
+            SubCategoryAdapter subItemAdapter = new SubCategoryAdapter(item.getmCategoryProductList());
             holder.recyclerView.setLayoutManager(layoutManager);
             holder.recyclerView.setAdapter(subItemAdapter);
             holder.categoryNameTextView.setOnClickListener(v -> {
@@ -582,9 +582,13 @@ public class HomeScreenFragment extends BaseFragment {
     }
 
     private class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.RecyclerViewHolder> {
-        private List<CategoryProductItem> categoryItemList = new ArrayList<>();
+        private List<SubCategoryProductItem> categoryItemList = new ArrayList<>();
 
-        public void setCategoryItemList(List<CategoryProductItem> categoryItemList) {
+        public SubCategoryAdapter(List<SubCategoryProductItem> getmCategoryProductList) {
+            this.categoryItemList = getmCategoryProductList;
+        }
+
+        public void setCategoryItemList(List<SubCategoryProductItem> categoryItemList) {
             this.categoryItemList = categoryItemList;
         }
         @NonNull
@@ -596,7 +600,7 @@ public class HomeScreenFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull SubCategoryAdapter.RecyclerViewHolder holder, int position) {
-            CategoryProductItem item = categoryItemList.get(position);
+            SubCategoryProductItem item = categoryItemList.get(position);
             if (!Utility.isEmpty(item.getSubCategoryImage())) {
                 Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
             }
@@ -605,7 +609,7 @@ public class HomeScreenFragment extends BaseFragment {
 
         @Override
         public int getItemCount() {
-            return 5;
+            return categoryItemList.size();
         }
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
