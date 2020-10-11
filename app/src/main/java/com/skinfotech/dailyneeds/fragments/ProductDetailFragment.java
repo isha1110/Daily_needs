@@ -28,7 +28,7 @@ public class ProductDetailFragment extends BaseFragment {
 
     private TextView mQuantityTextView;
     private TextView mProductPrice;
-    private CommonProductRequest mCommonProductRequest = new CommonProductRequest();
+    private CommonProductRequest mCommonProductRequest;
     private ProductQuantityListAdapter mProductQuantityListAdapter;
     private int mSelectedSizeListItem;
     private TextView productOriginalAmount;
@@ -107,7 +107,7 @@ public class ProductDetailFragment extends BaseFragment {
         productName.setText(response.getProductName());
         productSpecialAmount.setText(Utility.getAmountInCurrencyFormat(response.getProductSpecialPrice()));
         productOriginalAmount.setText(Utility.getAmountInCurrencyFormat(response.getProductPrice()));
-        mSaveAmount.setText(Utility.getAmountInCurrencyFormat(response.getProductDiscount())+"% OFF");
+        mSaveAmount.setText(response.getProductDiscount().concat("% OFF"));
         List<ProductDetailResponse.SizeList> sizeList = response.getSizeList();
         if (!Utility.isEmpty(sizeList)) {
             mProductQuantityListAdapter.setSizeList(sizeList);
@@ -132,8 +132,6 @@ public class ProductDetailFragment extends BaseFragment {
                 productSpecialAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
                 productOriginalAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
                 mQuantityTextView.setText(String.valueOf(counter));
-                float difference = (float) (originalPrice - discountPrice);
-                mSaveAmount.setText(String.valueOf(difference));
                 productDetailResponse.setCount(counter);
                 break;
             case R.id.minusQuantity:
@@ -147,8 +145,6 @@ public class ProductDetailFragment extends BaseFragment {
                 productSpecialAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
                 productOriginalAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
                 mQuantityTextView.setText(String.valueOf(counter));
-                double difference1 = originalPrice - discountPrice;
-                mSaveAmount.setText(String.valueOf(difference1));
                 productDetailResponse.setCount(counter);
                 break;
         }

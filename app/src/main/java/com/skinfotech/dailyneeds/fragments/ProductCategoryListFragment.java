@@ -55,7 +55,7 @@ public class ProductCategoryListFragment extends BaseFragment {
         ToolBarManager.getInstance().setHeaderTitle("");
         mActivity.isToggleButtonEnabled(false);
         mProductCategoryRecyclerView = mContentView.findViewById(R.id.productCategoryRecycler);
-        innerProductListAdapter = new InnerProductListAdapter(innerCategoryProducts);
+        innerProductListAdapter = new InnerProductListAdapter(mActivity,innerCategoryProducts);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mProductCategoryRecyclerView.setLayoutManager(gridLayoutManager);
         mProductCategoryRecyclerView.setAdapter(innerProductListAdapter);
