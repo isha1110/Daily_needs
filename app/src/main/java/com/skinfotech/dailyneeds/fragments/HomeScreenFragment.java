@@ -35,6 +35,7 @@ import com.skinfotech.dailyneeds.models.requests.HomeProductsRequest;
 import com.skinfotech.dailyneeds.models.responses.CardResponse;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
+import com.skinfotech.dailyneeds.models.responses.ProductsLabels;
 import com.skinfotech.dailyneeds.models.responses.ProfileResponse;
 import com.skinfotech.dailyneeds.models.responses.SubCategoryProductItem;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
@@ -412,10 +413,6 @@ public class HomeScreenFragment extends BaseFragment {
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 couponImageView = itemView.findViewById(R.id.couponImage);
-                couponImageView.setOnClickListener(view -> {
-                   CardResponse.CardItem item = cardItemList.get(getAdapterPosition());
-                    launchFragment(new ProductCategoryFragment(item.getCardId(), Constants.IModes.CARDS), true);
-                });
             }
         }
     }
@@ -463,7 +460,7 @@ public class HomeScreenFragment extends BaseFragment {
                 constraintLayout = itemView.findViewById(R.id.categoryContainer);
                 constraintLayout.setOnClickListener(v -> {
                     CategoryResponse.CategoryItem item = categoryItemList.get(getAdapterPosition());
-                    launchFragment(new ProductCategoryFragment(/*item.getCategoryId(), Constants.IModes.CATEGORIES*/), true);
+                    launchFragment(new ProductCategoryFragment(item.getCategoryId(), Constants.CatModes.CATEGORIES), true);
                 });
             }
         }
@@ -605,6 +602,9 @@ public class HomeScreenFragment extends BaseFragment {
                 Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
             }
             holder.categoryNameTextView.setText(Utility.toCamelCase(item.getSubCategoryName()));
+            holder.constraintLayout.setOnClickListener(v -> {
+                launchFragment(new ProductCategoryFragment(item.getSubCategoryId(), Constants.CatModes.SUBCATEGORIES), true);
+            });
         }
 
         @Override
@@ -622,9 +622,6 @@ public class HomeScreenFragment extends BaseFragment {
                 iconImage = itemView.findViewById(R.id.subCategoryImageView);
                 categoryNameTextView = itemView.findViewById(R.id.subCategoryName);
                 constraintLayout = itemView.findViewById(R.id.constraintContainer);
-                constraintLayout.setOnClickListener(v -> {
-                    launchFragment(new ProductCategoryFragment(),true);
-                });
             }
         }
     }

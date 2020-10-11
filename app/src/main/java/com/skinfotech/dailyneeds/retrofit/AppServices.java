@@ -12,6 +12,7 @@ import com.skinfotech.dailyneeds.models.requests.HomeProductsRequest;
 import com.skinfotech.dailyneeds.models.requests.LoginRequest;
 import com.skinfotech.dailyneeds.models.requests.OrderDetailRequest;
 import com.skinfotech.dailyneeds.models.requests.PaymentRequest;
+import com.skinfotech.dailyneeds.models.requests.ProductLabelsRequest;
 import com.skinfotech.dailyneeds.models.requests.ProfilePhotoRequest;
 import com.skinfotech.dailyneeds.models.requests.ProfileRequest;
 import com.skinfotech.dailyneeds.models.requests.RegistrationRequest;
@@ -30,6 +31,7 @@ import com.skinfotech.dailyneeds.models.responses.OrderDetailResponse;
 import com.skinfotech.dailyneeds.models.responses.PaymentResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductDetailResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
+import com.skinfotech.dailyneeds.models.responses.ProductsLabels;
 import com.skinfotech.dailyneeds.models.responses.ProfileResponse;
 import com.skinfotech.dailyneeds.models.responses.SideNavigationResponse;
 import okhttp3.MultipartBody;
@@ -109,4 +111,6 @@ public interface AppServices {
     @POST("make_default_address.php")
     Call<AddressResponse> makeDefaultAddress(@Body DefaultAddressRequest request);
 
+    @POST("fetch_all_products.php")
+    Call<ProductsLabels> getLabelsNproducts(@Body ProductLabelsRequest request);
 }

@@ -26,12 +26,10 @@ public class Constants {
         String BOTTOM_CARD = "bottom";
     }
 
-    public interface IModes {
+    public interface CatModes {
 
-        String CATEGORIES = "CATEGORIES";
-        String CARDS = "CARDS";
-        String NEW_ARRIVAL = "NEW_ARRIVAL";
-        String BEST_SELLER = "BEST_SELLER";
+        String CATEGORIES = "category";
+        String SUBCATEGORIES = "sub_category";
     }
 
     public interface IExpectedDeliveryModes {
