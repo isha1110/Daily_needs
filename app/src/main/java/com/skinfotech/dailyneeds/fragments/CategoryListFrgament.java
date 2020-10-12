@@ -21,6 +21,7 @@ import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
+import com.skinfotech.dailyneeds.models.responses.SubCategoryProductItem;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
 
@@ -124,7 +125,7 @@ public class CategoryListFrgament extends BaseFragment  {
                     holder.recyclerView.getContext(),
                     3
             );
-            SubCategoryAdapter subItemAdapter = new SubCategoryAdapter();
+            SubCategoryAdapter subItemAdapter = new SubCategoryAdapter(item.getmCategoryProductList());
             holder.recyclerView.setLayoutManager(layoutManager);
             holder.recyclerView.setAdapter(subItemAdapter);
             holder.categoryNameTextView.setOnClickListener(v -> {
@@ -170,7 +171,11 @@ public class CategoryListFrgament extends BaseFragment  {
     }
 
     private class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.RecyclerViewHolder> {
+        private List<SubCategoryProductItem> categoryItemList = new ArrayList<>();
 
+        public SubCategoryAdapter(List<SubCategoryProductItem> getmCategoryProductList) {
+            this.categoryItemList = getmCategoryProductList;
+        }
 
         @NonNull
         @Override
@@ -181,19 +186,31 @@ public class CategoryListFrgament extends BaseFragment  {
 
         @Override
         public void onBindViewHolder(@NonNull SubCategoryAdapter.RecyclerViewHolder holder, int position) {
+            SubCategoryProductItem item = categoryItemList.get(position);
+            if (!Utility.isEmpty(item.getSubCategoryImage())) {
+                Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
+            }
+            holder.categoryNameTextView.setText(Utility.toCamelCase(item.getSubCategoryName()));
+            holder.constraintLayout.setOnClickListener(v -> {
+                launchFragment(new ProductCategoryFragment(item.getSubCategoryId(), Constants.CatModes.SUBCATEGORIES), true);
+            });
 
         }
 
         @Override
         public int getItemCount() {
-            return 5;
+            return categoryItemList.size();
         }
 
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
             private ConstraintLayout constraintLayout;
+            private TextView categoryNameTextView;
+            private ImageView iconImage;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
+                iconImage = itemView.findViewById(R.id.subCategoryImageView);
+                categoryNameTextView = itemView.findViewById(R.id.subCategoryName);
                 constraintLayout = itemView.findViewById(R.id.constraintContainer);
                 constraintLayout.setOnClickListener(v -> {
                     launchFragment(new ProductCategoryFragment(), true);

@@ -14,6 +14,7 @@ public class Constants {
     public static final int PERMISSION_REQUEST_CODE = 1001;
     public static final String USER_TYPE = "USER_TYPE";
     public static final String IS_SKIP_LOGIN = "IS_SKIP_LOGIN";
+    public static final String USER_LOCATION_NAME = "";
 
     public interface IImagePickConstants {
 

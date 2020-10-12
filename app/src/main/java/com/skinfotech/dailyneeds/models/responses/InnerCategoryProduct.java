@@ -10,15 +10,20 @@ public class InnerCategoryProduct {
     @SerializedName("productImage")
     private String mProductImage = "";
     @SerializedName("productMRP")
-    private double mProductMRP = 0.00;
+    private String mProductMRP = "";
     @SerializedName("productMeasureId")
     private String mproductMeasureId = "";
     @SerializedName("productSellingPrice")
-    private double mProductSpecialPrice = 0.00;
+    private String mProductSpecialPrice = "";
     @SerializedName("productMeasure")
     private String mProductMeasure = "";
     @SerializedName("productDiscount")
     private String mProductDiscount = "";
+    private transient int mCount = 1;
+
+    public int getCount() {
+        return mCount;
+    }
 
     public String getmProductId() {
         return mProductId;
@@ -32,7 +37,7 @@ public class InnerCategoryProduct {
         return mProductImage;
     }
 
-    public double getmProductMRP() {
+    public String getmProductMRP() {
         return mProductMRP;
     }
 
@@ -40,7 +45,7 @@ public class InnerCategoryProduct {
         return mproductMeasureId;
     }
 
-    public double getmProductSpecialPrice() {
+    public String getmProductSpecialPrice() {
         return mProductSpecialPrice;
     }
 

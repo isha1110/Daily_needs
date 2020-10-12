@@ -59,7 +59,7 @@
             android:title="@string/logout"
             android:visible="true"/>-->
         <item
-            android:id="@+id/nav_login"
+            android:id="@+id/nav_logout"
             android:icon="@drawable/user"
             android:title="@string/logout" />
     </group>

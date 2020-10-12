@@ -67,15 +67,6 @@
             app:layout_constraintTop_toBottomOf="@id/productImage"
             app:layout_constraintVertical_bias="0.0" />
 
-        <!-- <TextView
-             android:id="@+id/saveAmount"
-             android:layout_width="0dp"
-             android:layout_height="wrap_content"
-             android:textColor="@color/green_color"
-             android:textSize="@dimen/_10sdp"
-             app:layout_constraintEnd_toEndOf="@id/textView17"
-             app:layout_constraintStart_toEndOf="@id/textView25"
-             app:layout_constraintTop_toBottomOf="@id/textView17" />-->
 
         <TextView
             android:id="@+id/productName"
@@ -148,19 +139,6 @@
             app:layout_constraintTop_toBottomOf="@id/textView24">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <!-- <TextView
-             android:id="@+id/textView17"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginEnd="@dimen/_5sdp"
-             android:layout_marginTop="8dp"
-             android:text="@string/you_saved"
-             android:textColor="@color/green_color"
-             android:textSize="@dimen/_9sdp"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintHorizontal_bias="0.0"
-             app:layout_constraintStart_toStartOf="@id/textView23"
-             app:layout_constraintTop_toBottomOf="@id/textView24" />-->
 
         <TextView
             android:id="@+id/quantityValue"
@@ -171,6 +149,7 @@
             android:textColor="@color/green_color"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold"
+            android:text="12"
             app:layout_constraintBottom_toBottomOf="@id/minusQuantity"
             app:layout_constraintEnd_toStartOf="@id/addQuantity"
             app:layout_constraintHorizontal_bias="0.5"
@@ -181,7 +160,7 @@
             android:id="@+id/textView23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_30sdp"
             android:text="@string/ruppee_symbol"
             android:textColor="@color/colorBlack"
@@ -211,27 +190,25 @@
             android:background="@drawable/orange_bg"
             android:gravity="center"
             android:onClick="onClick"
-            android:paddingStart="@dimen/_25sdp"
+            android:paddingStart="@dimen/_22sdp"
             android:paddingTop="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_25sdp"
+            android:paddingEnd="@dimen/_22sdp"
             android:paddingBottom="@dimen/_5sdp"
             android:text="ADD"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
-            android:singleLine="true"
             android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/addQuantity"
             app:layout_constraintTop_toBottomOf="@id/measureTextView" />
 
         <TextView
             android:id="@+id/percentOFFTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:background="@drawable/green_bg"
             android:paddingStart="@dimen/_7sdp"
@@ -240,7 +217,7 @@
             android:paddingBottom="@dimen/_3sdp"
             android:text="16% OFF"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_11sdp"
+            android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

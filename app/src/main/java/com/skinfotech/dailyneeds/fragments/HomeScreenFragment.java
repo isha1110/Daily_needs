@@ -1,7 +1,5 @@
 package com.skinfotech.dailyneeds.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,8 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -31,12 +27,10 @@ import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeCouponsRequest;
-import com.skinfotech.dailyneeds.models.requests.HomeProductsRequest;
 import com.skinfotech.dailyneeds.models.responses.CardResponse;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
-import com.skinfotech.dailyneeds.models.responses.ProductsLabels;
-import com.skinfotech.dailyneeds.models.responses.ProfileResponse;
+import com.skinfotech.dailyneeds.models.responses.CommonDetailsResponse;
 import com.skinfotech.dailyneeds.models.responses.SubCategoryProductItem;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 import com.google.android.material.snackbar.Snackbar;
@@ -61,6 +55,7 @@ public class HomeScreenFragment extends BaseFragment {
     private BannerItemListAdapter mBannerItemListAdapter;
     private RecyclerView mCategoryRecyclerView;
     private CategoryAdapter categoryAdapter;
+    private String locationTitle;
 
     @Nullable
     @Override
@@ -69,12 +64,14 @@ public class HomeScreenFragment extends BaseFragment {
         setupUI();
         mSwipeRefreshLayout = mContentView.findViewById(R.id.swipeRefreshLayout);
         fetchHomeProductsServerCall();
+        fetchCommonDetailsServerCall();
         fetchCardsServerCall(Constants.ICouponModes.TOP_CARD);
         fetchCardsServerCall(Constants.ICouponModes.BOTTOM_CARD);
         fetchCategoriesServerCall();
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             fetchHomeProductsServerCall();
             fetchCategoriesServerCall();
+            fetchCommonDetailsServerCall();
             fetchCardsServerCall(Constants.ICouponModes.TOP_CARD);
             fetchCardsServerCall(Constants.ICouponModes.BOTTOM_CARD);
             mSwipeRefreshLayout.setRefreshing(false);
@@ -84,7 +81,7 @@ public class HomeScreenFragment extends BaseFragment {
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
-        ToolBarManager.getInstance().setHeaderTitle("Raj Nagar Extension");
+        ToolBarManager.getInstance().setHeaderTitle("");
         mActivity.isToggleButtonEnabled(true);
         mNewArrivalsRecycler = mContentView.findViewById(R.id.productRecycler);
         RecyclerView offersCardRecycler = mContentView.findViewById(R.id.offersCardRecycler);
@@ -110,6 +107,37 @@ public class HomeScreenFragment extends BaseFragment {
         categoryAdapter = new CategoryAdapter();
         mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mCategoryRecyclerView.setAdapter(categoryAdapter);
+    }
+
+
+    private void fetchCommonDetailsServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<CommonDetailsResponse> call = RetrofitApi.getAppServicesObject().fetchCartCount(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
+                    final Response<CommonDetailsResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (Exception e) {
+                    stopProgress();
+                    showToast(e.getMessage());
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<CommonDetailsResponse> response) {
+                if (response.isSuccessful()) {
+                    CommonDetailsResponse commonDetailsResponse = response.body();
+                    if (commonDetailsResponse != null) {
+                        if (Constants.SUCCESS.equalsIgnoreCase(commonDetailsResponse.getErrorCode())) {
+                            mActivity.setCartCount(commonDetailsResponse.getCartCount());
+
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 
     private void fetchCategoriesServerCall() {
@@ -149,8 +177,7 @@ public class HomeScreenFragment extends BaseFragment {
     }
 
     @Override
-    protected void cartAddedSuccessCallBack() {
-
+    protected void cartAddedSuccessCallBack() {updateOnUiThread(this::fetchCommonDetailsServerCall);
     }
 
     private void fetchCardsServerCall(String mode) {
@@ -229,9 +256,9 @@ public class HomeScreenFragment extends BaseFragment {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.openAllBestsellers:
+           /* case R.id.openAllBestsellers:
                 launchFragment(new ProductCategoryFragment(), true);
-                break;
+                break;*/
             /*case R.id.openNewArrivals:
                 launchFragment(new ProductCategoryFragment("", Constants.IModes.NEW_ARRIVAL), true);
                 break;*/
@@ -500,10 +527,10 @@ public class HomeScreenFragment extends BaseFragment {
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 bannerImageView = itemView.findViewById(R.id.bannerImage);
-                bannerImageView.setOnClickListener(view -> {
+                /*bannerImageView.setOnClickListener(view -> {
                     CardResponse.CardItem item = cardItemList.get(getAdapterPosition());
-                    launchFragment(new ProductCategoryFragment(/*item.getCategoryId(), Constants.IModes.CARDS*/), true);
-                });
+                    launchFragment(new ProductCategoryFragment(*//*item.getCategoryId(), Constants.IModes.CARDS*//*), true);
+                });*/
             }
         }
     }
@@ -585,9 +612,6 @@ public class HomeScreenFragment extends BaseFragment {
             this.categoryItemList = getmCategoryProductList;
         }
 
-        public void setCategoryItemList(List<SubCategoryProductItem> categoryItemList) {
-            this.categoryItemList = categoryItemList;
-        }
         @NonNull
         @Override
         public SubCategoryAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

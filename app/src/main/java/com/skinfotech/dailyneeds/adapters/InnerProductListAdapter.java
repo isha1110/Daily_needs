@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.skinfotech.dailyneeds.HomeActivity;
 import com.skinfotech.dailyneeds.R;
+import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.fragments.ProductDetailFragment;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.responses.InnerCategoryProduct;
+import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,8 +49,8 @@ public class InnerProductListAdapter extends RecyclerView.Adapter<InnerProductLi
         holder.productDiscount.setText(innerCategoryProduct.getmProductDiscount().concat("% OFF"));
         if(innerCategoryProduct.getmProductImage() != null)
             Picasso.get().load(innerCategoryProduct.getmProductImage()).placeholder(R.drawable.icon_aata).into(holder.productImage);
-        holder.productSellingPrice.setText(String.valueOf(innerCategoryProduct.getmProductSpecialPrice()));
-        holder.productMRP.setText(String.valueOf(innerCategoryProduct.getmProductMRP()));
+        holder.productSellingPrice.setText(Utility.getAmountInCurrencyFormat(innerCategoryProduct.getmProductSpecialPrice()));
+        holder.productMRP.setText(Utility.getAmountInCurrencyFormat(innerCategoryProduct.getmProductMRP()));
         holder.productName.setText(innerCategoryProduct.getmProductName());
         holder.productMeasure.setText(innerCategoryProduct.getmProductMeasure());
         holder.productContainer.setOnClickListener(v -> {
@@ -85,6 +87,14 @@ public class InnerProductListAdapter extends RecyclerView.Adapter<InnerProductLi
             productMeasure = itemView.findViewById(R.id.productQuantity);
             productAddToCart = itemView.findViewById(R.id.addToCart);
             productContainer = itemView.findViewById(R.id.productContainer);
+            productAddToCart.setOnClickListener(view -> {
+                InnerCategoryProduct item = innerCategoryProducts.get(getAdapterPosition());
+                CommonProductRequest request = new CommonProductRequest();
+                request.setUserId(USER_ID);
+                request.setProductsId(item.getmProductId());
+                request.setProductsQuantity(String.valueOf(item.getCount()));
+                request.setProductsSizeId(item.getProductMeasureId());
+            });
         }
     }
 }

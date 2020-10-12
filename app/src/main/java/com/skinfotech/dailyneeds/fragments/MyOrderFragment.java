@@ -17,6 +17,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
@@ -49,7 +51,8 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
     private RadioButton onlineRadioButton;
     private RadioButton cashRadioButton;
     private View noItemFoundContainer;
-    private RecyclerView myOrderRecycler;;
+    private RecyclerView myOrderRecycler;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Nullable
     @Override
@@ -59,6 +62,7 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
         ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.myorders));
         ToolBarManager.getInstance().onBackPressed(this);
         mActivity.isToggleButtonEnabled(false);
+        mSwipeRefreshLayout = mContentView.findViewById(R.id.swipeRefreshLayout);
         bottomSheetDialog = new BottomSheetDialog(mActivity, R.style.BottomSheetDialogTheme);
         bottomSheetDialog.setContentView(R.layout.bottomsheet_select_address);
         RecyclerView selectAddressRecyclerView = bottomSheetDialog.findViewById(R.id.selectAddressListRecycler);
@@ -80,6 +84,11 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
         cashRadioButton = bottomSheetDialog.findViewById(R.id.cashPayment);
         setupUI();
         fetchMyOrdersServerCall();
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            fetchMyOrdersServerCall();
+            fetchAddressServerCall();
+            mSwipeRefreshLayout.setRefreshing(false);
+        });
         return mContentView;
     }
 
@@ -306,7 +315,7 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
                 holder.orderStatusImageView.setImageDrawable(ContextCompat.getDrawable(mActivity, R.drawable.delivered_stamp));
                 holder.statusTextView.setTextColor(ContextCompat.getColor(mActivity, R.color.green_color));
             } else {
-                holder.repeatOrderButton.setText(getString(R.string.cancel));
+                holder.repeatOrderButton.setText(getString(R.string.cancel_text_order_page));
                 holder.repeatOrderButton.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.button_cancel_bg));
                 holder.statusTextView.setTextColor(ContextCompat.getColor(mActivity, R.color.grey));
             }
@@ -354,7 +363,7 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
                     launchFragment(new OrderDetailFragment(orderItem.getId(), orderItem.getOrderId()), true);
                 });
                 repeatOrderButton.setOnClickListener(v -> {
-                    if (repeatOrderButton.getText().toString().equalsIgnoreCase(getString(R.string.cancel))) {
+                    if (repeatOrderButton.getText().toString().equalsIgnoreCase(getString(R.string.cancel_text_order_page))) {
                         MyOrderResponse.OrderItem orderItem = mOrderList.get(getAdapterPosition());
                         showCancellationDialog(orderItem.getId());
                     } else if (repeatOrderButton.getText().toString().equalsIgnoreCase(getString(R.string.repeat_order))) {

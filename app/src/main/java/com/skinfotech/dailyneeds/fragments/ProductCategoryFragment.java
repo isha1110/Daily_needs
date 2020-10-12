@@ -82,10 +82,10 @@ public class ProductCategoryFragment extends BaseFragment {
     private void setupUI() {
         productCategoriesPager = view.findViewById(R.id.productCategoryViewPager);
         categoriesTabs = view.findViewById(R.id.categoryTabLayout);
-        fetchLabelData();
         myProductCategoryPagerAdapter = new MyProductCategoryPagerAdapter(mActivity.getSupportFragmentManager());
         productCategoriesPager.setAdapter(myProductCategoryPagerAdapter);
         categoriesTabs.setupWithViewPager(productCategoriesPager);
+        fetchLabelData();
     }
 
     @Override

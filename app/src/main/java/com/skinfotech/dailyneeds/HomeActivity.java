@@ -2,15 +2,10 @@ package com.skinfotech.dailyneeds;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +39,7 @@ import com.skinfotech.dailyneeds.fragments.MyOrderFragment;
 import com.skinfotech.dailyneeds.fragments.SearchFragment;
 import com.skinfotech.dailyneeds.fragments.SelectAddressFragment;
 import com.skinfotech.dailyneeds.models.MenuModel;
-import com.skinfotech.dailyneeds.models.responses.ProfileResponse;
+import com.skinfotech.dailyneeds.models.responses.CommonDetailsResponse;
 import com.skinfotech.dailyneeds.models.responses.SideNavigationResponse;
 import com.google.android.material.navigation.NavigationView;
 import com.razorpay.Checkout;
@@ -57,14 +52,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-
-import static com.skinfotech.dailyneeds.Constants.IS_SKIP_LOGIN;
-import static com.skinfotech.dailyneeds.Constants.NO;
-import static com.skinfotech.dailyneeds.Constants.SHARED_PREF_NAME;
-import static com.skinfotech.dailyneeds.Constants.USER_ID;
-import static com.skinfotech.dailyneeds.Constants.USER_LOGIN_DONE;
-import static com.skinfotech.dailyneeds.Constants.USER_TYPE;
-import static com.skinfotech.dailyneeds.Constants.YES;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PaymentResultListener,RadioGroup.OnCheckedChangeListener {
 
@@ -90,6 +77,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private String mSelectedAddressId = "";
     private RadioButton onlineRadioButton;
     private RadioButton cashRadioButton;
+    private TextView mCartCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,13 +89,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.backButtonToolbar).setVisibility(View.GONE);
         mSideNavigationDrawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        Menu menu = navigationView.getMenu();
-        MenuItem logoutItem = menu.findItem(R.id.nav_login);
-        SharedPreferences preferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-        if (YES.equalsIgnoreCase(preferences.getString(USER_LOGIN_DONE, NO))) {
-            logoutItem.setTitle("Login");
-        }
-        launchFragment(new HomeScreenFragment(), false);
+        launchFragment(new LoginFragment(), false);
         headerView = navigationView.getHeaderView(0);
         mToggleButton = new ActionBarDrawerToggle(
                 this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -115,6 +97,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mToggleButton.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorWhite));
         mToggleButton.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREF_NAME, MODE_PRIVATE);
+        if (Constants.YES.equalsIgnoreCase(preferences.getString(Constants.USER_LOGIN_DONE, Constants.NO))) {
+            launchFragment(new HomeScreenFragment(), false);
+        } else {
+            launchFragment(new LoginFragment(), false);
+        }
         findViewById(R.id.searchTextView).setOnClickListener(v -> launchFragment(new SearchFragment(), true));
         findViewById(R.id.constraintContainer).setOnClickListener(v -> bottomSheetDialog.show());
         bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
@@ -128,6 +116,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         selectAddressRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         selectAddressRecyclerView.setAdapter(mSelectAddressListAdapter);
     }
+
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
@@ -204,7 +194,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void updateSideNavigationHeaderProfile(ProfileResponse response) {
+    public void updateSideNavigationHeaderProfile(CommonDetailsResponse response) {
         /*TextView userName = headerView.findViewById(R.id.userName);
         ImageView userProfile = headerView.findViewById(R.id.userProfile);
         userName.setText(Utility.toCamelCase(response.getUserName()));
@@ -220,33 +210,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
-        switch (item.getItemId()) {
-            case R.id.nav_login:
-                showLoginDialog();
 
-                //launchFragment(new LoginFragment(), true);
+        switch (item.getItemId()) {
+            case R.id.nav_logout:
+                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                getCurrentFragment().storeStringDataInSharedPref(Constants.USER_LOGIN_DONE, Constants.NO);
+                getCurrentFragment().storeStringDataInSharedPref(Constants.USER_ID, "");
+                launchFragment(new LoginFragment(), false);
                 break;
             case R.id.nav_my_cart:
-                if (sharedPreferences.getString(IS_SKIP_LOGIN, NO).equalsIgnoreCase(YES)) {
-                    showLoginDialog();
-                } else {
                     launchFragment(new CartFragment(), true);
-                }
                 break;
             case R.id.nav_myOrders:
-                if (sharedPreferences.getString(IS_SKIP_LOGIN, NO).equalsIgnoreCase(YES)) {
-                    showLoginDialog();
-                } else {
                     launchFragment(new MyOrderFragment(), true);
-                }
                 break;
             case R.id.nav_myAddress:
-                if (sharedPreferences.getString(IS_SKIP_LOGIN, NO).equalsIgnoreCase(YES)) {
-                    showLoginDialog();
-                } else {
                     launchFragment(new SelectAddressFragment(), true);
-                }
                 break;
             default:
                 break;
@@ -254,23 +233,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-    public void showLoginDialog() {
-        new AlertDialog.Builder(this)
-                .setMessage("Do you want to Login?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> logout())
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-
-    public void logout() {
-        SharedPreferences.Editor preferencesEditor = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).edit();
-        preferencesEditor.putString(USER_LOGIN_DONE, Constants.NO);
-        preferencesEditor.putString(USER_ID, "");
-        preferencesEditor.putString(USER_TYPE, "");
-        preferencesEditor.apply();
-        launchFragment(new LoginFragment(), true);
     }
 
     public void showToast(final String msg) {
@@ -379,36 +341,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void setListViewHeight(ExpandableListView listView,
-                                   int group) {
-        ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
-                View.MeasureSpec.EXACTLY);
-        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-            View groupItem = listAdapter.getGroupView(i, false, null, listView);
-            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += groupItem.getMeasuredHeight();
-            if (((listView.isGroupExpanded(i)) && (i != group))
-                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
-                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
-                    View listItem = listAdapter.getChildView(i, j, false, null,
-                            listView);
-                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                    totalHeight += listItem.getMeasuredHeight();
-                }
-            }
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight
-                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
-        if (height < 10) {
-            height = 200;
-        }
-        params.height = height;
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
     private class SelectAddressListAdapter extends RecyclerView.Adapter<SelectAddressListAdapter.RecyclerViewHolder> {
         /*private List<AddressResponse.AddressItem> mAddressList = new ArrayList<>();
 

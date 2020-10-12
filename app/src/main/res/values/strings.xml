@@ -130,6 +130,7 @@
     <string name="addressLocation">Address</string>
     <string name="user">User</string>
     <string name="cancel">CLEAR ALL</string>
+    <string name="cancel_text_order_page">Cancel</string>
     <string name="online_payment">Online Payment</string>
     <string name="proceed_to_pay">Proceed To Pay</string>
     <string name="cash_on_delivery">Cash on Delivery</string>
@@ -181,4 +182,17 @@
     <string name="categories">Categories</string>
     <string name="search_for_products">Search for products</string>
     <string name="delivery_location">Delivery Location</string>
+    <string name="personal_information_new_address">Personal Information</string>
+    <string name="address_line_2">Address Line 2</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="postal_code">Pin Code</string>
+    <string name="mandatory_name_field">The name field can\'t be empty!</string>
+    <string name="mandatory_mobile_field">The mobile number field can\'t be empty!</string>
+    <string name="length_mobile_field">The mobile number field should be 10 in length!</string>
+    <string name="mandatory_address1_field">The address line 1 field can\'t be empty!</string>
+    <string name="mandatory_address2_field">The address line 2 field can\'t be empty!</string>
+    <string name="mandatory_city_field">The city field can\'t be empty!</string>
+    <string name="mandatory_state_field">The state field can\'t be empty!</string>
+    <string name="mandatory_pincode_field">The pincode field can\'t be empty!</string>
+    <string name="length_pincode_field">The pincode field should be 6 in length!</string>
 </resources>

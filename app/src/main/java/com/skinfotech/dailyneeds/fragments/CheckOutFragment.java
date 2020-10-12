@@ -6,12 +6,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.skinfotech.dailyneeds.Constants;
@@ -21,7 +27,9 @@ import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.requests.AddressResponse;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.PaymentRequest;
+import com.skinfotech.dailyneeds.models.requests.SaveAddressRequest;
 import com.skinfotech.dailyneeds.models.responses.CheckOutResponse;
+import com.skinfotech.dailyneeds.models.responses.CommonResponse;
 import com.skinfotech.dailyneeds.models.responses.PaymentResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -45,6 +53,17 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
     private static final String TAG = "CheckOutFragment";
     private BottomSheetDialog bottomSheetDialog;
     private  RecyclerView selectAddressRecyclerView;
+    private TextView selectDeliveryAddress;
+    private TextView addNewAddressCheckout;
+    private ConstraintLayout formConstraintLayout;
+    private Spinner mSelectLocation;
+    private EditText enterAddressText;
+    private EditText enterAddressText1;
+    private EditText nameNewAddress;
+    private EditText phoneNewAddress;
+    private EditText cityAddress;
+    private EditText stateAddress;
+    private EditText pincodeAddress;
 
     @Nullable
     @Override
@@ -89,9 +108,121 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
             case R.id.addMoreItem:
                 launchFragment(new HomeScreenFragment(),false);
                 break;
+            case R.id.addNewAddressCheckout:
+                if(formConstraintLayout.getVisibility() == View.GONE){
+                    formConstraintLayout.setVisibility(View.VISIBLE);
+                    selectAddressRecyclerView.setVisibility(View.GONE);
+                    selectDeliveryAddress.setText(getString(R.string.add_new_address));
+                    addNewAddressCheckout.setText(getString(R.string.select_delivery_address));
+                }
+                else {
+                    formConstraintLayout.setVisibility(View.GONE);
+                    selectAddressRecyclerView.setVisibility(View.VISIBLE);
+                    selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
+                    addNewAddressCheckout.setText(getString(R.string.add_new_address));
+                }
+                break;
+            case R.id.confirm:
+                if(chkValidations()){
+                    saveAddressServerCall();
+                }
+                break;
             default:
                 break;
         }
+    }
+
+    private boolean chkValidations() {
+
+        if(nameNewAddress.getText().toString().isEmpty()){
+            nameNewAddress.setError(getString(R.string.mandatory_address1_field));
+            nameNewAddress.requestFocus();
+            return false;
+        }
+        if(phoneNewAddress.getText().toString().length() < 10 || phoneNewAddress.getText().toString().length() > 10){
+            phoneNewAddress.setError(getString(R.string.length_mobile_field));
+            phoneNewAddress.requestFocus();
+            return false;
+        }
+        if(enterAddressText.getText().toString().isEmpty()){
+            enterAddressText.setError(getString(R.string.mandatory_address1_field));
+            enterAddressText.requestFocus();
+            return false;
+        }
+        if(enterAddressText1.getText().toString().isEmpty()){
+            enterAddressText1.setError(getString(R.string.mandatory_address2_field));
+            enterAddressText1.requestFocus();
+            return false;
+        }
+        if(cityAddress.getText().toString().isEmpty()){
+            cityAddress.setError(getString(R.string.mandatory_city_field));
+            cityAddress.requestFocus();
+            return false;
+        }
+        if(stateAddress.getText().toString().isEmpty()){
+            stateAddress.setError(getString(R.string.mandatory_state_field));
+            stateAddress.requestFocus();
+            return false;
+        }
+        if(pincodeAddress.getText().toString().length() > 6 || pincodeAddress.getText().toString().length() < 6){
+            pincodeAddress.setError(getString(R.string.length_pincode_field));
+            pincodeAddress.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private void saveAddressServerCall() {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String name = nameNewAddress.getText().toString();
+                    String mobile = phoneNewAddress.getText().toString();
+                    String address = enterAddressText.getText().toString();
+                    String address1 = enterAddressText1.getText().toString();
+                    String city = cityAddress.getText().toString();
+                    String state = stateAddress.getText().toString();
+                    String pincode = pincodeAddress.getText().toString();
+                    String location = mSelectLocation.getSelectedItem().toString();
+                    SaveAddressRequest request = new SaveAddressRequest();
+                    request.setmUserId(getStringDataFromSharedPref(USER_ID));
+                    request.setName(name);
+                    request.setPhoneNumber(mobile);
+                    request.setmAddress(address);
+                    request.setmAddress1(address1);
+                    request.setmLocation(location);
+                    request.setCity(city);
+                    request.setState(state);
+                    request.setPincode(pincode);
+                    Call<CommonResponse> call = RetrofitApi.getAppServicesObject().saveAddress(request);
+                    final Response<CommonResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (Exception e) {
+                    stopProgress();
+                    showToast(e.getMessage());
+                }
+            }
+
+            private void handleResponse(Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    CommonResponse commonResponse = response.body();
+                    if (commonResponse != null) {
+                        showToast(commonResponse.getErrorMessage());
+                        if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
+                            Toast.makeText(mActivity, commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                            fetchAddressServerCall();
+                            formConstraintLayout.setVisibility(View.GONE);
+                            selectAddressRecyclerView.setVisibility(View.VISIBLE);
+                            selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
+                            addNewAddressCheckout.setText(getString(R.string.add_new_address));
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 
     private void fetchCheckoutServerCall() {
@@ -191,7 +322,24 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         mActivity.isToggleButtonEnabled(false);
         bottomSheetDialog = new BottomSheetDialog(mActivity, R.style.BottomSheetDialogTheme);
         bottomSheetDialog.setContentView(R.layout.bottomsheet_select_address);
+        selectDeliveryAddress = bottomSheetDialog.findViewById(R.id.selectDeliveryAddress);
+        addNewAddressCheckout = bottomSheetDialog.findViewById(R.id.addNewAddressCheckout);
         selectAddressRecyclerView = bottomSheetDialog.findViewById(R.id.selectAddressListRecycler);
+        selectAddressRecyclerView.setVisibility(View.VISIBLE);
+        formConstraintLayout = bottomSheetDialog.findViewById(R.id.newAddressConstraintBottomSheet);
+        formConstraintLayout.setVisibility(View.GONE);
+        nameNewAddress = bottomSheetDialog.findViewById(R.id.newAddressName);
+        phoneNewAddress = bottomSheetDialog.findViewById(R.id.newAddressPhone);
+        enterAddressText = bottomSheetDialog.findViewById(R.id.enterAddressText);
+        enterAddressText1 = bottomSheetDialog.findViewById(R.id.enterAddressText1);
+        cityAddress = bottomSheetDialog.findViewById(R.id.cityNewAddress);
+        stateAddress = bottomSheetDialog.findViewById(R.id.stateNewAddress);
+        pincodeAddress = bottomSheetDialog.findViewById(R.id.pincodeNewAddress);
+        mSelectLocation = bottomSheetDialog.findViewById(R.id.selectLocation);
+        mSelectLocation.setPrompt(mActivity.getString(R.string.select_location));
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mActivity, R.array.locationList, R.layout.custom_spinner);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropbox);
+        mSelectLocation.setAdapter(adapter);
         RadioGroup paymentMode = bottomSheetDialog.findViewById(R.id.paymentMode);
         if (null != paymentMode) {
             paymentMode.setOnCheckedChangeListener(this);
@@ -326,14 +474,15 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         @NonNull
         @Override
         public SelectAddressListAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_address_bottom_sheet_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_address_list, parent, false);
             return new RecyclerViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull SelectAddressListAdapter.RecyclerViewHolder holder, int position) {
             AddressResponse.AddressItem currentItem = mAddressList.get(position);
-            holder.selectAddressListButton.setText(currentItem.getAddressStr());
+            holder.selectAddressListButton.setText(currentItem.getNameStr()+"/"+currentItem.getEmailStr()+"/"+currentItem.getMobileStr());
+            holder.addressTextView.setText(currentItem.getAddressStr()+currentItem.getLocationStr());
             holder.selectAddressListButton.setChecked(currentItem.isDefaultAddress());
             if (currentItem.isDefaultAddress()) {
                 mSelectedAddressId = currentItem.getAddressId();
@@ -348,10 +497,12 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
             private RadioButton selectAddressListButton;
+            private TextView addressTextView;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
-                selectAddressListButton = itemView.findViewById(R.id.selectAddressButton);
+                selectAddressListButton = itemView.findViewById(R.id.checkBox);
+                addressTextView = itemView.findViewById(R.id.addressTextView);
                 selectAddressListButton.setOnClickListener(view -> {
                     setDefaultValueToAddressList();
                     AddressResponse.AddressItem currentItem = mAddressList.get(getAdapterPosition());

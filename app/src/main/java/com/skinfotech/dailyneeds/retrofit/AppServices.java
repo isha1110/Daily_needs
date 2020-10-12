@@ -2,26 +2,18 @@ package com.skinfotech.dailyneeds.retrofit;
 
 import com.skinfotech.dailyneeds.models.requests.AddressResponse;
 import com.skinfotech.dailyneeds.models.requests.AllProductRequest;
-import com.skinfotech.dailyneeds.models.requests.ChangePasswordRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.DefaultAddressRequest;
-import com.skinfotech.dailyneeds.models.requests.ForgotPasswordRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeCouponsRequest;
-import com.skinfotech.dailyneeds.models.requests.HomeProductsRequest;
 import com.skinfotech.dailyneeds.models.requests.LoginRequest;
 import com.skinfotech.dailyneeds.models.requests.OrderDetailRequest;
 import com.skinfotech.dailyneeds.models.requests.PaymentRequest;
 import com.skinfotech.dailyneeds.models.requests.ProductLabelsRequest;
-import com.skinfotech.dailyneeds.models.requests.ProfilePhotoRequest;
-import com.skinfotech.dailyneeds.models.requests.ProfileRequest;
-import com.skinfotech.dailyneeds.models.requests.RegistrationRequest;
 import com.skinfotech.dailyneeds.models.requests.SaveAddressRequest;
 import com.skinfotech.dailyneeds.models.requests.SearchRequest;
 import com.skinfotech.dailyneeds.models.requests.SubCategoryRequest;
-import com.skinfotech.dailyneeds.models.requests.VerifyEmailRequest;
 import com.skinfotech.dailyneeds.models.requests.VerifyOtpRequest;
-import com.skinfotech.dailyneeds.models.responses.BrandListResponse;
 import com.skinfotech.dailyneeds.models.responses.CardResponse;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
 import com.skinfotech.dailyneeds.models.responses.CheckOutResponse;
@@ -32,15 +24,11 @@ import com.skinfotech.dailyneeds.models.responses.PaymentResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductDetailResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductsLabels;
-import com.skinfotech.dailyneeds.models.responses.ProfileResponse;
-import com.skinfotech.dailyneeds.models.responses.SideNavigationResponse;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
+import com.skinfotech.dailyneeds.models.responses.CommonDetailsResponse;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 
 public interface AppServices {
 
@@ -113,4 +101,7 @@ public interface AppServices {
 
     @POST("fetch_all_products.php")
     Call<ProductsLabels> getLabelsNproducts(@Body ProductLabelsRequest request);
+
+    @POST("fetch_common_details.php")
+    Call<CommonDetailsResponse> fetchCartCount(@Body CommonRequest request);
 }

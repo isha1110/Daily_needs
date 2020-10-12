@@ -165,8 +165,7 @@ public class SearchFragment extends BaseFragment {
             holder.productName.setText(item.getProductName());
             holder.productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductPrice()));
             holder.productSpecialPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductSpecialPrice()));
-            double difference = Double.parseDouble(item.getProductPrice()) - Double.parseDouble(item.getProductSpecialPrice());
-            holder.saveAmount.setText(Utility.getAmountInCurrencyFormat(String.valueOf(difference)));
+            holder.saveAmount.setText(item.getProductDiscount().concat("% OFF"));
         }
 
         @Override
@@ -225,8 +224,6 @@ public class SearchFragment extends BaseFragment {
                     productSpecialPrice.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
                     productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
                     quantityValue.setText(String.valueOf(counter));
-                    double difference = originalPrice - discountPrice;
-                    saveAmount.setText(String.valueOf(difference));
                     item.setCount(counter);
                 });
                 addQuantity.setOnClickListener(v -> {
@@ -238,8 +235,6 @@ public class SearchFragment extends BaseFragment {
                     productSpecialPrice.setText(Utility.getAmountInCurrencyFormat(String.valueOf(discountPrice)));
                     productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(String.valueOf(originalPrice)));
                     quantityValue.setText(String.valueOf(counter));
-                    double difference = originalPrice - discountPrice;
-                    saveAmount.setText(String.valueOf(difference));
                     item.setCount(counter);
                 });
             }

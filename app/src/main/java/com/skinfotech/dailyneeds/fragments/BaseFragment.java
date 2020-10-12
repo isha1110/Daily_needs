@@ -48,16 +48,6 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
     protected HomeActivity mActivity;
     protected View mContentView;
     private ProgressDialog mProgressDialog;
-    private String[] mPermissionArray = new String[]{
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.CAMERA
-    };
-    static String sProfilePhotoImagePath = "";
-    static File sProfilePhotoFile = null;
-    static String sCategoryParentId = "";
-    static String sSubCategoryParentId = "";
-    static String sSubSubCategoryParentId = "";
 
     void showProgress() {
         mActivity.runOnUiThread(() -> {
@@ -94,7 +84,7 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    void addToCartServerCall(CommonProductRequest request) {
+   public void addToCartServerCall(CommonProductRequest request) {
         showProgress();
         new Thread(new Runnable() {
             @Override
@@ -173,7 +163,7 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    String getStringDataFromSharedPref(String keyName) {
+    public String getStringDataFromSharedPref(String keyName) {
         SharedPreferences prefs = mActivity.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         return prefs.getString(keyName, "");
     }

@@ -6,10 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
@@ -18,13 +22,15 @@ import com.skinfotech.dailyneeds.models.requests.AddressResponse;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.DefaultAddressRequest;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
 import static com.skinfotech.dailyneeds.Constants.USER_ID;
+
 
 public class SelectAddressFragment extends BaseFragment {
 
@@ -44,7 +50,7 @@ public class SelectAddressFragment extends BaseFragment {
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
-        ToolBarManager.getInstance().setHeaderTitle(TAG);
+        ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.select_location));
         ToolBarManager.getInstance().onBackPressed(this);
         mActivity.isToggleButtonEnabled(false);
         RecyclerView addressRecyclerView = mContentView.findViewById(R.id.selectAddressRecycler);
@@ -60,7 +66,7 @@ public class SelectAddressFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    Call<AddressResponse> call = RetrofitApi.getAppServicesObject().fetchAddress(new CommonRequest(getStringDataFromSharedPref(Constants.USER_ID)));
+                    Call<AddressResponse> call = RetrofitApi.getAppServicesObject().fetchAddress(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
                     final Response<AddressResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (Exception e) {
@@ -153,9 +159,9 @@ public class SelectAddressFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.showBackButton();
-        mActivity.hideSearchIcon();
         mActivity.showCartIcon();
+        mActivity.hideSearchIcon();
+        mActivity.showBackButton();
     }
 
     private class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.RecyclerViewHolder> {
@@ -180,7 +186,8 @@ public class SelectAddressFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(@NonNull AddressListAdapter.RecyclerViewHolder holder, int position) {
             AddressResponse.AddressItem currentItem = mAddressList.get(position);
-            holder.mRadioButton.setText(currentItem.getAddressStr());
+            holder.mRadioButton.setText(currentItem.getNameStr()+"/"+currentItem.getMobileStr());
+            holder.addressTextView.setText(currentItem.getAddressStr()+currentItem.getLocationStr());
             holder.mRadioButton.setChecked(currentItem.isDefaultAddress());
         }
 
@@ -192,10 +199,12 @@ public class SelectAddressFragment extends BaseFragment {
         private class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
             private RadioButton mRadioButton;
+            private TextView addressTextView;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 mRadioButton = itemView.findViewById(R.id.checkBox);
+                addressTextView = itemView.findViewById(R.id.addressTextView);
                 mRadioButton.setOnClickListener(v -> {
                     mSelectedAddressId = mAddressList.get(getAdapterPosition()).getAddressId();
                     setDefaultValueToAddressList();
@@ -211,5 +220,6 @@ public class SelectAddressFragment extends BaseFragment {
                 }
             }
         }
+
     }
 }

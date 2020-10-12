@@ -141,11 +141,11 @@
                 android:paddingTop="@dimen/_1sdp"
                 android:paddingEnd="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_1sdp"
-                android:text=""
+                android:text="0"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_8sdp"
                 android:textStyle="bold"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/cartImageView"
                 app:layout_constraintStart_toEndOf="@id/cartImageView"
                 app:layout_constraintTop_toTopOf="@id/cartImageView" />

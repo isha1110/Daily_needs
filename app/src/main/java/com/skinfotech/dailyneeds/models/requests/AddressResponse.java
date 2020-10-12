@@ -22,11 +22,35 @@ public class AddressResponse extends CommonResponse implements Serializable {
         private String addressId;
         @SerializedName("address")
         private String addressStr;
+        @SerializedName("username")
+        private String nameStr;
+        @SerializedName("mobile")
+        private String mobileStr;
+        @SerializedName("email")
+        private String emailStr;
+        @SerializedName("location")
+        private String locationStr;
         @SerializedName("isDefaultAddress")
         private boolean isDefaultAddress;
 
         public void setDefaultAddress(boolean defaultAddress) {
             isDefaultAddress = defaultAddress;
+        }
+
+        public String getNameStr() {
+            return nameStr;
+        }
+
+        public String getMobileStr() {
+            return mobileStr;
+        }
+
+        public String getEmailStr() {
+            return emailStr;
+        }
+
+        public String getLocationStr() {
+            return locationStr;
         }
 
         public String getAddressId() {
