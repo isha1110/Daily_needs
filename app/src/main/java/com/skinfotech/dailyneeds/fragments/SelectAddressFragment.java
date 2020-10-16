@@ -105,7 +105,7 @@ public class SelectAddressFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addNewAddressLayout:
-                launchFragment(new AddNewAddressFragment(), true);
+                launchFragment(new AddNewAddressFragment(), false);
                 break;
             case R.id.makeDefaultButton:
                 if (Utility.isEmpty(mSelectedAddressId)) {

@@ -139,8 +139,8 @@
     <string name="cancellation_message">Do you want to cancel the order?</string>
     <string name="upload_image_message">Do you want to upload profile photo?</string>
     <string name="default_address_msg">Please select address to make default</string>
-    <string name="razor_pay_test_key">rzp_test_hm6LqAvMYT37DA</string>
-    <string name="razor_pay_live_key">rzp_live_81ErEFw3BzXlHm</string>
+    <string name="razor_pay_test_key">rzp_test_2GsSsXS9MF8hrI</string>
+    <string name="razor_pay_live_key">rzp_live_QZwmrnasmjygX7</string>
     <string name="something_went_wrong_message">Something went wrong while uploading image</string>
     <string name="thank_you">THANK YOU</string>
     <string name="for_choosing_us">For choosing us</string>

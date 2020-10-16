@@ -146,7 +146,7 @@ public class AddNewAddressFragment extends BaseFragment {
                     if (commonResponse != null) {
                         showToast(commonResponse.getErrorMessage());
                         if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
-                            launchFragment(new SelectAddressFragment(), true);
+                            launchFragment(new SelectAddressFragment(), false);
                         }
                     }
                 }
@@ -154,6 +154,7 @@ public class AddNewAddressFragment extends BaseFragment {
             }
         }).start();
     }
+
 
     @Override
     public void onStart() {

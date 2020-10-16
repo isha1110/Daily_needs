@@ -55,7 +55,6 @@ public class HomeScreenFragment extends BaseFragment {
     private BannerItemListAdapter mBannerItemListAdapter;
     private RecyclerView mCategoryRecyclerView;
     private CategoryAdapter categoryAdapter;
-    private String locationTitle;
 
     @Nullable
     @Override
@@ -131,7 +130,7 @@ public class HomeScreenFragment extends BaseFragment {
                     if (commonDetailsResponse != null) {
                         if (Constants.SUCCESS.equalsIgnoreCase(commonDetailsResponse.getErrorCode())) {
                             mActivity.setCartCount(commonDetailsResponse.getCartCount());
-
+                            mActivity.updateLocationHeaderAddress(commonDetailsResponse);
                         }
                     }
                 }
@@ -649,8 +648,6 @@ public class HomeScreenFragment extends BaseFragment {
             }
         }
     }
-
-
 
     private void setFadeAnimation(View view) {
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);

@@ -481,7 +481,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         @Override
         public void onBindViewHolder(@NonNull SelectAddressListAdapter.RecyclerViewHolder holder, int position) {
             AddressResponse.AddressItem currentItem = mAddressList.get(position);
-            holder.selectAddressListButton.setText(currentItem.getNameStr()+"/"+currentItem.getEmailStr()+"/"+currentItem.getMobileStr());
+            holder.selectAddressListButton.setText(currentItem.getNameStr()+"/"+currentItem.getMobileStr());
             holder.addressTextView.setText(currentItem.getAddressStr()+currentItem.getLocationStr());
             holder.selectAddressListButton.setChecked(currentItem.isDefaultAddress());
             if (currentItem.isDefaultAddress()) {
