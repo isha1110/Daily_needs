@@ -2,29 +2,23 @@ package com.skinfotech.dailyneeds.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.requests.LoginRequest;
-import com.skinfotech.dailyneeds.models.requests.VerifyOtpRequest;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 
@@ -32,6 +26,8 @@ import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.skinfotech.dailyneeds.Constants.OTP;
 
 public class LoginFragment extends BaseFragment {
 
@@ -87,8 +83,8 @@ public class LoginFragment extends BaseFragment {
                         CommonResponse response = commonResponse.body();
                         if (response != null) {
                             if (Constants.SUCCESS.equalsIgnoreCase(response.getErrorCode())) {
-                                storeStringDataInSharedPref(Constants.OTP , response.getOtp());
                                 launchFragment(new OtpFragment(mobileNumberStr), false);
+                                storeStringDataInSharedPref(OTP , response.getOtp());
                             }
                         }
                     }

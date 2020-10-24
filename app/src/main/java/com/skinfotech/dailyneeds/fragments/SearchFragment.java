@@ -10,10 +10,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
@@ -23,11 +25,12 @@ import com.skinfotech.dailyneeds.models.requests.SearchRequest;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.skinfotech.dailyneeds.Constants.USER_ID;
 
@@ -136,6 +139,12 @@ public class SearchFragment extends BaseFragment {
         mActivity.hideCartIcon();
         mActivity.hideSearchIcon();
         hideKeyboard();
+        if (null != searchEditText) {
+            String text = searchEditText.getText().toString();
+            if (Utility.isNotEmpty(text)) {
+                fetchAllProductsServerCall(text);
+            }
+        }
     }
 
     private class SearchItemListAdapter extends RecyclerView.Adapter<SearchItemListAdapter.RecyclerViewHolder> {

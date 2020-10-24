@@ -537,11 +537,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }*/
 
     private void fetchAddressServerCall() {
+        BaseFragment currentFragment = getCurrentFragment();
+        if (null == currentFragment) {
+            return;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String userId = getCurrentFragment().getStringDataFromSharedPref(Constants.USER_ID);
+                    String userId = currentFragment.getStringDataFromSharedPref(Constants.USER_ID);
                     Call<AddressResponse> call = RetrofitApi.getAppServicesObject().fetchAddress(new CommonRequest(userId));
                     final Response<AddressResponse> response = call.execute();
                     runOnUiThread(() -> handleResponse(response));

@@ -1,28 +1,20 @@
 package com.skinfotech.dailyneeds.fragments;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import com.skinfotech.dailyneeds.Constants;
+
 import com.skinfotech.dailyneeds.HomeActivity;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
@@ -30,14 +22,9 @@ import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
+
 import retrofit2.Call;
 import retrofit2.Response;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.skinfotech.dailyneeds.Constants.SHARED_PREF_NAME;
@@ -156,7 +143,7 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
     }
 
     public void storeStringDataInSharedPref(String keyName, String value) {
-        if (getActivity() != null) {
+        if (mActivity != null) {
             SharedPreferences.Editor editor = mActivity.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).edit();
             editor.putString(keyName, value);
             editor.apply();
