@@ -10,11 +10,17 @@ public class CommonResponse {
     private String mErrorMessage = "";
     @SerializedName("userId")
     private String mUserId = "";
-    @SerializedName("otp")
-    private String otp = "";
+    @SerializedName("userEmail")
+    private String userEmail = "";
+    @SerializedName("userMobile")
+    private String userMobile = "";
 
-    public String getOtp() {
-        return otp;
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public String getUserMobile() {
+        return userMobile;
     }
 
     public String getUserId() {

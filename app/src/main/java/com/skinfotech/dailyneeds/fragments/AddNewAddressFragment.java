@@ -1,6 +1,7 @@
 package com.skinfotech.dailyneeds.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,19 @@ import androidx.annotation.Nullable;
 
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
-import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.requests.SaveAddressRequest;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
+import com.skinfotech.dailyneeds.models.responses.LocationResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
 import static com.skinfotech.dailyneeds.Constants.USER_ID;
 
 public class AddNewAddressFragment extends BaseFragment {
@@ -34,6 +39,7 @@ public class AddNewAddressFragment extends BaseFragment {
     private EditText cityAddress;
     private EditText stateAddress;
     private EditText pincodeAddress;
+    private List<LocationResponse.LocationItem> responseList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -45,13 +51,14 @@ public class AddNewAddressFragment extends BaseFragment {
                 saveAddressServerCall();
             }
         });
+        getLocationsResponseServerCall();
         return mContentView;
     }
 
     private boolean chkValidations() {
 
         if (nameNewAddress.getText().toString().isEmpty()) {
-            nameNewAddress.setError(getString(R.string.mandatory_address1_field));
+            nameNewAddress.setError(getString(R.string.mandatory_field_message));
             nameNewAddress.requestFocus();
             return false;
         }
@@ -101,10 +108,6 @@ public class AddNewAddressFragment extends BaseFragment {
         stateAddress = mContentView.findViewById(R.id.stateNewAddress);
         pincodeAddress = mContentView.findViewById(R.id.pincodeNewAddress);
         mSelectLocation = mContentView.findViewById(R.id.selectLocation);
-        mSelectLocation.setPrompt(mActivity.getString(R.string.select_location));
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mActivity, R.array.locationList, R.layout.custom_spinner);
-        adapter.setDropDownViewResource(R.layout.custom_spinner_dropbox);
-        mSelectLocation.setAdapter(adapter);
     }
 
     private void saveAddressServerCall() {
@@ -148,6 +151,44 @@ public class AddNewAddressFragment extends BaseFragment {
                         if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
                             launchFragment(new SelectAddressFragment(), false);
                         }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
+    }
+
+    private void getLocationsResponseServerCall() {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<LocationResponse> call = RetrofitApi.getAppServicesObject().getLocationsResponse();
+                    final Response<LocationResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (Exception e) {
+                    stopProgress();
+                    showToast(e.getMessage());
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<LocationResponse> response) {
+                if (response.isSuccessful()) {
+                    LocationResponse commonResponse = response.body();
+                    if (commonResponse != null && Constants.SUCCESS.equalsIgnoreCase(commonResponse.getErrorCode())) {
+                        responseList.clear();
+                        responseList = commonResponse.getLocationList();
+                        String[] responseStringArray = new String[responseList.size()];
+                        for (int position = 0; position < responseList.size(); position++) {
+                            responseStringArray[position] = responseList.get(position).getLocationName();
+                        }
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(mActivity, R.layout.custom_spinner, responseStringArray);
+                        arrayAdapter.setDropDownViewResource(R.layout.custom_spinner_dropbox);
+                        mSelectLocation.setAdapter(arrayAdapter);
+                    } else if (commonResponse != null) {
+                        showToast(commonResponse.getErrorMessage());
                     }
                 }
                 stopProgress();

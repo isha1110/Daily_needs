@@ -25,7 +25,7 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/addNewAddressCheckout"
+                app:layout_constraintStart_toStartOf="@id/addNewAddressTextView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +38,7 @@
                 android:background="@drawable/white_rounded_corner_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/selectDeliveryAddress">
+                app:layout_constraintTop_toBottomOf="@id/selectDeliveryAddress">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/newAddressConstraintBottomSheet"
@@ -154,15 +154,15 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/enterAddressText"
+                        app:layout_constraintEnd_toEndOf="@id/enterAddressText"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/enterAddressText"
-                        app:layout_constraintTop_toBottomOf="@+id/enterAddressText"
+                        app:layout_constraintStart_toStartOf="@id/enterAddressText"
+                        app:layout_constraintTop_toBottomOf="@id/enterAddressText"
                         tools:ignore="RtlSymmetry" />
 
 
                     <Button
-                        android:id="@+id/confirm"
+                        android:id="@+id/confirmButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_15sdp"
@@ -293,6 +293,7 @@
                         app:layout_constraintStart_toStartOf="@id/enterAddressText"
                         app:layout_constraintTop_toBottomOf="@id/enterAddressText1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/selectAddressListRecycler"
                     android:layout_width="0dp"
@@ -302,20 +303,20 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/select_address_bottom_sheet_item" />
+                    tools:itemCount="2"
+                    tools:listitem="@layout/select_address_list" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/addNewAddressCheckout"
+                android:id="@+id/addNewAddressTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/button_bg_orange_corner"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:paddingStart="@dimen/_20sdp"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_20sdp"
@@ -332,12 +333,12 @@
                 android:id="@+id/constraintContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addNewAddressCheckout">
+                app:layout_constraintTop_toBottomOf="@id/addNewAddressTextView">
 
                 <RadioGroup
                     android:id="@+id/paymentMode"

@@ -1,7 +1,5 @@
 package com.skinfotech.dailyneeds.adapters;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -9,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.skinfotech.dailyneeds.fragments.ProductCategoryListFragment;
-import com.skinfotech.dailyneeds.models.responses.InnerCategoryProduct;
 import com.skinfotech.dailyneeds.models.responses.ProductsLabels;
 
 import java.util.ArrayList;

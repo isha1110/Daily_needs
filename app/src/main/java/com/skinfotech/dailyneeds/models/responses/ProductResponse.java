@@ -20,13 +20,6 @@ public class ProductResponse extends CommonResponse {
         return mProductList;
     }
 
-    @SerializedName("cartTotal")
-    private String cartTotal = "";
-
-    public String getTotalPrice() {
-        return cartTotal;
-    }
-
     public static class ProductItem {
 
         @SerializedName("productId")

@@ -5,26 +5,31 @@ import com.skinfotech.dailyneeds.models.requests.AllProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.DefaultAddressRequest;
+import com.skinfotech.dailyneeds.models.requests.ForgotPasswordRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeCouponsRequest;
 import com.skinfotech.dailyneeds.models.requests.LoginRequest;
 import com.skinfotech.dailyneeds.models.requests.OrderDetailRequest;
 import com.skinfotech.dailyneeds.models.requests.PaymentRequest;
 import com.skinfotech.dailyneeds.models.requests.ProductLabelsRequest;
+import com.skinfotech.dailyneeds.models.requests.RegistrationRequest;
 import com.skinfotech.dailyneeds.models.requests.SaveAddressRequest;
 import com.skinfotech.dailyneeds.models.requests.SearchRequest;
 import com.skinfotech.dailyneeds.models.requests.SubCategoryRequest;
+import com.skinfotech.dailyneeds.models.requests.TokenRequest;
+import com.skinfotech.dailyneeds.models.requests.VerifyEmailRequest;
 import com.skinfotech.dailyneeds.models.requests.VerifyOtpRequest;
 import com.skinfotech.dailyneeds.models.responses.CardResponse;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
 import com.skinfotech.dailyneeds.models.responses.CheckOutResponse;
+import com.skinfotech.dailyneeds.models.responses.CommonDetailsResponse;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
+import com.skinfotech.dailyneeds.models.responses.LocationResponse;
 import com.skinfotech.dailyneeds.models.responses.MyOrderResponse;
 import com.skinfotech.dailyneeds.models.responses.OrderDetailResponse;
 import com.skinfotech.dailyneeds.models.responses.PaymentResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductDetailResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.skinfotech.dailyneeds.models.responses.ProductsLabels;
-import com.skinfotech.dailyneeds.models.responses.CommonDetailsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,6 +42,12 @@ public interface AppServices {
 
     @POST("verify_otp.php")
     Call<CommonResponse> getVerifyOtpResponse(@Body VerifyOtpRequest request);
+
+    @POST("verify_email.php")
+    Call<CommonResponse> verifyEmail(@Body VerifyEmailRequest request);
+
+    @POST("update_password.php")
+    Call<CommonResponse> updatePassword(@Body ForgotPasswordRequest request);
 
     @POST("fetch_cards.php")
     Call<CardResponse> fetchCards(@Body HomeCouponsRequest request);
@@ -104,4 +115,14 @@ public interface AppServices {
 
     @POST("fetch_common_details.php")
     Call<CommonDetailsResponse> fetchCartCount(@Body CommonRequest request);
+
+    @POST("registration.php")
+    Call<CommonResponse> registration(@Body RegistrationRequest request);
+
+    @POST("fetch_locations.php")
+    Call<LocationResponse> getLocationsResponse();
+
+    @POST("saveFcmToken.php")
+    Call<CommonResponse> saveFcmTokenServerCall(@Body TokenRequest request);
+
 }

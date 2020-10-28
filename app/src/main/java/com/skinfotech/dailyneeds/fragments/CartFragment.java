@@ -1,6 +1,5 @@
 package com.skinfotech.dailyneeds.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
@@ -21,11 +22,12 @@ import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.skinfotech.dailyneeds.Constants.USER_ID;
 
@@ -135,7 +137,7 @@ public class CartFragment extends BaseFragment {
         public void onBindViewHolder(@NonNull CartItemListAdapter.RecyclerViewHolder holder, int position) {
             ProductResponse.ProductItem item = productList.get(position);
             if (!Utility.isEmpty(item.getProductImage())) {
-                Picasso.get().load(item.getProductImage()).placeholder(R.drawable.default_image).into(holder.productImage);
+                Picasso.get().load(item.getProductImage()).placeholder(R.drawable.app_logo).into(holder.productImage);
             }
             holder.productName.setText(item.getProductName());
             holder.productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductPrice()));

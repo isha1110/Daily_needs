@@ -103,6 +103,7 @@
     <string name="password_mismatch_msg">Both passwords must match</string>
     <string name="error_invalid_email">Invalid Email</string>
     <string name="error_invalid_password">Invalid Password</string>
+    <string name="error_invalid_mobileNumber">Invalid Mobile Number</string>
     <string name="back_press_msg">Press the back button again to Exit!!!</string>
     <string name="please_wait">Please wait…</string>
     <string name="ruppee_symbol">₹</string>
@@ -163,7 +164,7 @@
     <string name="apply">Apply</string>
     <string name="low_to_high">Low to High</string>
     <string name="high_to_low">High to Low</string>
-    <string name="no_item_available">No Item currently Available with selected filter</string>
+    <string name="no_item_available">No Products Available</string>
     <string name="sort">Sort</string>
     <string name="close">CLOSE</string>
     <string name="go_to_homepage">Go to Homepage</string>
@@ -195,4 +196,7 @@
     <string name="mandatory_state_field">The state field can\'t be empty!</string>
     <string name="mandatory_pincode_field">The pincode field can\'t be empty!</string>
     <string name="length_pincode_field">The pincode field should be 6 in length!</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="login_with_facbook">Login with Facebook</string>
+    <string name="login_with_google">Login with Gmail</string>
 </resources>

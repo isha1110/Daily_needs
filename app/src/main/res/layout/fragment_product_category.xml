@@ -22,6 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/categoryTabLayout" />
 
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/categoryTabLayout"
             android:layout_width="0dp"
@@ -31,8 +32,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabContentStart="@dimen/_15sdp"
-            app:tabIndicatorHeight="@dimen/_4sdp"
             app:tabIndicatorColor="@color/carrot_orange"
+            app:tabIndicatorHeight="@dimen/_4sdp"
             app:tabMode="scrollable">
 
             <com.google.android.material.tabs.TabItem

@@ -26,7 +26,6 @@
         app:headerLayout="@layout/nav_header_home"
         app:itemIconTint="@color/pink"
         android:theme="@style/NavigationView"
-
         app:itemTextColor="@color/colorBlack">
 
 
@@ -51,12 +50,14 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/customerSupportMobileNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:onClick="onClick"
-            android:text="9999 9999 99"
+            android:text=""
+            android:autoLink="phone"
+            android:linksClickable="true"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_15sdp"
             android:fontFamily="sans-serif"
@@ -65,7 +66,7 @@
             android:drawablePadding="@dimen/_10sdp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/rateUsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -83,7 +84,7 @@
             tools:ignore="UnusedAttribute" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/shareTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
@@ -30,15 +32,16 @@ import com.skinfotech.dailyneeds.models.requests.PaymentRequest;
 import com.skinfotech.dailyneeds.models.requests.SaveAddressRequest;
 import com.skinfotech.dailyneeds.models.responses.CheckOutResponse;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
+import com.skinfotech.dailyneeds.models.responses.LocationResponse;
 import com.skinfotech.dailyneeds.models.responses.PaymentResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.skinfotech.dailyneeds.Constants.USER_ID;
 
@@ -52,7 +55,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
     private RadioButton cashRadioButton;
     private static final String TAG = "CheckOutFragment";
     private BottomSheetDialog bottomSheetDialog;
-    private  RecyclerView selectAddressRecyclerView;
+    private RecyclerView selectAddressRecyclerView;
     private TextView selectDeliveryAddress;
     private TextView addNewAddressCheckout;
     private ConstraintLayout formConstraintLayout;
@@ -92,7 +95,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
                 bottomSheetDialog.show();
                 break;
             case R.id.proceedToPay:
-                if (Utility.isEmpty(mSelectedAddressId)){
+                if (Utility.isEmpty(mSelectedAddressId)) {
                     showToast("Please Select Delivery Address");
                     return;
                 }
@@ -106,24 +109,23 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
                 bottomSheetDialog.hide();
                 break;
             case R.id.addMoreItem:
-                launchFragment(new HomeScreenFragment(),false);
+                launchFragment(new HomeScreenFragment(), false);
                 break;
-            case R.id.addNewAddressCheckout:
-                if(formConstraintLayout.getVisibility() == View.GONE){
+            case R.id.addNewAddressTextView:
+                if (formConstraintLayout.getVisibility() == View.GONE) {
                     formConstraintLayout.setVisibility(View.VISIBLE);
                     selectAddressRecyclerView.setVisibility(View.GONE);
                     selectDeliveryAddress.setText(getString(R.string.add_new_address));
                     addNewAddressCheckout.setText(getString(R.string.select_delivery_address));
-                }
-                else {
+                } else {
                     formConstraintLayout.setVisibility(View.GONE);
                     selectAddressRecyclerView.setVisibility(View.VISIBLE);
                     selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
                     addNewAddressCheckout.setText(getString(R.string.add_new_address));
                 }
                 break;
-            case R.id.confirm:
-                if(chkValidations()){
+            case R.id.confirmButton:
+                if (chkValidations()) {
                     saveAddressServerCall();
                 }
                 break;
@@ -134,42 +136,80 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
 
     private boolean chkValidations() {
 
-        if(nameNewAddress.getText().toString().isEmpty()){
-            nameNewAddress.setError(getString(R.string.mandatory_address1_field));
+        if (nameNewAddress.getText().toString().isEmpty()) {
+            nameNewAddress.setError(getString(R.string.mandatory_field_message));
             nameNewAddress.requestFocus();
             return false;
         }
-        if(phoneNewAddress.getText().toString().length() < 10 || phoneNewAddress.getText().toString().length() > 10){
+        if (phoneNewAddress.getText().toString().length() < 10 || phoneNewAddress.getText().toString().length() > 10) {
             phoneNewAddress.setError(getString(R.string.length_mobile_field));
             phoneNewAddress.requestFocus();
             return false;
         }
-        if(enterAddressText.getText().toString().isEmpty()){
+        if (enterAddressText.getText().toString().isEmpty()) {
             enterAddressText.setError(getString(R.string.mandatory_address1_field));
             enterAddressText.requestFocus();
             return false;
         }
-        if(enterAddressText1.getText().toString().isEmpty()){
+        if (enterAddressText1.getText().toString().isEmpty()) {
             enterAddressText1.setError(getString(R.string.mandatory_address2_field));
             enterAddressText1.requestFocus();
             return false;
         }
-        if(cityAddress.getText().toString().isEmpty()){
+        if (cityAddress.getText().toString().isEmpty()) {
             cityAddress.setError(getString(R.string.mandatory_city_field));
             cityAddress.requestFocus();
             return false;
         }
-        if(stateAddress.getText().toString().isEmpty()){
+        if (stateAddress.getText().toString().isEmpty()) {
             stateAddress.setError(getString(R.string.mandatory_state_field));
             stateAddress.requestFocus();
             return false;
         }
-        if(pincodeAddress.getText().toString().length() > 6 || pincodeAddress.getText().toString().length() < 6){
+        if (pincodeAddress.getText().toString().length() > 6 || pincodeAddress.getText().toString().length() < 6) {
             pincodeAddress.setError(getString(R.string.length_pincode_field));
             pincodeAddress.requestFocus();
             return false;
         }
         return true;
+    }
+
+    private void getLocationsResponseServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<LocationResponse> call = RetrofitApi.getAppServicesObject().getLocationsResponse();
+                    final Response<LocationResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (Exception e) {
+                    stopProgress();
+                    showToast(e.getMessage());
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<LocationResponse> response) {
+                if (response.isSuccessful()) {
+                    LocationResponse commonResponse = response.body();
+                    if (commonResponse != null && Constants.SUCCESS.equalsIgnoreCase(commonResponse.getErrorCode())) {
+                        List<LocationResponse.LocationItem> responseList = new ArrayList<>();
+                        responseList.clear();
+                        responseList = commonResponse.getLocationList();
+                        String[] responseStringArray = new String[responseList.size()];
+                        for (int position = 0; position < responseList.size(); position++) {
+                            responseStringArray[position] = responseList.get(position).getLocationName();
+                        }
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(mActivity, R.layout.custom_spinner, responseStringArray);
+                        arrayAdapter.setDropDownViewResource(R.layout.custom_spinner_dropbox);
+                        mSelectLocation.setAdapter(arrayAdapter);
+                    } else if (commonResponse != null) {
+                        showToast(commonResponse.getErrorMessage());
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 
     private void saveAddressServerCall() {
@@ -294,7 +334,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
                     if (paymentResponse != null) {
                         if (Constants.SUCCESS.equalsIgnoreCase(paymentResponse.getErrorCode())) {
                             launchFragment(new ThankYouFragment(paymentResponse.getOrderId(),
-                                                                paymentResponse.getExpectedDelivery()), true);
+                                    paymentResponse.getExpectedDelivery()), true);
                         }
                     }
                 }
@@ -323,11 +363,9 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         bottomSheetDialog = new BottomSheetDialog(mActivity, R.style.BottomSheetDialogTheme);
         bottomSheetDialog.setContentView(R.layout.bottomsheet_select_address);
         selectDeliveryAddress = bottomSheetDialog.findViewById(R.id.selectDeliveryAddress);
-        addNewAddressCheckout = bottomSheetDialog.findViewById(R.id.addNewAddressCheckout);
+        addNewAddressCheckout = bottomSheetDialog.findViewById(R.id.addNewAddressTextView);
         selectAddressRecyclerView = bottomSheetDialog.findViewById(R.id.selectAddressListRecycler);
-        selectAddressRecyclerView.setVisibility(View.VISIBLE);
         formConstraintLayout = bottomSheetDialog.findViewById(R.id.newAddressConstraintBottomSheet);
-        formConstraintLayout.setVisibility(View.GONE);
         nameNewAddress = bottomSheetDialog.findViewById(R.id.newAddressName);
         phoneNewAddress = bottomSheetDialog.findViewById(R.id.newAddressPhone);
         enterAddressText = bottomSheetDialog.findViewById(R.id.enterAddressText);
@@ -336,10 +374,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         stateAddress = bottomSheetDialog.findViewById(R.id.stateNewAddress);
         pincodeAddress = bottomSheetDialog.findViewById(R.id.pincodeNewAddress);
         mSelectLocation = bottomSheetDialog.findViewById(R.id.selectLocation);
-        mSelectLocation.setPrompt(mActivity.getString(R.string.select_location));
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mActivity, R.array.locationList, R.layout.custom_spinner);
-        adapter.setDropDownViewResource(R.layout.custom_spinner_dropbox);
-        mSelectLocation.setAdapter(adapter);
+        getLocationsResponseServerCall();
         RadioGroup paymentMode = bottomSheetDialog.findViewById(R.id.paymentMode);
         if (null != paymentMode) {
             paymentMode.setOnCheckedChangeListener(this);
@@ -379,7 +414,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         public void onBindViewHolder(@NonNull CheckoutAdapter.RecyclerViewHolder holder, int position) {
             CheckOutResponse.ProductItem item = productList.get(position);
             if (!Utility.isEmpty(item.getProductImage())) {
-                Picasso.get().load(item.getProductImage()).placeholder(R.drawable.default_image).into(holder.productImage);
+                Picasso.get().load(item.getProductImage()).placeholder(R.drawable.app_logo).into(holder.productImage);
             }
             holder.productName.setText(item.getProductName());
             holder.productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductPrice()));
@@ -481,8 +516,8 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         @Override
         public void onBindViewHolder(@NonNull SelectAddressListAdapter.RecyclerViewHolder holder, int position) {
             AddressResponse.AddressItem currentItem = mAddressList.get(position);
-            holder.selectAddressListButton.setText(currentItem.getNameStr()+"/"+currentItem.getMobileStr());
-            holder.addressTextView.setText(currentItem.getAddressStr()+currentItem.getLocationStr());
+            holder.selectAddressListButton.setText(currentItem.getNameStr() + "/" + currentItem.getMobileStr());
+            holder.addressTextView.setText(currentItem.getAddressStr() + currentItem.getLocationStr());
             holder.selectAddressListButton.setChecked(currentItem.isDefaultAddress());
             if (currentItem.isDefaultAddress()) {
                 mSelectedAddressId = currentItem.getAddressId();

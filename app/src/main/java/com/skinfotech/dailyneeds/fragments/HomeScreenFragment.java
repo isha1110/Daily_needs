@@ -1,7 +1,6 @@
 package com.skinfotech.dailyneeds.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,7 +20,9 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.skinfotech.dailyneeds.Constants;
+import com.skinfotech.dailyneeds.MyApplication;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
@@ -29,16 +31,17 @@ import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.HomeCouponsRequest;
 import com.skinfotech.dailyneeds.models.responses.CardResponse;
 import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
-import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.skinfotech.dailyneeds.models.responses.CommonDetailsResponse;
+import com.skinfotech.dailyneeds.models.responses.ProductResponse;
 import com.skinfotech.dailyneeds.models.responses.SubCategoryProductItem;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
-import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
-import retrofit2.Call;
-import retrofit2.Response;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.skinfotech.dailyneeds.Constants.USER_ID;
 
@@ -265,17 +268,17 @@ public class HomeScreenFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public boolean onBackPressed() {
-        if (mIsDoubleBackPress) {
-            super.onBackPressedToExit(this);
-            return true;
-        }
-        Snackbar.make(mContentView, getString(R.string.back_press_msg), Snackbar.LENGTH_SHORT).show();
-        mIsDoubleBackPress = true;
-        new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
-        return true;
-    }
+//    @Override
+//    public boolean onBackPressed() {
+//        if (mIsDoubleBackPress) {
+//            super.onBackPressedToExit(this);
+//            return true;
+//        }
+//        Snackbar.make(mContentView, getString(R.string.back_press_msg), Snackbar.LENGTH_SHORT).show();
+//        mIsDoubleBackPress = true;
+//        new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
+//        return true;
+//    }
 
     @Override
     public void onStart() {
@@ -310,7 +313,7 @@ public class HomeScreenFragment extends BaseFragment {
             holder.productOriginalPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductPrice()));
             holder.productDiscountPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductSpecialPrice()));
             if (!Utility.isEmpty(item.getProductImage())) {
-                Picasso.get().load(item.getProductImage()).placeholder(R.drawable.default_image).into(holder.productImage);
+                Picasso.get().load(item.getProductImage()).placeholder(R.drawable.app_logo).into(holder.productImage);
             }
             String measureStr = item.getProductMeasure().concat(" ").concat(item.getProductUnit());
             holder.measureTextView.setText(measureStr);
@@ -439,6 +442,10 @@ public class HomeScreenFragment extends BaseFragment {
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 couponImageView = itemView.findViewById(R.id.couponImage);
+                couponImageView.setOnClickListener(view -> {
+                    CardResponse.CardItem item = cardItemList.get(getAdapterPosition());
+                    launchFragment(new ProductCategoryFragment(item.getCardId(), Constants.CatModes.CARD), true);
+                });
             }
         }
     }
@@ -463,7 +470,7 @@ public class HomeScreenFragment extends BaseFragment {
             CategoryResponse.CategoryItem item = categoryItemList.get(position);
             if (!Utility.isEmpty(item.getCategoryImage()))
             {
-                Picasso.get().load(item.getCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
+                Picasso.get().load(item.getCategoryImage()).placeholder(R.drawable.app_logo).into(holder.iconImage);
             }
             holder.categoryName.setText(Utility.toCamelCase(item.getCategoryName()));
         }
@@ -487,6 +494,7 @@ public class HomeScreenFragment extends BaseFragment {
                 constraintLayout.setOnClickListener(v -> {
                     CategoryResponse.CategoryItem item = categoryItemList.get(getAdapterPosition());
                     launchFragment(new ProductCategoryFragment(item.getCategoryId(), Constants.CatModes.CATEGORIES), true);
+                    MyApplication.selectedPosition = 0;
                 });
             }
         }
@@ -526,10 +534,10 @@ public class HomeScreenFragment extends BaseFragment {
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 bannerImageView = itemView.findViewById(R.id.bannerImage);
-                /*bannerImageView.setOnClickListener(view -> {
+                bannerImageView.setOnClickListener(view -> {
                     CardResponse.CardItem item = cardItemList.get(getAdapterPosition());
-                    launchFragment(new ProductCategoryFragment(*//*item.getCategoryId(), Constants.IModes.CARDS*//*), true);
-                });*/
+                    launchFragment(new ProductCategoryFragment(item.getCardId(), Constants.CatModes.CARD), true);
+                });
             }
         }
     }
@@ -552,7 +560,7 @@ public class HomeScreenFragment extends BaseFragment {
         public void onBindViewHolder(@NonNull CategoryAdapter.RecyclerViewHolder holder, int position) {
             CategoryResponse.CategoryItem item = categoryItemList.get(position);
             if (!Utility.isEmpty(item.getCategoryImage())) {
-                Picasso.get().load(item.getCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
+                Picasso.get().load(item.getCategoryImage()).placeholder(R.drawable.app_logo).into(holder.iconImage);
             }
             holder.categoryNameTextView.setText(Utility.toCamelCase(item.getCategoryName()));
             GridLayoutManager layoutManager = new GridLayoutManager(
@@ -622,7 +630,7 @@ public class HomeScreenFragment extends BaseFragment {
         public void onBindViewHolder(@NonNull SubCategoryAdapter.RecyclerViewHolder holder, int position) {
             SubCategoryProductItem item = categoryItemList.get(position);
             if (!Utility.isEmpty(item.getSubCategoryImage())) {
-                Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
+                Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.app_logo).into(holder.iconImage);
             }
             holder.categoryNameTextView.setText(Utility.toCamelCase(item.getSubCategoryName()));
             holder.constraintLayout.setOnClickListener(v -> {
@@ -654,4 +662,6 @@ public class HomeScreenFragment extends BaseFragment {
         anim.setDuration(500);
         view.startAnimation(anim);
     }
+
+
 }

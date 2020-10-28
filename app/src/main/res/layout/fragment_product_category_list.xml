@@ -16,6 +16,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:itemCount="2"
-        tools:listitem="@layout/product_category_item" />
+        />
+
+    <LinearLayout
+        android:id="@+id/noItemFoundContainer"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_300sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:background="@drawable/white_rounded_corner_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/no_item_found_image"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/txt_no_product_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/no_item_available"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="@id/imageView3"
+            app:layout_constraintStart_toStartOf="@id/imageView3"
+            app:layout_constraintTop_toBottomOf="@id/imageView3" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

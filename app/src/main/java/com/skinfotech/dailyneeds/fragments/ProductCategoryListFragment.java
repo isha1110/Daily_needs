@@ -53,6 +53,11 @@ public class ProductCategoryListFragment extends BaseFragment {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().setHeaderTitle("");
         mActivity.isToggleButtonEnabled(false);
+        if (Utility.isEmpty(innerCategoryProducts)) {
+            mContentView.findViewById(R.id.noItemFoundContainer).setVisibility(View.VISIBLE);
+        } else {
+            mContentView.findViewById(R.id.noItemFoundContainer).setVisibility(View.GONE);
+        }
         mProductCategoryRecyclerView = mContentView.findViewById(R.id.productCategoryRecycler);
         innerProductListAdapter = new InnerProductListAdapter(mActivity,innerCategoryProducts);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -116,9 +121,10 @@ public class ProductCategoryListFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(@NonNull InnerProductListAdapter.InnerProductListViewHolder holder, int position) {
             InnerCategoryProduct innerCategoryProduct = innerCategoryProducts.get(position);
-            holder.productDiscount.setText(innerCategoryProduct.getmProductDiscount().concat("% OFF"));
+
+            holder.productDiscount.setText(innerCategoryProduct.getmProductDiscount()+"% OFF");
             if (innerCategoryProduct.getmProductImage() != null)
-                Picasso.get().load(innerCategoryProduct.getmProductImage()).placeholder(R.drawable.icon_aata).into(holder.productImage);
+                Picasso.get().load(innerCategoryProduct.getmProductImage()).placeholder(R.drawable.app_logo).into(holder.productImage);
             holder.productSellingPrice.setText(Utility.getAmountInCurrencyFormat(innerCategoryProduct.getmProductSpecialPrice()));
             holder.productMRP.setText(Utility.getAmountInCurrencyFormat(innerCategoryProduct.getmProductMRP()));
             holder.productName.setText(innerCategoryProduct.getmProductName());

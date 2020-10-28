@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
@@ -29,12 +31,12 @@ import com.skinfotech.dailyneeds.models.requests.OrderDetailRequest;
 import com.skinfotech.dailyneeds.models.responses.MyOrderResponse;
 import com.skinfotech.dailyneeds.models.responses.PaymentResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.skinfotech.dailyneeds.Constants.USER_ID;
 
@@ -53,6 +55,7 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
     private View noItemFoundContainer;
     private RecyclerView myOrderRecycler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private AddressResponse response;
 
     @Nullable
     @Override

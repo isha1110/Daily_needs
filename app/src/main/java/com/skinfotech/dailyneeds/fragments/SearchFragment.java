@@ -77,6 +77,7 @@ public class SearchFragment extends BaseFragment {
     private void startSearching() {
         String text = searchEditText.getText().toString();
         if (Utility.isNotEmpty(text)) {
+            stopProgress();
             fetchAllProductsServerCall(text);
         }
     }

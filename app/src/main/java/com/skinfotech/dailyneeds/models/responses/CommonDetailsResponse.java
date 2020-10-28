@@ -8,6 +8,18 @@ public class CommonDetailsResponse extends CommonResponse{
     private String mCartCount = "";
     @SerializedName("location")
     private String mLocation = "";
+    @SerializedName("username")
+    private String nameStr;
+    @SerializedName("mobileNumber")
+    private String mobileNumber;
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public String getNameStr() {
+        return nameStr;
+    }
 
     public String getLocation() {
         return mLocation;
