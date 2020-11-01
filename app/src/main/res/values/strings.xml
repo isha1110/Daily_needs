@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Daily Needs</string>
+
+    <string name="facebook_app_id">456672138628222</string>
+    <string name="fb_login_protocol_scheme">fb456672138628222</string>
+
     <string name="staples">Staples</string>
     <string name="snack_and_beverages">Snack and Beverages</string>
     <string name="packed_food">Packed Food</string>

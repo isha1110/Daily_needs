@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "950674030717",
+    "firebase_url": "https://desi-bazaar-be671.firebaseio.com",
+    "project_id": "desi-bazaar-be671",
+    "storage_bucket": "desi-bazaar-be671.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950674030717:android:d1bb944de426a34ec07114",
+        "android_client_info": {
+          "package_name": "com.skinfotech.dailyneeds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950674030717-9c414ognq91ll0mllr26p8u36n6rsq52.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skinfotech.dailyneeds",
+            "certificate_hash": "79391e698ad4b8b2bbc15e60bf76586a2bb31c95"
+          }
+        },
+        {
+          "client_id": "950674030717-8t8co53uapbsbodtg1kdqkmtnei1s9aa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCD4esnfWD1nS2wYr4rVzZqJd_ZLmIuTFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950674030717-8t8co53uapbsbodtg1kdqkmtnei1s9aa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
