@@ -47,7 +47,7 @@ public class CategoryListFrgament extends BaseFragment  {
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
-        ToolBarManager.getInstance().setHeaderTitle("All Categories");
+        ToolBarManager.getInstance().setHeaderTitle(getString(R.string.all_categories));
         mActivity.isToggleButtonEnabled(false);
         ToolBarManager.getInstance().onBackPressed(this);
         mCategoryRecyclerView = mContentView.findViewById(R.id.subCategoryRecyclerView);
@@ -171,7 +171,7 @@ public class CategoryListFrgament extends BaseFragment  {
     }
 
     private class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.RecyclerViewHolder> {
-        private List<SubCategoryProductItem> categoryItemList = new ArrayList<>();
+        private List<SubCategoryProductItem> categoryItemList;
 
         public SubCategoryAdapter(List<SubCategoryProductItem> getmCategoryProductList) {
             this.categoryItemList = getmCategoryProductList;
@@ -191,9 +191,7 @@ public class CategoryListFrgament extends BaseFragment  {
                 Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
             }
             holder.categoryNameTextView.setText(Utility.toCamelCase(item.getSubCategoryName()));
-            holder.constraintLayout.setOnClickListener(v -> {
-                launchFragment(new ProductCategoryFragment(item.getSubCategoryId(), Constants.CatModes.SUBCATEGORIES), true);
-            });
+            holder.constraintLayout.setOnClickListener(v -> launchFragment(new ProductCategoryFragment(item.getSubCategoryId(), Constants.CatModes.SUBCATEGORIES,item.getSubCategoryName()), true));
 
         }
 
@@ -212,9 +210,7 @@ public class CategoryListFrgament extends BaseFragment  {
                 iconImage = itemView.findViewById(R.id.subCategoryImageView);
                 categoryNameTextView = itemView.findViewById(R.id.subCategoryName);
                 constraintLayout = itemView.findViewById(R.id.constraintContainer);
-                constraintLayout.setOnClickListener(v -> {
-                    launchFragment(new ProductCategoryFragment(), true);
-                });
+                constraintLayout.setOnClickListener(v -> launchFragment(new ProductCategoryFragment(), true));
             }
         }
     }

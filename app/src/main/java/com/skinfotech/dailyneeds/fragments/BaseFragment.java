@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.skinfotech.dailyneeds.HomeActivity;
 import com.skinfotech.dailyneeds.R;
@@ -204,5 +205,11 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
             Picasso.get().load(imageStr).placeholder(R.drawable.default_image).into(imageView);
         }
         dialog.show();
+    }
+    public void clearFragmentBackStack() {
+        FragmentManager fm = mActivity.getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 }

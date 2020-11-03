@@ -108,7 +108,7 @@
                         app:layout_constraintEnd_toEndOf="@+id/newAddressName"
                         app:layout_constraintStart_toStartOf="@+id/newAddressName"
                         app:layout_constraintTop_toBottomOf="@+id/newAddressName"
-                        tools:ignore="RtlSymmetry,TextFields" />
+                        tools:ignore="Autofill,RtlSymmetry,TextFields" />
 
                     <EditText
                         android:id="@+id/enterAddressText"

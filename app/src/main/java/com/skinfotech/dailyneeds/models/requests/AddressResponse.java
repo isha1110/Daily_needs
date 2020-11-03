@@ -26,8 +26,6 @@ public class AddressResponse extends CommonResponse implements Serializable {
         private String nameStr;
         @SerializedName("mobile")
         private String mobileStr;
-        @SerializedName("email")
-        private String emailStr;
         @SerializedName("location")
         private String locationStr;
         @SerializedName("isDefaultAddress")
@@ -43,10 +41,6 @@ public class AddressResponse extends CommonResponse implements Serializable {
 
         public String getMobileStr() {
             return mobileStr;
-        }
-
-        public String getEmailStr() {
-            return emailStr;
         }
 
         public String getLocationStr() {

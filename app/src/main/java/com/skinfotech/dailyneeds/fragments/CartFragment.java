@@ -57,7 +57,7 @@ public class CartFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         mActivity.showBackButton();
-        mActivity.showCartIcon();
+        mActivity.hideCartIcon();
         mActivity.hideSearchIcon();
     }
 
@@ -144,7 +144,7 @@ public class CartFragment extends BaseFragment {
             holder.mProductPrice.setText(Utility.getAmountInCurrencyFormat(item.getProductSpecialPrice()));
             String sizeStr = item.getProductMeasure().concat(" ").concat(item.getProductUnit());
             holder.measureTextView.setText(sizeStr);
-            holder.mQuantity.setText(item.getProductQuantity() + " quantity");
+            holder.mQuantity.setText(item.getProductQuantity() + getString(R.string.quantity_cart));
             double diff = Double.parseDouble(item.getProductPrice()) - Double.parseDouble(item.getProductSpecialPrice());
             holder.saveAmount.setText(String.valueOf(diff));
         }

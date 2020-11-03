@@ -11,21 +11,14 @@ public class Constants {
     public static final String YES = "YES";
     public static final String NO = "NO";
     public static final String USER_ID = "USER_ID";
-    public static final String OTP = "OTP";
-    public static final String SPLIT = "###";
-    public static final int PERMISSION_REQUEST_CODE = 1001;
-    public static final String USER_TYPE = "USER_TYPE";
-    public static final String USER_LOCATION_NAME = "";
-
-    public interface IImagePickConstants {
-
-        int CAMERA = 1001;
-        int GALLERY = 1002;
-    }
 
     public interface ICouponModes {
         String TOP_CARD = "top";
         String BOTTOM_CARD = "bottom";
+    }
+    public interface AddressModes {
+        String NEW_ADDRESS = "new";
+        String UPDATE_ADDRESS = "update";
     }
 
     public interface CatModes {
@@ -37,6 +30,5 @@ public class Constants {
     public interface IExpectedDeliveryModes {
 
         String DELIVERED = "1";
-        String IN_TRANSIT = "In transit";
     }
 }

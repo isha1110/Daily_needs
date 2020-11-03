@@ -36,11 +36,13 @@ public class ProductCategoryFragment extends BaseFragment {
     //Integration of Dynamic Categories
     private String modeID;
     private String mode;
+    private String headerTitle;
     private MyProductCategoryPagerAdapter myProductCategoryPagerAdapter;
 
-    public ProductCategoryFragment(String catId, String mode) {
+    public ProductCategoryFragment(String catId, String mode, String headerTitle) {
         this.modeID = catId;
         this.mode = mode;
+        this.headerTitle = headerTitle;
     }
 
     public ProductCategoryFragment() {
@@ -51,13 +53,12 @@ public class ProductCategoryFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_product_category, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
-        ToolBarManager.getInstance().setHeaderTitle("");
+        ToolBarManager.getInstance().setHeaderTitle(headerTitle);
         ToolBarManager.getInstance().onBackPressed(this);
         mActivity.isToggleButtonEnabled(false);
+
         return view;
     }
-
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -114,8 +115,6 @@ public class ProductCategoryFragment extends BaseFragment {
             }
         }).start();
     }
-
-
 
     private void setupUIWithData(List<ProductsLabels.CategoryLabels> categoryLabels) {
         productCategoriesPager = view.findViewById(R.id.productCategoryViewPager);

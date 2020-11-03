@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/categoryContainer"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categoryContainer"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/_3sdp"
     android:layout_marginStart="@dimen/_3sdp"
     android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_3sdp"
     android:onClick="onClick"
     android:paddingStart="@dimen/_2sdp"
     tools:ignore="RtlSymmetry">
@@ -60,8 +60,8 @@
             android:id="@+id/selectQuantity"
             android:layout_width="@dimen/_55sdp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/spinner_bg"
             android:spinnerMode="dialog"
             android:visibility="invisible"
@@ -69,16 +69,6 @@
             app:layout_constraintStart_toStartOf="@id/productImage"
             app:layout_constraintTop_toBottomOf="@id/productImage"
             app:layout_constraintVertical_bias="0.0" />
-
-       <!-- <TextView
-            android:id="@+id/saveAmount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/green_color"
-            android:textSize="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="@id/textView17"
-            app:layout_constraintStart_toEndOf="@id/textView25"
-            app:layout_constraintTop_toBottomOf="@id/textView17" />-->
 
         <TextView
             android:id="@+id/productName"
@@ -103,8 +93,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/strike_through"
-            android:paddingEnd="@dimen/_2sdp"
             android:paddingStart="@dimen/_2sdp"
+            android:paddingEnd="@dimen/_2sdp"
             android:textColor="@color/red_color"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="@id/textView24"
@@ -115,8 +105,8 @@
             android:id="@+id/productPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/_2sdp"
             android:paddingStart="@dimen/_2sdp"
+            android:paddingEnd="@dimen/_2sdp"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold"
@@ -151,26 +141,13 @@
             app:layout_constraintTop_toBottomOf="@id/textView24">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-       <!-- <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginTop="8dp"
-            android:text="@string/you_saved"
-            android:textColor="@color/green_color"
-            android:textSize="@dimen/_9sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/textView23"
-            app:layout_constraintTop_toBottomOf="@id/textView24" />-->
 
         <TextView
             android:id="@+id/quantityValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:textColor="@color/green_color"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold"
@@ -184,8 +161,8 @@
             android:id="@+id/textView23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
             android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:text="@string/ruppee_symbol"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12sdp"
@@ -210,17 +187,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/orange_bg"
             android:gravity="center"
-            android:singleLine="true"
+            android:onClick="onClick"
             android:paddingStart="@dimen/_25sdp"
             android:paddingTop="@dimen/_5sdp"
             android:paddingEnd="@dimen/_25sdp"
             android:paddingBottom="@dimen/_5sdp"
+            android:singleLine="true"
             android:text="ADD"
-            android:onClick="onClick"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_11sdp"
             android:textStyle="bold"
@@ -233,11 +210,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/green_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            android:background="@drawable/green_bg"
             app:layout_constraintStart_toEndOf="@id/productImage"
             app:layout_constraintTop_toTopOf="@id/productImage">
 
@@ -259,12 +236,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
                 android:text="% OFF"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_11sdp"
                 android:textStyle="bold"
-                android:paddingEnd="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/percentOFFTextView"
                 app:layout_constraintTop_toTopOf="parent" />

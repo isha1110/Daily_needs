@@ -16,14 +16,8 @@ public class LocationResponse extends CommonResponse{
 
     public static class LocationItem {
 
-        @SerializedName("id")
-        private String locationId;
         @SerializedName("locationName")
         private String locationName;
-
-        public String getLocationId() {
-            return locationId;
-        }
 
         public String getLocationName() {
             return locationName;

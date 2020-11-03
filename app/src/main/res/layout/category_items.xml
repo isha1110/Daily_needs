@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/categoryContainer"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categoryContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="@dimen/_10sdp"
     android:gravity="center"
     android:onClick="onClick"
-    android:elevation="@dimen/_10sdp"
     android:padding="@dimen/_5sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,9 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/category_border_items"
+        android:elevation="@dimen/_10sdp"
         android:minWidth="@dimen/_90sdp"
         android:minHeight="@dimen/_90sdp"
-        android:elevation="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,11 +25,11 @@
             android:id="@+id/cardView2"
             android:layout_width="0dp"
             android:layout_height="@dimen/_60sdp"
+            android:layout_marginStart="@dimen/_2sdp"
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/_2sdp"
-            android:layout_marginStart="@dimen/_2sdp"
-            app:cardCornerRadius="@dimen/_6sdp"
             app:cardBackgroundColor="@color/light_green"
+            app:cardCornerRadius="@dimen/_6sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">

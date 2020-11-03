@@ -55,7 +55,6 @@ public class MyOrderFragment extends BaseFragment implements RadioGroup.OnChecke
     private View noItemFoundContainer;
     private RecyclerView myOrderRecycler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private AddressResponse response;
 
     @Nullable
     @Override

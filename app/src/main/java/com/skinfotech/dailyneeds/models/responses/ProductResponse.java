@@ -9,12 +9,6 @@ public class ProductResponse extends CommonResponse {
 
     @SerializedName("productList")
     private List<ProductItem> mProductList = new ArrayList<>();
-    @SerializedName("isDataAvailable")
-    private boolean mIsDataAvailable = false;
-
-    public boolean isDataAvailable() {
-        return mIsDataAvailable;
-    }
 
     public List<ProductItem> getProductList() {
         return mProductList;

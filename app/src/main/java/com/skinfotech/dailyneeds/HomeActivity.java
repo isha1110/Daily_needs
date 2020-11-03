@@ -49,6 +49,7 @@ import com.skinfotech.dailyneeds.fragments.LoginFragment;
 import com.skinfotech.dailyneeds.fragments.MyOrderFragment;
 import com.skinfotech.dailyneeds.fragments.SearchFragment;
 import com.skinfotech.dailyneeds.fragments.SelectAddressFragment;
+import com.skinfotech.dailyneeds.fragments.SignUpFragment;
 import com.skinfotech.dailyneeds.models.requests.AddressResponse;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.DefaultAddressRequest;
@@ -85,7 +86,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView selectAddressRecyclerView;
     private SelectAddressListAdapter mSelectAddressListAdapter;
     private String mSelectedAddressId = "";
-    private TextView mCartCount;
     private TextView selectDeliveryAddress;
     private TextView addNewAddressCheckout;
     private ConstraintLayout formConstraintLayout;
@@ -166,7 +166,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             bottomSheetDialog.show();
         });
         addressBottomSheet();
-
     }
 
 
@@ -244,7 +243,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void saveAddressServerCall() {
+    private void saveAddressServerCall(String mode) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -258,7 +257,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     String state = stateAddress.getText().toString();
                     String pincode = pincodeAddress.getText().toString();
                     String location = mSelectLocation.getSelectedItem().toString();
-                    SaveAddressRequest request = new SaveAddressRequest();
+                    SaveAddressRequest request = new SaveAddressRequest(mode);
                     request.setmUserId(userId);
                     request.setName(name);
                     request.setPhoneNumber(mobile);
@@ -282,13 +281,24 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if (commonResponse != null) {
                         showToast(commonResponse.getErrorMessage());
                         if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
-                            Toast.makeText(getApplicationContext(), commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
-                            fetchAddressServerCall();
-                            formConstraintLayout.setVisibility(View.GONE);
-                            selectAddressRecyclerView.setVisibility(View.VISIBLE);
-                            makeDefaultTextView.setVisibility(View.VISIBLE);
-                            selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
-                            addNewAddressCheckout.setText(getString(R.string.add_new_address));
+                            if (mode.equalsIgnoreCase(Constants.AddressModes.NEW_ADDRESS)) {
+                                Toast.makeText(getApplicationContext(), commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                                fetchAddressServerCall();
+                                formConstraintLayout.setVisibility(View.GONE);
+                                selectAddressRecyclerView.setVisibility(View.VISIBLE);
+                                makeDefaultTextView.setVisibility(View.VISIBLE);
+                                selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
+                                addNewAddressCheckout.setText(getString(R.string.add_new_address));
+                            } else {
+                                Toast.makeText(getApplicationContext(), commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                                fetchAddressServerCall();
+                                formConstraintLayout.setVisibility(View.GONE);
+                                selectAddressRecyclerView.setVisibility(View.VISIBLE);
+                                makeDefaultTextView.setVisibility(View.VISIBLE);
+                                selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
+                                addNewAddressCheckout.setText(getString(R.string.add_new_address));
+                            }
+
                         }
                     }
                 }
@@ -321,9 +331,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (!Utility.isEmpty(mAddressResponseList)) {
                                 mAddressResponseList.clear();
                             }
-
                             mAddressResponseList = addressResponse.getAddressList();
-                            //addressGroup.setVisibility(Utility.isEmpty(mAddressResponseList) ? View.GONE : View.VISIBLE);
                             mSelectAddressListAdapter.setAddressList(mAddressResponseList);
                             mSelectAddressListAdapter.notifyDataSetChanged();
                             showToast(addressResponse.getErrorMessage());
@@ -338,6 +346,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public void isToggleButtonEnabled(boolean isEnable) {
         mToggleButton.setDrawerIndicatorEnabled(isEnable);
+        if (isEnable) {
+            mSideNavigationDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else {
+            mSideNavigationDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
     }
 
     public void hideBackButton() {
@@ -418,7 +431,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.nav_logout:
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
@@ -449,7 +461,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean mIsDoubleBackPress = false;
 
-
     @Override
     public void onBackPressed() {
         if (mSideNavigationDrawer.isDrawerOpen(GravityCompat.START)) {
@@ -465,10 +476,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Snackbar.make(headerView, getString(R.string.back_press_msg), Snackbar.LENGTH_SHORT).show();
             mIsDoubleBackPress = true;
             new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
+        } else if (myFragment != null && myFragment instanceof LoginFragment) {
+            if (mIsDoubleBackPress) {
+                super.onBackPressed();
+            }
+            Snackbar.make(headerView, getString(R.string.back_press_msg), Snackbar.LENGTH_SHORT).show();
+            mIsDoubleBackPress = true;
+            new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
+        } else if (myFragment != null && myFragment instanceof SignUpFragment) {
+            if (mIsDoubleBackPress) {
+                super.onBackPressed();
+            }
+            Snackbar.make(headerView, getString(R.string.back_press_msg), Snackbar.LENGTH_SHORT).show();
+            mIsDoubleBackPress = true;
+            new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
         } else {
             BaseFragment current = getCurrentFragment();
             if (current.onBackPressed()) {
-                // To flip between view in personalize card fragment onBackPressed
                 return;
             }
 
@@ -477,7 +501,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 super.onBackPressed();
             }
         }
-
     }
 
     public void onClick(View v) {
@@ -498,7 +521,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.confirm:
                 if (chkValidations()) {
-                    saveAddressServerCall();
+                    saveAddressServerCall(Constants.AddressModes.NEW_ADDRESS);
+                    saveAddressServerCall(Constants.AddressModes.UPDATE_ADDRESS);
                 }
                 break;
             case R.id.addNewAddressCheckout:
@@ -552,10 +576,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
         FragmentManager manager = getSupportFragmentManager();
-        /*BaseFragment current = getCurrentFragment();
-        if (null != current) {
-            manager.popBackStackImmediate();
-        }*/
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         String fragmentTag = fragment.getClass().getCanonicalName();
         try {
@@ -629,6 +649,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }).start();
     }
+
     private void getLocationsResponseServerCall() {
         new Thread(new Runnable() {
             @Override
@@ -683,7 +704,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onBindViewHolder(@NonNull SelectAddressListAdapter.RecyclerViewHolder holder, int position) {
             AddressResponse.AddressItem currentItem = mAddressList.get(position);
-            holder.selectAddressListButton.setText(currentItem.getNameStr() + "/" + currentItem.getMobileStr());
+            holder.selectAddressListButton.setText(currentItem.getNameStr() + getString(R.string.back_slash) + currentItem.getMobileStr());
             holder.addressTextView.setText(currentItem.getAddressStr() + currentItem.getLocationStr());
             holder.selectAddressListButton.setChecked(currentItem.isDefaultAddress());
             if (currentItem.isDefaultAddress()) {
@@ -700,11 +721,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             private RadioButton selectAddressListButton;
             private TextView addressTextView;
+            private TextView mRemoveTextView;
+            private TextView mEditTextView;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 selectAddressListButton = itemView.findViewById(R.id.checkBox);
                 addressTextView = itemView.findViewById(R.id.addressTextView);
+                mRemoveTextView = itemView.findViewById(R.id.removeTextView);
+                mRemoveTextView.setVisibility(View.GONE);
+                mEditTextView = itemView.findViewById(R.id.editTextView);
+                mEditTextView.setVisibility(View.GONE);
                 selectAddressListButton.setOnClickListener(view -> {
                     setDefaultValueToAddressList();
                     AddressResponse.AddressItem currentItem = mAddressList.get(getAdapterPosition());

@@ -6,17 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Constraints;
 
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
+import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
+import com.skinfotech.dailyneeds.models.requests.AddressRequest;
 import com.skinfotech.dailyneeds.models.requests.SaveAddressRequest;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
+import com.skinfotech.dailyneeds.models.responses.FetchAddressResponse;
 import com.skinfotech.dailyneeds.models.responses.LocationResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 
@@ -39,18 +44,42 @@ public class AddNewAddressFragment extends BaseFragment {
     private EditText cityAddress;
     private EditText stateAddress;
     private EditText pincodeAddress;
+    private FetchAddressResponse fetchAddressResponse;
     private List<LocationResponse.LocationItem> responseList = new ArrayList<>();
+    private String addressId = "";
+    private Button addNewAddressButton;
+    private Button mEditAddressButton;
+
+    AddNewAddressFragment(String addressId) {
+        this.addressId = addressId;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_add_new_address, container, false);
         setupUI();
-        mContentView.findViewById(R.id.confirm).setOnClickListener(view -> {
-            if (chkValidations()) {
-                saveAddressServerCall();
-            }
-        });
+        stopProgress();
+        addNewAddressButton = mContentView.findViewById(R.id.confirm);
+        mEditAddressButton = mContentView.findViewById(R.id.editAddressButton);
+        if (Utility.isNotEmpty(addressId)) {
+            mEditAddressButton.setVisibility(View.VISIBLE);
+            addNewAddressButton.setVisibility(View.GONE);
+            mEditAddressButton.setOnClickListener(v -> saveAddressServerCall(Constants.AddressModes.UPDATE_ADDRESS));
+            stopProgress();
+
+        } else {
+            mEditAddressButton.setVisibility(View.GONE);
+            addNewAddressButton.setVisibility(View.VISIBLE);
+            addNewAddressButton.setOnClickListener(view -> {
+                {
+                    if (chkValidations()) {
+                        saveAddressServerCall(Constants.AddressModes.NEW_ADDRESS);
+                    }
+                }
+            });
+        }
+
         getLocationsResponseServerCall();
         return mContentView;
     }
@@ -108,10 +137,47 @@ public class AddNewAddressFragment extends BaseFragment {
         stateAddress = mContentView.findViewById(R.id.stateNewAddress);
         pincodeAddress = mContentView.findViewById(R.id.pincodeNewAddress);
         mSelectLocation = mContentView.findViewById(R.id.selectLocation);
+        fetchAddress();
     }
 
-    private void saveAddressServerCall() {
+    private void fetchAddress() {
         showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String userId = getStringDataFromSharedPref(Constants.USER_ID);
+                    Call<FetchAddressResponse> call = RetrofitApi.getAppServicesObject().fetchUserAddressResponse(new AddressRequest(userId, addressId));
+                    final Response<FetchAddressResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (Exception e) {
+                    updateOnUiThread(() -> stopProgress());
+                    Log.e(Constraints.TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<FetchAddressResponse> response) {
+                if (response.isSuccessful()) {
+                    fetchAddressResponse = response.body();
+                    if (fetchAddressResponse != null && Constants.SUCCESS.equalsIgnoreCase(fetchAddressResponse.getErrorCode())) {
+                        nameNewAddress.setText(fetchAddressResponse.getName());
+                        phoneNewAddress.setText(fetchAddressResponse.getPhoneNumber());
+                        enterAddressText.setText(fetchAddressResponse.getmAddress());
+                        enterAddressText1.setText(fetchAddressResponse.getmAddress1());
+                        cityAddress.setText(fetchAddressResponse.getCity());
+                        stateAddress.setText(fetchAddressResponse.getState());
+                        pincodeAddress.setText(fetchAddressResponse.getPincode());
+                    } else if (fetchAddressResponse != null) {
+                        showToast(fetchAddressResponse.getErrorMessage());
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
+    }
+
+    private void saveAddressServerCall(String mode) {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -124,7 +190,7 @@ public class AddNewAddressFragment extends BaseFragment {
                     String state = stateAddress.getText().toString();
                     String pincode = pincodeAddress.getText().toString();
                     String location = mSelectLocation.getSelectedItem().toString();
-                    SaveAddressRequest request = new SaveAddressRequest();
+                    SaveAddressRequest request = new SaveAddressRequest(mode);
                     request.setmUserId(getStringDataFromSharedPref(USER_ID));
                     request.setName(name);
                     request.setPhoneNumber(mobile);
@@ -134,6 +200,7 @@ public class AddNewAddressFragment extends BaseFragment {
                     request.setCity(city);
                     request.setState(state);
                     request.setPincode(pincode);
+                    request.setAppointmentId(addressId);
                     Call<CommonResponse> call = RetrofitApi.getAppServicesObject().saveAddress(request);
                     final Response<CommonResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
@@ -149,7 +216,8 @@ public class AddNewAddressFragment extends BaseFragment {
                     if (commonResponse != null) {
                         showToast(commonResponse.getErrorMessage());
                         if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
-                            launchFragment(new SelectAddressFragment(), false);
+                           launchFragment(new SelectAddressFragment(), false);
+                           clearFragmentBackStack();
                         }
                     }
                 }

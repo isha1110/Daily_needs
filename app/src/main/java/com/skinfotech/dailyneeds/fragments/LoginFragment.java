@@ -1,17 +1,17 @@
 package com.skinfotech.dailyneeds.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
@@ -29,9 +29,11 @@ public class LoginFragment extends BaseFragment {
     private TextInputEditText mUserEmailTextInputEditText;
     private TextInputEditText mUserPasswordTextInputEditText;
     private static final String TAG = "LoginFragment";
-    private boolean mIsDoubleBackPress = false;
     private String email;
     private String password;
+    private Button mLoginButton;
+    private TextView mSignupTextView;
+    private TextView mForgetPasswordTextView;
 
     @Nullable
     @Override
@@ -44,7 +46,22 @@ public class LoginFragment extends BaseFragment {
         cardView.setCardBackgroundColor(getResources().getColor(R.color.blue));
         mUserEmailTextInputEditText = mContentView.findViewById(R.id.userEmail);
         mUserPasswordTextInputEditText = mContentView.findViewById(R.id.userPassword);
+        mLoginButton = mContentView.findViewById(R.id.loginButton);
+        mLoginButton.setOnClickListener(this);
+        mSignupTextView = mContentView.findViewById(R.id.signupTextView);
+        mSignupTextView.setOnClickListener(this);
+        mForgetPasswordTextView = mContentView.findViewById(R.id.forgetPasswordTextView);
+        mForgetPasswordTextView.setOnClickListener(this);
         return mContentView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mActivity.hideBackButton();
+        mActivity.hideCartIcon();
+        mActivity.hideSearchIcon();
+        hideKeyboard();
     }
 
     @Override
@@ -53,20 +70,22 @@ public class LoginFragment extends BaseFragment {
             case R.id.loginButton:
                 email = mUserEmailTextInputEditText.getText().toString();
                 password = mUserPasswordTextInputEditText.getText().toString();
-                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 if (Utility.isEmpty(mUserEmailTextInputEditText)) {
                     mUserEmailTextInputEditText.setError(mActivity.getString(R.string.mandatory_field_message));
                     mUserEmailTextInputEditText.requestFocus();
+                    return;
                 }
-                else if (Utility.isEmpty(mUserPasswordTextInputEditText)) {
+                if (Utility.isEmpty(mUserPasswordTextInputEditText)) {
                     mUserPasswordTextInputEditText.setError(mActivity.getString(R.string.mandatory_field_message));
                     mUserPasswordTextInputEditText.requestFocus();
-                } else if (mUserPasswordTextInputEditText.getText().length() < 6) {
+                    return;
+                }
+                if (mUserPasswordTextInputEditText.getText().length() < 6) {
                     mUserPasswordTextInputEditText.setError(getResources().getString(R.string.error_invalid_password));
                     mUserPasswordTextInputEditText.requestFocus();
-                }else {
-                    doLoginServerCall();
+                    return;
                 }
+                    doLoginServerCall();
                 break;
             case R.id.signupTextView:
                 launchFragment(new SignUpFragment(), false);
@@ -114,27 +133,4 @@ public class LoginFragment extends BaseFragment {
             }
         }).start();
     }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mActivity.hideBackButton();
-        mActivity.hideCartIcon();
-        mActivity.hideSearchIcon();
-        hideKeyboard();
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        if (mIsDoubleBackPress) {
-            super.onBackPressedToExit(this);
-            return true;
-        }
-        Snackbar.make(mContentView, getString(R.string.back_press_msg), Snackbar.LENGTH_SHORT).show();
-        mIsDoubleBackPress = true;
-        new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
-        return true;
-    }
-
 }

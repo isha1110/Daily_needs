@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:onClick="onClick"
-    android:layout_marginBottom="@dimen/_5sdp">
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:onClick="onClick">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout12"
@@ -17,25 +16,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
-            app:cardCornerRadius="@dimen/_5sdp"
-            app:cardElevation="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_15sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/productImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/logo"
-            tools:ignore="ContentDescription" />
+            <ImageView
+                android:id="@+id/productImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/logo"
+                tools:ignore="ContentDescription" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -55,30 +55,19 @@
             app:layout_constraintStart_toEndOf="@id/cardView"
             app:layout_constraintTop_toTopOf="@id/cardView" />
 
-        <!--<TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:maxLines="2"
-            android:minLines="2"
-            android:text="Cold Drinks,Juices,Tea"
-            android:textSize="@dimen/_11sdp"
-            app:layout_constraintStart_toStartOf="@id/categoryNameTextView"
-            app:layout_constraintTop_toBottomOf="@id/categoryNameTextView" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/childLayoutContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_marginStart="@dimen/_5sdp"
+        android:background="@color/colorWhite"
         android:elevation="@dimen/_10sdp"
         android:visibility="gone"
-        android:background="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

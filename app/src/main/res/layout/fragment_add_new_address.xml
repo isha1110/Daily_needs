@@ -1,101 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white">
 
-   <!-- <EditText
-        android:id="@+id/enterAddressText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:background="@drawable/edit_text_bg_border1"
-        android:drawablePadding="@dimen/_10sdp"
-        android:ems="10"
-        android:gravity="top|start"
-        android:hint="@string/full_address"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:maxLines="6"
-        android:maxLength="@integer/address_length"
-        android:minLines="6"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_10sdp"
-        android:textSize="@dimen/_11sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView41"
-        tools:ignore="RtlSymmetry" />
-
-
-    <Button
-        android:id="@+id/confirm"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginStart="@dimen/_70sdp"
-        android:layout_marginEnd="@dimen/_70sdp"
-        android:background="@drawable/button_bg"
-        android:onClick="onClick"
-        android:text="@string/add_address"
-        android:textAllCaps="false"
-        android:singleLine="true"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/_12sdp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/selectLocation"
-        app:layout_constraintStart_toStartOf="@id/selectLocation"
-        app:layout_constraintTop_toBottomOf="@id/selectLocation"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Spinner
-        android:id="@+id/selectLocation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/spinner_location_bg"
-        android:paddingStart="@dimen/_10sdp"
-        android:prompt="@string/select_location"
-        android:spinnerMode="dialog"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="@id/enterAddressText"
-        app:layout_constraintStart_toStartOf="@id/enterAddressText"
-        app:layout_constraintTop_toBottomOf="@+id/textView42"
-        tools:ignore="RtlSymmetry" />
-
-    <TextView
-        android:id="@+id/textView41"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/addressLocation"
-        android:layout_marginTop="@dimen/_40sdp"
-        android:textSize="@dimen/_14sdp"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintStart_toStartOf="@+id/enterAddressText"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView42"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_location"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:textSize="@dimen/_14sdp"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintStart_toStartOf="@id/enterAddressText"
-        app:layout_constraintTop_toBottomOf="@id/enterAddressText" />-->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -104,12 +19,12 @@
                 android:id="@+id/personalDetailsText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
                 android:text="@string/personal_information_new_address"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_14sdp"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -118,6 +33,7 @@
                 android:id="@+id/newAddressName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/edit_text_bg_border1"
                 android:drawablePadding="@dimen/_10sdp"
                 android:ems="10"
@@ -127,20 +43,20 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:minLines="1"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:paddingStart="@dimen/_10sdp"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintEnd_toEndOf="@+id/personalDetailsText"
-                app:layout_constraintStart_toStartOf="@+id/personalDetailsText"
-                app:layout_constraintTop_toBottomOf="@+id/personalDetailsText"
+                app:layout_constraintEnd_toEndOf="@id/personalDetailsText"
+                app:layout_constraintStart_toStartOf="@id/personalDetailsText"
+                app:layout_constraintTop_toBottomOf="@id/personalDetailsText"
                 tools:ignore="RtlSymmetry" />
 
             <EditText
                 android:id="@+id/newAddressPhone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/edit_text_bg_border1"
                 android:drawablePadding="@dimen/_10sdp"
                 android:ems="10"
@@ -150,16 +66,15 @@
                 android:maxLength="10"
                 android:maxLines="1"
                 android:minLines="1"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:paddingStart="@dimen/_10sdp"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintEnd_toEndOf="@+id/newAddressName"
-                app:layout_constraintStart_toStartOf="@+id/newAddressName"
-                app:layout_constraintTop_toBottomOf="@+id/newAddressName"
-                tools:ignore="RtlSymmetry,TextFields"
-                />
+                app:layout_constraintEnd_toEndOf="@id/newAddressName"
+                app:layout_constraintStart_toStartOf="@id/newAddressName"
+                app:layout_constraintTop_toBottomOf="@id/newAddressName"
+                tools:ignore="Autofill,RtlSymmetry,TextFields" />
+
             <EditText
                 android:id="@+id/enterAddressText"
                 android:layout_width="0dp"
@@ -179,11 +94,12 @@
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintEnd_toEndOf="@+id/textView41"
+                app:layout_constraintEnd_toEndOf="@id/textView41"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView41"
-                app:layout_constraintTop_toBottomOf="@+id/textView41"
+                app:layout_constraintStart_toStartOf="@id/textView41"
+                app:layout_constraintTop_toBottomOf="@id/textView41"
                 tools:ignore="RtlSymmetry" />
+
             <EditText
                 android:id="@+id/enterAddressText1"
                 android:layout_width="0dp"
@@ -203,10 +119,10 @@
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintEnd_toEndOf="@+id/enterAddressText"
+                app:layout_constraintEnd_toEndOf="@id/enterAddressText"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/enterAddressText"
-                app:layout_constraintTop_toBottomOf="@+id/enterAddressText"
+                app:layout_constraintStart_toStartOf="@id/enterAddressText"
+                app:layout_constraintTop_toBottomOf="@id/enterAddressText"
                 tools:ignore="RtlSymmetry" />
 
 
@@ -214,6 +130,7 @@
                 android:id="@+id/confirm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/button_bg"
                 android:onClick="onClick"
                 android:paddingStart="@dimen/_10sdp"
@@ -223,11 +140,30 @@
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_15sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/pincodeNewAddress"
-                app:layout_constraintStart_toStartOf="@+id/pincodeNewAddress"
-                app:layout_constraintTop_toBottomOf="@+id/pincodeNewAddress"
+                app:layout_constraintEnd_toEndOf="@id/pincodeNewAddress"
+                app:layout_constraintStart_toStartOf="@id/pincodeNewAddress"
+                app:layout_constraintTop_toBottomOf="@id/pincodeNewAddress"
+                app:layout_constraintVertical_bias="0.0" />
+            <Button
+                android:id="@+id/editAddressButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/button_bg"
+                android:onClick="onClick"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:singleLine="true"
+                android:text="@string/confirm"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/pincodeNewAddress"
+                app:layout_constraintStart_toStartOf="@id/pincodeNewAddress"
+                app:layout_constraintTop_toBottomOf="@id/pincodeNewAddress"
                 app:layout_constraintVertical_bias="0.0" />
 
             <Spinner
@@ -239,10 +175,11 @@
                 android:paddingStart="@dimen/_10sdp"
                 android:prompt="@string/select_location"
                 android:spinnerMode="dialog"
-                app:layout_constraintEnd_toEndOf="@+id/textView42"
-                app:layout_constraintStart_toStartOf="@+id/textView42"
-                app:layout_constraintTop_toBottomOf="@+id/textView42"
+                app:layout_constraintEnd_toEndOf="@id/textView42"
+                app:layout_constraintStart_toStartOf="@id/textView42"
+                app:layout_constraintTop_toBottomOf="@id/textView42"
                 tools:ignore="RtlSymmetry" />
+
             <EditText
                 android:id="@+id/cityNewAddress"
                 android:layout_width="0dp"
@@ -261,11 +198,12 @@
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintEnd_toEndOf="@+id/selectLocation"
+                app:layout_constraintEnd_toEndOf="@id/selectLocation"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/selectLocation"
-                app:layout_constraintTop_toBottomOf="@+id/selectLocation"
+                app:layout_constraintStart_toStartOf="@id/selectLocation"
+                app:layout_constraintTop_toBottomOf="@id/selectLocation"
                 tools:ignore="RtlSymmetry" />
+
             <EditText
                 android:id="@+id/stateNewAddress"
                 android:layout_width="0dp"
@@ -284,11 +222,12 @@
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintEnd_toEndOf="@+id/cityNewAddress"
+                app:layout_constraintEnd_toEndOf="@id/cityNewAddress"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/cityNewAddress"
-                app:layout_constraintTop_toBottomOf="@+id/cityNewAddress"
+                app:layout_constraintStart_toStartOf="@id/cityNewAddress"
+                app:layout_constraintTop_toBottomOf="@id/cityNewAddress"
                 tools:ignore="RtlSymmetry" />
+
             <EditText
                 android:id="@+id/pincodeNewAddress"
                 android:layout_width="0dp"
@@ -308,22 +247,23 @@
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintEnd_toEndOf="@+id/stateNewAddress"
+                app:layout_constraintEnd_toEndOf="@id/stateNewAddress"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/stateNewAddress"
-                app:layout_constraintTop_toBottomOf="@+id/stateNewAddress"
+                app:layout_constraintStart_toStartOf="@id/stateNewAddress"
+                app:layout_constraintTop_toBottomOf="@id/stateNewAddress"
                 tools:ignore="RtlSymmetry" />
+
             <TextView
                 android:id="@+id/textView41"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/addressLocation"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                app:layout_constraintEnd_toEndOf="@+id/newAddressName"
-                app:layout_constraintStart_toStartOf="@+id/newAddressName"
-                app:layout_constraintTop_toBottomOf="@+id/newAddressPhone" />
+                app:layout_constraintEnd_toEndOf="@id/newAddressName"
+                app:layout_constraintStart_toStartOf="@id/newAddressName"
+                app:layout_constraintTop_toBottomOf="@id/newAddressPhone" />
 
             <TextView
                 android:id="@+id/textView42"
@@ -333,7 +273,7 @@
                 android:text="@string/select_location"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_14sdp"
-                app:layout_constraintEnd_toEndOf="@+id/enterAddressText"
+                app:layout_constraintEnd_toEndOf="@id/enterAddressText"
                 app:layout_constraintStart_toStartOf="@id/enterAddressText"
                 app:layout_constraintTop_toBottomOf="@id/enterAddressText1" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,8 +5,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/colorWhite"
+    android:fitsSystemWindows="true"
     tools:context=".HomeActivity"
     tools:openDrawer="start">
 
@@ -20,13 +20,13 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/navigation_items"
         android:background="@color/colorWhite"
+        android:fitsSystemWindows="true"
+        android:theme="@style/NavigationView"
         app:headerLayout="@layout/nav_header_home"
         app:itemIconTint="@color/pink"
-        android:theme="@style/NavigationView"
-        app:itemTextColor="@color/colorBlack">
+        app:itemTextColor="@color/colorBlack"
+        app:menu="@menu/navigation_items">
 
 
         <TextView
@@ -34,53 +34,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:onClick="onClick"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_120sdp"
+            android:drawableStart="@drawable/headphone_icon_resize"
+            android:drawablePadding="@dimen/_10sdp"
             android:drawableTint="@color/pink"
+            android:fontFamily="sans-serif"
+            android:gravity="start|center"
+            android:onClick="onClick"
             android:text="@string/customer_support"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12sdp"
-            android:fontFamily="sans-serif"
-            android:layout_marginBottom="@dimen/_120sdp"
-            android:gravity="start|center"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:drawablePadding="@dimen/_10sdp"
-            android:drawableStart="@drawable/headphone_icon_resize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:targetApi="m" />
 
         <TextView
             android:id="@+id/customerSupportMobileNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_105sdp"
+            android:autoLink="phone"
+            android:drawablePadding="@dimen/_10sdp"
+            android:fontFamily="sans-serif"
+            android:linksClickable="true"
             android:onClick="onClick"
             android:text=""
-            android:autoLink="phone"
-            android:linksClickable="true"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_15sdp"
-            android:fontFamily="sans-serif"
-            android:layout_marginBottom="@dimen/_105sdp"
-            android:layout_marginStart="@dimen/_40sdp"
-            android:drawablePadding="@dimen/_10sdp" />
+            android:textSize="@dimen/_15sdp" />
 
         <TextView
             android:id="@+id/rateUsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:onClick="onClick"
-            android:text="@string/rate_us"
-            android:drawableTint="@color/pink"
-            android:drawablePadding="@dimen/_10sdp"
-            android:gravity="start|center"
-            android:drawableStart="@drawable/rate_icon_resize"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_75sdp"
+            android:drawableStart="@drawable/rate_icon_resize"
+            android:drawablePadding="@dimen/_10sdp"
+            android:drawableTint="@color/pink"
+            android:fontFamily="sans-serif"
+            android:gravity="start|center"
+            android:onClick="onClick"
+            android:text="@string/rate_us"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12sdp"
-            android:fontFamily="sans-serif"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -88,17 +89,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:onClick="onClick"
-            android:drawableTint="@color/pink"
-            android:drawablePadding="@dimen/_10sdp"
-            android:drawableStart="@drawable/share_icon_resize"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_40sdp"
-            android:textColor="@color/colorBlack"
-            android:gravity="start|center"
-            android:textSize="@dimen/_12sdp"
+            android:drawableStart="@drawable/share_icon_resize"
+            android:drawablePadding="@dimen/_10sdp"
+            android:drawableTint="@color/pink"
             android:fontFamily="sans-serif"
-            android:text="@string/share" />
+            android:gravity="start|center"
+            android:onClick="onClick"
+            android:text="@string/share"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12sdp"
+            tools:targetApi="m" />
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

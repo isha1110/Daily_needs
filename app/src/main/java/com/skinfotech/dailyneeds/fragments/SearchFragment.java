@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,10 +38,7 @@ public class SearchFragment extends BaseFragment {
     private SearchItemListAdapter mSearchItemListAdapter;
     private EditText searchEditText;
     private static final String TAG = "SearchFragment";
-    private List<ProductResponse.ProductItem> mFilterProductList = new ArrayList<>();
     private TextView textView;
-    private LinearLayout searchLinearLayout;
-    private boolean isFilter=false;
 
     public SearchFragment() {
     }
@@ -62,7 +58,6 @@ public class SearchFragment extends BaseFragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mSearchItemListAdapter);
         searchEditText = mContentView.findViewById(R.id.searchEditText);
-        //mContentView.findViewById(R.id.searchLinearLayout).setVisibility(View.VISIBLE);
         mContentView.findViewById(R.id.searchImageView).setOnClickListener(view -> startSearching());
         searchEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {

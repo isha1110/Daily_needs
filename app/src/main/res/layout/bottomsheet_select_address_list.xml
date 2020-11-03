@@ -30,7 +30,7 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/addNewAddressCheckout"
+                app:layout_constraintStart_toStartOf="@id/addNewAddressCheckout"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +43,7 @@
                 android:background="@drawable/white_rounded_corner_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/selectDeliveryAddress">
+                app:layout_constraintTop_toBottomOf="@id/selectDeliveryAddress">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/newAddressConstraintBottomSheet"
@@ -87,9 +87,9 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/personalDetailsText"
-                        app:layout_constraintStart_toStartOf="@+id/personalDetailsText"
-                        app:layout_constraintTop_toBottomOf="@+id/personalDetailsText"
+                        app:layout_constraintEnd_toEndOf="@id/personalDetailsText"
+                        app:layout_constraintStart_toStartOf="@id/personalDetailsText"
+                        app:layout_constraintTop_toBottomOf="@id/personalDetailsText"
                         tools:ignore="RtlSymmetry" />
 
                     <EditText
@@ -110,10 +110,10 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/newAddressName"
-                        app:layout_constraintStart_toStartOf="@+id/newAddressName"
-                        app:layout_constraintTop_toBottomOf="@+id/newAddressName"
-                        tools:ignore="RtlSymmetry,TextFields" />
+                        app:layout_constraintEnd_toEndOf="@id/newAddressName"
+                        app:layout_constraintStart_toStartOf="@id/newAddressName"
+                        app:layout_constraintTop_toBottomOf="@id/newAddressName"
+                        tools:ignore="Autofill,RtlSymmetry,TextFields" />
 
                     <EditText
                         android:id="@+id/enterAddressText"
@@ -134,10 +134,10 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/textView41"
+                        app:layout_constraintEnd_toEndOf="@id/textView41"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/textView41"
-                        app:layout_constraintTop_toBottomOf="@+id/textView41"
+                        app:layout_constraintStart_toStartOf="@id/textView41"
+                        app:layout_constraintTop_toBottomOf="@id/textView41"
                         tools:ignore="RtlSymmetry" />
 
                     <EditText
@@ -159,10 +159,10 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/enterAddressText"
+                        app:layout_constraintEnd_toEndOf="@id/enterAddressText"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/enterAddressText"
-                        app:layout_constraintTop_toBottomOf="@+id/enterAddressText"
+                        app:layout_constraintStart_toStartOf="@id/enterAddressText"
+                        app:layout_constraintTop_toBottomOf="@id/enterAddressText"
                         tools:ignore="RtlSymmetry" />
 
 
@@ -182,9 +182,9 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_12sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/pincodeNewAddress"
-                        app:layout_constraintStart_toStartOf="@+id/pincodeNewAddress"
-                        app:layout_constraintTop_toBottomOf="@+id/pincodeNewAddress"
+                        app:layout_constraintEnd_toEndOf="@id/pincodeNewAddress"
+                        app:layout_constraintStart_toStartOf="@id/pincodeNewAddress"
+                        app:layout_constraintTop_toBottomOf="@id/pincodeNewAddress"
                         app:layout_constraintVertical_bias="0.0" />
 
                     <Spinner
@@ -196,9 +196,9 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:prompt="@string/select_location"
                         android:spinnerMode="dialog"
-                        app:layout_constraintEnd_toEndOf="@+id/textView42"
-                        app:layout_constraintStart_toStartOf="@+id/textView42"
-                        app:layout_constraintTop_toBottomOf="@+id/textView42"
+                        app:layout_constraintEnd_toEndOf="@id/textView42"
+                        app:layout_constraintStart_toStartOf="@id/textView42"
+                        app:layout_constraintTop_toBottomOf="@id/textView42"
                         tools:ignore="RtlSymmetry" />
 
                     <EditText
@@ -219,10 +219,10 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/selectLocation"
+                        app:layout_constraintEnd_toEndOf="@id/selectLocation"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/selectLocation"
-                        app:layout_constraintTop_toBottomOf="@+id/selectLocation"
+                        app:layout_constraintStart_toStartOf="@id/selectLocation"
+                        app:layout_constraintTop_toBottomOf="@id/selectLocation"
                         tools:ignore="RtlSymmetry" />
 
                     <EditText
@@ -243,10 +243,10 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/cityNewAddress"
+                        app:layout_constraintEnd_toEndOf="@id/cityNewAddress"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/cityNewAddress"
-                        app:layout_constraintTop_toBottomOf="@+id/cityNewAddress"
+                        app:layout_constraintStart_toStartOf="@id/cityNewAddress"
+                        app:layout_constraintTop_toBottomOf="@id/cityNewAddress"
                         tools:ignore="RtlSymmetry" />
 
                     <EditText
@@ -268,7 +268,7 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/stateNewAddress"
+                        app:layout_constraintEnd_toEndOf="@id/stateNewAddress"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="@id/stateNewAddress"
                         app:layout_constraintTop_toBottomOf="@id/stateNewAddress"
@@ -282,9 +282,9 @@
                         android:text="@string/addressLocation"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_14sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/newAddressName"
-                        app:layout_constraintStart_toStartOf="@+id/newAddressName"
-                        app:layout_constraintTop_toBottomOf="@+id/newAddressPhone" />
+                        app:layout_constraintEnd_toEndOf="@id/newAddressName"
+                        app:layout_constraintStart_toStartOf="@id/newAddressName"
+                        app:layout_constraintTop_toBottomOf="@id/newAddressPhone" />
 
                     <TextView
                         android:id="@+id/textView42"
@@ -294,10 +294,11 @@
                         android:text="@string/select_location"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_14sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/enterAddressText"
+                        app:layout_constraintEnd_toEndOf="@id/enterAddressText"
                         app:layout_constraintStart_toStartOf="@id/enterAddressText"
                         app:layout_constraintTop_toBottomOf="@id/enterAddressText1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/selectAddressListRecycler"
                     android:layout_width="0dp"
@@ -335,10 +336,12 @@
                 app:layout_constraintStart_toStartOf="@id/constraintLayout7"
                 app:layout_constraintTop_toBottomOf="@id/constraintLayout7"
                 app:layout_constraintVertical_bias="0.0" />
+
             <Button
                 android:id="@+id/makeDefaultButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/button_bg"
                 android:onClick="onClick"
@@ -349,7 +352,6 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_13sdp"
                 android:visibility="visible"
-                android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/addNewAddressCheckout"
                 app:layout_constraintStart_toStartOf="@id/addNewAddressCheckout"

@@ -18,7 +18,6 @@ import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.HomeActivity;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
-import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.responses.CommonDetailsResponse;
@@ -50,9 +49,6 @@ public class ProductCategoryListFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_product_category_list, container, false);
-        ToolBarManager.getInstance().hideToolBar(mActivity, false);
-        ToolBarManager.getInstance().setHeaderTitle("");
-        mActivity.isToggleButtonEnabled(false);
         if (Utility.isEmpty(innerCategoryProducts)) {
             mContentView.findViewById(R.id.noItemFoundContainer).setVisibility(View.VISIBLE);
         } else {
@@ -122,7 +118,7 @@ public class ProductCategoryListFragment extends BaseFragment {
         public void onBindViewHolder(@NonNull InnerProductListAdapter.InnerProductListViewHolder holder, int position) {
             InnerCategoryProduct innerCategoryProduct = innerCategoryProducts.get(position);
 
-            holder.productDiscount.setText(innerCategoryProduct.getmProductDiscount()+"% OFF");
+            holder.productDiscount.setText(innerCategoryProduct.getmProductDiscount() + getString(R.string.discount_percentage));
             if (innerCategoryProduct.getmProductImage() != null)
                 Picasso.get().load(innerCategoryProduct.getmProductImage()).placeholder(R.drawable.app_logo).into(holder.productImage);
             holder.productSellingPrice.setText(Utility.getAmountInCurrencyFormat(innerCategoryProduct.getmProductSpecialPrice()));
