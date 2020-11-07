@@ -16,8 +16,8 @@
         android:layout_gravity="center"
         android:background="@drawable/category_border_items"
         android:elevation="@dimen/_10sdp"
-        android:minWidth="@dimen/_90sdp"
-        android:minHeight="@dimen/_90sdp"
+        android:minWidth="@dimen/_85sdp"
+        android:minHeight="@dimen/_85sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -28,7 +28,7 @@
             android:layout_marginStart="@dimen/_2sdp"
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/_2sdp"
-            app:cardBackgroundColor="@color/light_green"
+            app:cardBackgroundColor="@color/colorWhite"
             app:cardCornerRadius="@dimen/_6sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

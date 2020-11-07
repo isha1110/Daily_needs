@@ -281,7 +281,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if (commonResponse != null) {
                         showToast(commonResponse.getErrorMessage());
                         if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
-                            if (mode.equalsIgnoreCase(Constants.AddressModes.NEW_ADDRESS)) {
                                 Toast.makeText(getApplicationContext(), commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
                                 fetchAddressServerCall();
                                 formConstraintLayout.setVisibility(View.GONE);
@@ -289,15 +288,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 makeDefaultTextView.setVisibility(View.VISIBLE);
                                 selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
                                 addNewAddressCheckout.setText(getString(R.string.add_new_address));
-                            } else {
-                                Toast.makeText(getApplicationContext(), commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
-                                fetchAddressServerCall();
-                                formConstraintLayout.setVisibility(View.GONE);
-                                selectAddressRecyclerView.setVisibility(View.VISIBLE);
-                                makeDefaultTextView.setVisibility(View.VISIBLE);
-                                selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
-                                addNewAddressCheckout.setText(getString(R.string.add_new_address));
-                            }
 
                         }
                     }
@@ -522,7 +512,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.confirm:
                 if (chkValidations()) {
                     saveAddressServerCall(Constants.AddressModes.NEW_ADDRESS);
-                    saveAddressServerCall(Constants.AddressModes.UPDATE_ADDRESS);
                 }
                 break;
             case R.id.addNewAddressCheckout:

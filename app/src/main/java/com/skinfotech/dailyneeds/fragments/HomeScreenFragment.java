@@ -635,7 +635,7 @@ public class HomeScreenFragment extends BaseFragment {
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
-                iconImage = itemView.findViewById(R.id.subCategoryImageView);
+                iconImage = itemView.findViewById(R.id.subCategoriesImageView);
                 categoryNameTextView = itemView.findViewById(R.id.subCategoryName);
                 constraintLayout = itemView.findViewById(R.id.constraintContainer);
             }

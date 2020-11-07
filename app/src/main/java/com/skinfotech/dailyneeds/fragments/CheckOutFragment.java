@@ -127,7 +127,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
             case R.id.confirmButton:
                 if (chkValidations()) {
                     saveAddressServerCall(Constants.AddressModes.NEW_ADDRESS);
-                    saveAddressServerCall(Constants.AddressModes.UPDATE_ADDRESS);
+                    stopProgress();
                 }
                 break;
             default:
@@ -252,22 +252,13 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
                     if (commonResponse != null) {
                         showToast(commonResponse.getErrorMessage());
                         if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
-                            if (mode.equalsIgnoreCase(Constants.AddressModes.NEW_ADDRESS)) {
-                                Toast.makeText(mActivity, commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
-                                fetchAddressServerCall();
-                                formConstraintLayout.setVisibility(View.GONE);
-                                selectAddressRecyclerView.setVisibility(View.VISIBLE);
-                                selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
-                                addNewAddressCheckout.setText(getString(R.string.add_new_address));
-                            } else {
-                                Toast.makeText(mActivity, commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
-                                fetchAddressServerCall();
-                                formConstraintLayout.setVisibility(View.GONE);
-                                selectAddressRecyclerView.setVisibility(View.VISIBLE);
-                                selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
-                                addNewAddressCheckout.setText(getString(R.string.add_new_address));
-                            }
-
+                            Toast.makeText(mActivity, commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                            stopProgress();
+                            fetchAddressServerCall();
+                            formConstraintLayout.setVisibility(View.GONE);
+                            selectAddressRecyclerView.setVisibility(View.VISIBLE);
+                            selectDeliveryAddress.setText(getString(R.string.select_delivery_address));
+                            addNewAddressCheckout.setText(getString(R.string.add_new_address));
                         }
                     }
                 }
