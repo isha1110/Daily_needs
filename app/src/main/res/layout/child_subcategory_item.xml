@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/categoryContainer"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categoryContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="@dimen/_10sdp"
     android:gravity="center"
-    android:onClick="onClick"
-    android:elevation="@dimen/_10sdp">
+    android:onClick="onClick">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/subcategory_item_bg"
         android:minWidth="@dimen/_110sdp"
         android:minHeight="@dimen/_110sdp"
-        android:background="@drawable/subcategory_item_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/subCategoryImageView"
+            android:id="@+id/subCategoriesImageView"
             android:layout_width="0dp"
             android:layout_height="@dimen/_60sdp"
             android:layout_marginTop="@dimen/_10sdp"
@@ -35,21 +35,21 @@
             android:id="@+id/subCategoryName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center_horizontal"
             android:maxLines="2"
             android:minLines="2"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_6sdp"
             android:text="@string/snack_and_beveragess"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_11sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_6sdp"
-            android:paddingTop="@dimen/_6sdp"
-            android:paddingEnd="@dimen/_10sdp"
-            android:paddingStart="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subCategoryImageView" />
+            app:layout_constraintTop_toBottomOf="@id/subCategoriesImageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

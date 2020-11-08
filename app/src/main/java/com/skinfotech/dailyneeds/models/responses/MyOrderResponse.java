@@ -30,18 +30,10 @@ public class MyOrderResponse extends CommonResponse {
         private String mDateTime = "";
         @SerializedName("expected_delivery")
         private String mExpectedDelivery = "";
-        @SerializedName("cancel_flag")
-        private String mCancelFlag = "";
-        @SerializedName("cancel_date")
-        private String mCancelDate = "";
-        @SerializedName("cancel_by")
-        private String mCancelBy = "";
         @SerializedName("delivered_flag")
         private String mDeliveryFlag = "";
         @SerializedName("isCancel")
         private boolean mIsCancel;
-        @SerializedName("isRepeatOrder")
-        private boolean mIsRepeatOrder;
 
         public String getOrderId() {
             return mOrderId;
@@ -53,10 +45,6 @@ public class MyOrderResponse extends CommonResponse {
 
         public String getTotalAmount() {
             return mTotalAmount;
-        }
-
-        public String getDeliveryCharges() {
-            return mDeliveryCharges;
         }
 
         public String getPaymentId() {
@@ -71,28 +59,12 @@ public class MyOrderResponse extends CommonResponse {
             return mExpectedDelivery;
         }
 
-        public String getCancelFlag() {
-            return mCancelFlag;
-        }
-
-        public String getCancelDate() {
-            return mCancelDate;
-        }
-
-        public String getCancelBy() {
-            return mCancelBy;
-        }
-
         public String getDeliveryFlag() {
             return mDeliveryFlag;
         }
 
         public boolean isCancel() {
             return mIsCancel;
-        }
-
-        public boolean isRepeatOrder() {
-            return mIsRepeatOrder;
         }
     }
 }

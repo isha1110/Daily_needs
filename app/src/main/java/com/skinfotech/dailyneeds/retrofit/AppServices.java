@@ -1,7 +1,7 @@
 package com.skinfotech.dailyneeds.retrofit;
 
+import com.skinfotech.dailyneeds.models.requests.AddressRequest;
 import com.skinfotech.dailyneeds.models.requests.AddressResponse;
-import com.skinfotech.dailyneeds.models.requests.AllProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonProductRequest;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.DefaultAddressRequest;
@@ -12,9 +12,9 @@ import com.skinfotech.dailyneeds.models.requests.OrderDetailRequest;
 import com.skinfotech.dailyneeds.models.requests.PaymentRequest;
 import com.skinfotech.dailyneeds.models.requests.ProductLabelsRequest;
 import com.skinfotech.dailyneeds.models.requests.RegistrationRequest;
+import com.skinfotech.dailyneeds.models.requests.RemoveAddressRequest;
 import com.skinfotech.dailyneeds.models.requests.SaveAddressRequest;
 import com.skinfotech.dailyneeds.models.requests.SearchRequest;
-import com.skinfotech.dailyneeds.models.requests.SubCategoryRequest;
 import com.skinfotech.dailyneeds.models.requests.TokenRequest;
 import com.skinfotech.dailyneeds.models.requests.VerifyEmailRequest;
 import com.skinfotech.dailyneeds.models.requests.VerifyOtpRequest;
@@ -23,6 +23,7 @@ import com.skinfotech.dailyneeds.models.responses.CategoryResponse;
 import com.skinfotech.dailyneeds.models.responses.CheckOutResponse;
 import com.skinfotech.dailyneeds.models.responses.CommonDetailsResponse;
 import com.skinfotech.dailyneeds.models.responses.CommonResponse;
+import com.skinfotech.dailyneeds.models.responses.FetchAddressResponse;
 import com.skinfotech.dailyneeds.models.responses.LocationResponse;
 import com.skinfotech.dailyneeds.models.responses.MyOrderResponse;
 import com.skinfotech.dailyneeds.models.responses.OrderDetailResponse;
@@ -58,9 +59,6 @@ public interface AppServices {
     @POST("fetch_new_products.php")
     Call<ProductResponse> fetchHomeProducts();
 
-    @POST("fetch_sub_categories.php")
-    Call<CategoryResponse> fetchSubCategories(@Body SubCategoryRequest request);
-
     @POST("search_products.php")
     Call<ProductResponse> fetchSearchProducts(@Body SearchRequest request);
 
@@ -84,10 +82,6 @@ public interface AppServices {
 
     @POST("fetch_order_details.php")
     Call<OrderDetailResponse> fetchOrderDetails(@Body OrderDetailRequest request);
-
-    @POST("fetch_products.php")
-    Call<ProductResponse> fetchAllProducts(@Body AllProductRequest request);
-
 
     @POST("fetch_checkout_details.php")
     Call<CheckOutResponse> fetchCheckout(@Body CommonRequest request);
@@ -124,5 +118,11 @@ public interface AppServices {
 
     @POST("saveFcmToken.php")
     Call<CommonResponse> saveFcmTokenServerCall(@Body TokenRequest request);
+
+    @POST("remove_address.php")
+    Call<CommonResponse> removeAddress(@Body RemoveAddressRequest request);
+
+    @POST("fetch_user_address.php")
+    Call<FetchAddressResponse> fetchUserAddressResponse(@Body AddressRequest request);
 
 }

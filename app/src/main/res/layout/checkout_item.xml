@@ -170,7 +170,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/productPrice"
         app:layout_constraintStart_toEndOf="@id/productPrice"
-        app:layout_constraintTop_toTopOf="@+id/productPrice" />
+        app:layout_constraintTop_toTopOf="@id/productPrice" />
 
     <TextView
         android:id="@+id/amountSaved"

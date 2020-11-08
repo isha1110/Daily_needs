@@ -35,7 +35,6 @@ import static com.skinfotech.dailyneeds.Constants.USER_ID;
 public class ProductDetailFragment extends BaseFragment {
 
     private TextView mQuantityTextView;
-    private TextView mProductPrice;
     private CommonProductRequest mCommonProductRequest;
     private ProductQuantityListAdapter mProductQuantityListAdapter;
     private int mSelectedSizeListItem;
@@ -66,7 +65,6 @@ public class ProductDetailFragment extends BaseFragment {
         mActivity.isToggleButtonEnabled(false);
         ToolBarManager.getInstance().onBackPressed(this);
         mQuantityTextView = mContentView.findViewById(R.id.quantityValue);
-        mProductPrice = mContentView.findViewById(R.id.productAmount);
         RecyclerView recyclerView = mContentView.findViewById(R.id.productQuantityRecyclerView);
         mProductQuantityListAdapter = new ProductQuantityListAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);

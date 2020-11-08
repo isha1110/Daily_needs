@@ -1,5 +1,6 @@
 package com.skinfotech.dailyneeds.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
 import com.skinfotech.dailyneeds.Utility;
 import com.skinfotech.dailyneeds.constant.ToolBarManager;
 import com.skinfotech.dailyneeds.models.requests.AddressResponse;
 import com.skinfotech.dailyneeds.models.requests.CommonRequest;
 import com.skinfotech.dailyneeds.models.requests.DefaultAddressRequest;
+import com.skinfotech.dailyneeds.models.requests.RemoveAddressRequest;
+import com.skinfotech.dailyneeds.models.responses.CommonResponse;
 import com.skinfotech.dailyneeds.retrofit.RetrofitApi;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.skinfotech.dailyneeds.Constants.SUCCESS;
 import static com.skinfotech.dailyneeds.Constants.USER_ID;
 
 
@@ -58,7 +60,38 @@ public class SelectAddressFragment extends BaseFragment {
         mAddressListAdapter = new AddressListAdapter(mAddressResponseList);
         addressRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         addressRecyclerView.setAdapter(mAddressListAdapter);
+        mContentView.findViewById(R.id.makeDefaultAddressButton).setOnClickListener(this);
         fetchAddressServerCall();
+    }
+
+   private void removeAddressServerCall(RemoveAddressRequest request) {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<CommonResponse> call = RetrofitApi.getAppServicesObject().removeAddress(request);
+                    final Response<CommonResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (Exception e) {
+                    stopProgress();
+                    showToast(e.getMessage());
+                }
+            }
+
+            private void handleResponse(Response<CommonResponse> response) {
+                stopProgress();
+                if (response.isSuccessful()) {
+                    CommonResponse commonResponse = response.body();
+                    if (commonResponse != null) {
+                        if (commonResponse.getErrorCode().equalsIgnoreCase(SUCCESS)) {
+                            cartRemovedSuccessCallBack();
+                        }
+                        showToast(commonResponse.getErrorMessage());
+                    }
+                }
+            }
+        }).start();
     }
 
     private void fetchAddressServerCall() {
@@ -80,7 +113,7 @@ public class SelectAddressFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     AddressResponse addressResponse = response.body();
                     if (addressResponse != null) {
-                        if (Constants.SUCCESS.equalsIgnoreCase(addressResponse.getErrorCode())) {
+                        if (SUCCESS.equalsIgnoreCase(addressResponse.getErrorCode())) {
                             if (!Utility.isEmpty(mAddressResponseList)) {
                                 mAddressResponseList.clear();
                             }
@@ -105,7 +138,7 @@ public class SelectAddressFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addNewAddressLayout:
-                launchFragment(new AddNewAddressFragment(), true);
+                launchFragment(new AddNewAddressFragment(""), true);
                 break;
             case R.id.makeDefaultAddressButton:
                 if (Utility.isEmpty(mSelectedAddressId)) {
@@ -139,7 +172,7 @@ public class SelectAddressFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     AddressResponse addressResponse = response.body();
                     if (addressResponse != null) {
-                        if (Constants.SUCCESS.equalsIgnoreCase(addressResponse.getErrorCode())) {
+                        if (SUCCESS.equalsIgnoreCase(addressResponse.getErrorCode())) {
                             if (!Utility.isEmpty(mAddressResponseList)) {
                                 mAddressResponseList.clear();
                             }
@@ -186,8 +219,8 @@ public class SelectAddressFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(@NonNull AddressListAdapter.RecyclerViewHolder holder, int position) {
             AddressResponse.AddressItem currentItem = mAddressList.get(position);
-            holder.mRadioButton.setText(currentItem.getNameStr()+"/"+currentItem.getMobileStr());
-            holder.addressTextView.setText(currentItem.getAddressStr()+currentItem.getLocationStr());
+            holder.mRadioButton.setText(currentItem.getNameStr() + getString(R.string.back_slash) + currentItem.getMobileStr());
+            holder.addressTextView.setText(currentItem.getAddressStr() + currentItem.getLocationStr());
             holder.mRadioButton.setChecked(currentItem.isDefaultAddress());
         }
 
@@ -200,11 +233,30 @@ public class SelectAddressFragment extends BaseFragment {
 
             private RadioButton mRadioButton;
             private TextView addressTextView;
+            private TextView mEditTextView;
+            private TextView mRemoveTextView;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 mRadioButton = itemView.findViewById(R.id.checkBox);
                 addressTextView = itemView.findViewById(R.id.addressTextView);
+                mEditTextView = itemView.findViewById(R.id.editTextView);
+                mRemoveTextView = itemView.findViewById(R.id.removeTextView);
+                mRemoveTextView.setOnClickListener(v -> {
+                    AddressResponse.AddressItem item = mAddressList.get(getAdapterPosition());
+                    RemoveAddressRequest request = new RemoveAddressRequest();
+                    request.setmAddressId(item.getAddressId());
+                    new AlertDialog.Builder(mActivity)
+                            .setMessage("Do you want to remove address?")
+                            .setPositiveButton(android.R.string.yes, (dialog, which) -> removeAddressServerCall(request))
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                });
+                mEditTextView.setOnClickListener(v -> {
+                    AddressResponse.AddressItem item = mAddressList.get(getAdapterPosition());
+                    launchFragment(new AddNewAddressFragment(item.getAddressId()), true);
+                });
                 mRadioButton.setOnClickListener(v -> {
                     mSelectedAddressId = mAddressList.get(getAdapterPosition()).getAddressId();
                     setDefaultValueToAddressList();
@@ -220,6 +272,10 @@ public class SelectAddressFragment extends BaseFragment {
                 }
             }
         }
+    }
 
+    @Override
+    protected void cartRemovedSuccessCallBack() {
+        fetchAddressServerCall();
     }
 }

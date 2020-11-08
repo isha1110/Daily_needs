@@ -1,13 +1,7 @@
 package com.skinfotech.dailyneeds;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.widget.EditText;
 
-import java.io.ByteArrayOutputStream;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
@@ -64,48 +58,4 @@ public class Utility {
         String retVal = NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(Double.parseDouble(decimalFormat.format(amount)));
         return retVal.substring(2);
     }
-
-    public static String setCalendarPadding(int pInput) {
-        String lValue;
-        if (pInput < 10) {
-            lValue = "0" + pInput;
-        } else {
-            lValue = String.valueOf(pInput);
-        }
-        return lValue;
-    }
-
-    public static long generateRandomNumber() {
-        StringBuilder sb = new StringBuilder();
-        SecureRandom random = new SecureRandom();
-        for (int i = 1; i < 10; i++) {
-            int next;
-            if (i == 1) {
-                next = random.nextInt(10);
-                while (next == 0) {
-                    next = random.nextInt(10);
-                }
-            } else {
-                next = random.nextInt(10);
-            }
-            sb.append(next);
-        }
-        return new BigInteger(sb.toString()).longValue();
-    }
-
-    public static String encodeBitmapToBase64(Bitmap bitmap) {
-        if (bitmap != null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 100, baos);
-            byte[] b = baos.toByteArray();
-            return Base64.encodeToString(b, Base64.DEFAULT);
-        }
-        return "";
-    }
-
-    public static Bitmap getImageInBitmap(String imageStr) {
-        byte[] b = Base64.decode(imageStr, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(b, 0, b.length);
-    }
-
 }

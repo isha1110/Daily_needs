@@ -2,12 +2,12 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text=""
+    android:drawableEnd="@drawable/ic_keyboard_arrow_down_black"
+    android:padding="@dimen/_10sdp"
     android:paddingTop="@dimen/_12sdp"
     android:paddingBottom="@dimen/_10sdp"
-    android:padding="@dimen/_10sdp"
+    android:text=""
     android:textColor="@color/colorBlack"
-    android:drawableEnd="@drawable/ic_keyboard_arrow_down_black"
     android:textSize="@dimen/_9sdp">
 
 </TextView>

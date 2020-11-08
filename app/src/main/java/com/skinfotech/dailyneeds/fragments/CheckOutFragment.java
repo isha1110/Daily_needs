@@ -126,7 +126,8 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
                 break;
             case R.id.confirmButton:
                 if (chkValidations()) {
-                    saveAddressServerCall();
+                    saveAddressServerCall(Constants.AddressModes.NEW_ADDRESS);
+                    stopProgress();
                 }
                 break;
             default:
@@ -212,7 +213,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         }).start();
     }
 
-    private void saveAddressServerCall() {
+    private void saveAddressServerCall(String mode) {
         showProgress();
         new Thread(new Runnable() {
             @Override
@@ -226,7 +227,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
                     String state = stateAddress.getText().toString();
                     String pincode = pincodeAddress.getText().toString();
                     String location = mSelectLocation.getSelectedItem().toString();
-                    SaveAddressRequest request = new SaveAddressRequest();
+                    SaveAddressRequest request = new SaveAddressRequest(mode);
                     request.setmUserId(getStringDataFromSharedPref(USER_ID));
                     request.setName(name);
                     request.setPhoneNumber(mobile);
@@ -252,6 +253,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
                         showToast(commonResponse.getErrorMessage());
                         if (commonResponse.getErrorCode().equalsIgnoreCase(Constants.SUCCESS)) {
                             Toast.makeText(mActivity, commonResponse.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                            stopProgress();
                             fetchAddressServerCall();
                             formConstraintLayout.setVisibility(View.GONE);
                             selectAddressRecyclerView.setVisibility(View.VISIBLE);
@@ -332,6 +334,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
                 if (response.isSuccessful()) {
                     PaymentResponse paymentResponse = response.body();
                     if (paymentResponse != null) {
+                        clearFragmentBackStack();
                         if (Constants.SUCCESS.equalsIgnoreCase(paymentResponse.getErrorCode())) {
                             launchFragment(new ThankYouFragment(paymentResponse.getOrderId(),
                                     paymentResponse.getExpectedDelivery()), true);
@@ -498,6 +501,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         }).start();
     }
 
+
     private class SelectAddressListAdapter extends RecyclerView.Adapter<SelectAddressListAdapter.RecyclerViewHolder> {
 
         private List<AddressResponse.AddressItem> mAddressList = new ArrayList<>();
@@ -516,7 +520,7 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
         @Override
         public void onBindViewHolder(@NonNull SelectAddressListAdapter.RecyclerViewHolder holder, int position) {
             AddressResponse.AddressItem currentItem = mAddressList.get(position);
-            holder.selectAddressListButton.setText(currentItem.getNameStr() + "/" + currentItem.getMobileStr());
+            holder.selectAddressListButton.setText(currentItem.getNameStr() + getString(R.string.back_slash) + currentItem.getMobileStr());
             holder.addressTextView.setText(currentItem.getAddressStr() + currentItem.getLocationStr());
             holder.selectAddressListButton.setChecked(currentItem.isDefaultAddress());
             if (currentItem.isDefaultAddress()) {
@@ -533,11 +537,17 @@ public class CheckOutFragment extends BaseFragment implements RadioGroup.OnCheck
 
             private RadioButton selectAddressListButton;
             private TextView addressTextView;
+            private TextView mRemoveTextView;
+            private TextView mEditTextView;
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
                 selectAddressListButton = itemView.findViewById(R.id.checkBox);
                 addressTextView = itemView.findViewById(R.id.addressTextView);
+                mRemoveTextView = itemView.findViewById(R.id.removeTextView);
+                mRemoveTextView.setVisibility(View.GONE);
+                mEditTextView = itemView.findViewById(R.id.editTextView);
+                mEditTextView.setVisibility(View.GONE);
                 selectAddressListButton.setOnClickListener(view -> {
                     setDefaultValueToAddressList();
                     AddressResponse.AddressItem currentItem = mAddressList.get(getAdapterPosition());

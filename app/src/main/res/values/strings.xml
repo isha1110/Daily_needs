@@ -49,6 +49,7 @@
     <string name="quantity">Quantity:</string>
     <string name="paid">Paid : ₹</string>
     <string name="you_saved">You Saved</string>
+    <string name="you_saved_order_detail">You Saved :</string>
     <string name="order_placed_on">Order Placed on:</string>
     <string name="mode_of_payment">Mode of payment :</string>
     <string name="online">Online</string>
@@ -93,6 +94,7 @@
     <string name="householdcare">Household \n Care</string>
     <string name="number">123456789</string>
     <string name="cart_total">Total :</string>
+    <string name="cart_total_order_detail">Cart Total :</string>
     <string name="rs_280">₹ 280</string>
     <string name="out_of_stock">Out of stock</string>
     <string name="rs_70_00">₹ 70.00</string>
@@ -203,4 +205,13 @@
     <string name="invalid_email">Invalid email address</string>
     <string name="login_with_facbook">Login with Facebook</string>
     <string name="login_with_google">Login with Gmail</string>
+    <string name="back_slash">/</string>
+    <string name="quantity_cart">quantity</string>
+    <string name="discount_percentage">% OFF</string>
+    <string name="all_categories">All Categories</string>
+    <string name="add_more_items">+Add more items</string>
+    <string name="sorry_we_couldn_t_find_what_you_are_looking_for">Sorry, we couldn\'t find what you are looking for!</string>
+    <string name="remove">Remove</string>
+    <string name="edit">Edit</string>
+
 </resources>

@@ -20,11 +20,8 @@
         <item name="colorAccent">@color/orange_color</item>
         <item name="android:textColorSecondary">@color/dark_blue</item>
     </style>
-    <!--<style name="RobotoTextViewStyle" parent="Widget.AppCompat.TextView" >
-        <item name="android:fontFamily">@font/sans-serif</item>
-    </style>
--->
-    <style name="NavigationView" >
+
+    <style name="NavigationView">
         <item name="android:fontFamily">sans-serif</item>
     </style>
 </resources>

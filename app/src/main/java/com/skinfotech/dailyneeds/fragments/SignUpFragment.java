@@ -1,18 +1,18 @@
 package com.skinfotech.dailyneeds.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.skinfotech.dailyneeds.Constants;
 import com.skinfotech.dailyneeds.R;
@@ -34,6 +34,8 @@ public class SignUpFragment extends BaseFragment {
     private TextInputEditText passwordInput;
     private TextInputEditText userNameInput;
     private TextInputEditText mobileInput;
+    private Button mSignupButton;
+    private TextView mSignupTextView;
 
     @Nullable
     @Override
@@ -48,6 +50,10 @@ public class SignUpFragment extends BaseFragment {
         mobileInput = mContentView.findViewById(R.id.userMobileNumber);
         CardView cardView = mContentView.findViewById(R.id.appLogoCardView);
         cardView.setCardBackgroundColor(getResources().getColor(R.color.blue));
+        mSignupButton = mContentView.findViewById(R.id.signupButton);
+        mSignupButton.setOnClickListener(this);
+        mSignupTextView = mContentView.findViewById(R.id.signupTextView);
+        mSignupTextView.setOnClickListener(this);
         return mContentView;
     }
 
@@ -55,40 +61,49 @@ public class SignUpFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signupButton:
-                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 if (Utility.isEmpty(userNameInput)) {
                     userNameInput.setError(getResources().getString(R.string.mandatory_field_message));
                     userNameInput.requestFocus();
+                    return;
                 }
-                else if (Utility.isEmpty(emailInput)) {
+                if (Utility.isEmpty(emailInput)) {
                     emailInput.setError(getResources().getString(R.string.mandatory_field_message));
                     emailInput.requestFocus();
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput.getText().toString()).matches()) {
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(emailInput.getText().toString()).matches()) {
                     emailInput.setError(getResources().getString(R.string.invalid_email));
                     emailInput.requestFocus();
+                    return;
                 }
-                else if (Utility.isEmpty(mobileInput)) {
+                if (Utility.isEmpty(mobileInput)) {
                     mobileInput.setError(getResources().getString(R.string.mandatory_field_message));
                     mobileInput.requestFocus();
-                }else if (mobileInput.getText().length() < 10) {
+                    return;
+                }
+                if (mobileInput.getText().length() < 10) {
                     mobileInput.setError(getResources().getString(R.string.error_invalid_mobileNumber));
                     mobileInput.requestFocus();
+                    return;
                 }
-                else if (Utility.isEmpty(passwordInput)) {
+                if (Utility.isEmpty(passwordInput)) {
                     passwordInput.setError(getResources().getString(R.string.mandatory_field_message));
                     passwordInput.requestFocus();
-                } else if (passwordInput.getText().length() < 6) {
+                    return;
+                }
+                if (passwordInput.getText().length() < 6) {
                     passwordInput.setError(getResources().getString(R.string.error_invalid_password));
                     passwordInput.requestFocus();
-                }else {
-                    doRegistrationServerCall();
+                    return;
                 }
+                doRegistrationServerCall();
                 break;
             case R.id.signupTextView:
                 launchFragment(new LoginFragment(), false);
                 break;
         }
     }
+
     private void doRegistrationServerCall() {
         showProgress();
         new Thread(new Runnable() {
@@ -119,8 +134,8 @@ public class SignUpFragment extends BaseFragment {
                     CommonResponse commonResponse = response.body();
                     if (commonResponse != null) {
                         if (Constants.SUCCESS.equalsIgnoreCase(commonResponse.getErrorCode())) {
-                            storeStringDataInSharedPref(Constants.USER_ID , commonResponse.getUserId());
-                            storeStringDataInSharedPref(Constants.USER_LOGIN_DONE , Constants.YES);
+                            storeStringDataInSharedPref(Constants.USER_ID, commonResponse.getUserId());
+                            storeStringDataInSharedPref(Constants.USER_LOGIN_DONE, Constants.YES);
                             storeStringDataInSharedPref(Constants.USER_EMAIL, commonResponse.getUserEmail());
                             storeStringDataInSharedPref(Constants.USER_MOBILE, commonResponse.getUserMobile());
                             storeStringDataInSharedPref(Constants.USER_MODE, Constants.AuthModes.EMAIL_AUTH);
@@ -141,18 +156,6 @@ public class SignUpFragment extends BaseFragment {
         mActivity.hideCartIcon();
         mActivity.hideSearchIcon();
         hideKeyboard();
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        if (mIsDoubleBackPress) {
-            super.onBackPressedToExit(this);
-            return true;
-        }
-        Snackbar.make(mContentView, getString(R.string.back_press_msg), Snackbar.LENGTH_SHORT).show();
-        mIsDoubleBackPress = true;
-        new Handler().postDelayed(() -> mIsDoubleBackPress = false, 1500);
-        return true;
     }
 
 }

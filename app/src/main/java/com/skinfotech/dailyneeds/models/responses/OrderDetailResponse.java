@@ -28,14 +28,10 @@ public class OrderDetailResponse extends CommonResponse {
 
     public static class ProductItem {
 
-        @SerializedName("id")
-        private String mProductId = "";
         @SerializedName("image")
         private String mProductImage = "";
         @SerializedName("product_name")
         private String mProductName = "";
-        @SerializedName("puId")
-        private String mProductPUId = "";
         @SerializedName("price")
         private String mProductPrice = "";
         @SerializedName("special_price")
@@ -46,8 +42,6 @@ public class OrderDetailResponse extends CommonResponse {
         private String mProductUnit = "";
         @SerializedName("quantity")
         private String mProductQuantity = "";
-        @SerializedName("wishlist")
-        private boolean mIsWishListDone;
 
         private transient int mCount = 1;
 
@@ -55,32 +49,16 @@ public class OrderDetailResponse extends CommonResponse {
             return mProductQuantity;
         }
 
-        public boolean isWishListDone() {
-            return mIsWishListDone;
-        }
-
         public int getCount() {
             return mCount;
-        }
-
-        public void setCount(int count) {
-            mCount = count;
         }
 
         public String getProductImage() {
             return mProductImage;
         }
 
-        public String getProductId() {
-            return mProductId;
-        }
-
         public String getProductName() {
             return mProductName;
-        }
-
-        public String getProductPUId() {
-            return mProductPUId;
         }
 
         public String getProductPrice() {

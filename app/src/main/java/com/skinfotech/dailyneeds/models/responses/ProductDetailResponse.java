@@ -7,22 +7,14 @@ import java.util.List;
 
 public class ProductDetailResponse extends CommonResponse {
 
-    @SerializedName("id")
-    private String mProductId = "";
     @SerializedName("image")
     private String mProductImage = "";
     @SerializedName("product_name")
     private String mProductName = "";
-    @SerializedName("puId")
-    private String mProductPUId = "";
     @SerializedName("price")
     private String mProductPrice = "";
     @SerializedName("special_price")
     private String mProductSpecialPrice = "";
-    @SerializedName("measure")
-    private String mProductMeasure = "";
-    @SerializedName("unit")
-    private String mProductUnit = "";
     @SerializedName("quantity")
     private String mProductQuantity = "";
     @SerializedName("description")
@@ -54,20 +46,12 @@ public class ProductDetailResponse extends CommonResponse {
         return mSizeList;
     }
 
-    public String getProductId() {
-        return mProductId;
-    }
-
     public String getProductImage() {
         return mProductImage;
     }
 
     public String getProductName() {
         return mProductName;
-    }
-
-    public String getProductPUId() {
-        return mProductPUId;
     }
 
     public String getProductPrice() {
@@ -78,14 +62,6 @@ public class ProductDetailResponse extends CommonResponse {
         return mProductSpecialPrice;
     }
 
-    public String getProductMeasure() {
-        return mProductMeasure;
-    }
-
-    public String getProductUnit() {
-        return mProductUnit;
-    }
-
     public String getProductQuantity() {
         return mProductQuantity;
     }
@@ -94,10 +70,6 @@ public class ProductDetailResponse extends CommonResponse {
 
         @SerializedName("puId")
         private String mSizeListPUId = "";
-        @SerializedName("price")
-        private String mSizeListPrice = "";
-        @SerializedName("special_price")
-        private String mSizeListSpecialPrice = "";
         @SerializedName("measure")
         private String mSizeListMeasure = "";
         @SerializedName("unit")
@@ -105,14 +77,6 @@ public class ProductDetailResponse extends CommonResponse {
 
         public String getSizeListPUId() {
             return mSizeListPUId;
-        }
-
-        public String getSizeListPrice() {
-            return mSizeListPrice;
-        }
-
-        public String getSizeListSpecialPrice() {
-            return mSizeListSpecialPrice;
         }
 
         public String getSizeListMeasure() {

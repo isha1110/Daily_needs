@@ -6,5 +6,6 @@
     <integer name="category_heading_length">2</integer>
     <integer name="single_line_length">1</integer>
     <integer name="address_length">300</integer>
+    <integer name="phone_number">10</integer>
 
 </resources>

@@ -56,28 +56,14 @@
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
 
-        <!-- <ImageView
-             android:id="@+id/searchImageView"
-             android:layout_width="0dp"
-             android:layout_height="@dimen/_30sdp"
-             android:layout_gravity="center_vertical"
-             android:layout_weight="0.2"
-             android:padding="@dimen/_3sdp"
-             app:layout_constraintBottom_toBottomOf="@+id/searchEditText"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toEndOf="@+id/searchEditText"
-             app:layout_constraintTop_toTopOf="@+id/searchEditText"
-             app:srcCompat="@drawable/ic_search_black"
-             tools:ignore="ContentDescription" />-->
-
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchItemListRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
@@ -94,18 +80,18 @@
         android:id="@+id/noItemfoundTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_13sdp"
-        android:maxLines="2"
-        android:minLines="1"
-        android:gravity="center"
-        android:visibility="gone"
         android:layout_marginStart="@dimen/_40sdp"
         android:layout_marginEnd="@dimen/_40sdp"
-        android:text="Sorry, we couldn't find what you are looking for!"
+        android:gravity="center"
+        android:maxLines="2"
+        android:minLines="1"
+        android:text="@string/sorry_we_couldn_t_find_what_you_are_looking_for"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_13sdp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchLinearLayout" />
+        app:layout_constraintTop_toBottomOf="@id/searchLinearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,8 @@ public class SaveAddressRequest {
 
     @SerializedName("userId")
     private String mUserId;
+    @SerializedName("addressId")
+    private String addressId;
     @SerializedName("name")
     private String name;
     @SerializedName("phoneNumber")
@@ -22,6 +24,16 @@ public class SaveAddressRequest {
     private String pincode;
     @SerializedName("location")
     private String mLocation;
+    @SerializedName("mode")
+    private String mMode;
+
+    public SaveAddressRequest(String mode) {
+        mMode = mode;
+    }
+
+    public void setAppointmentId(String addressId) {
+        this.addressId = addressId;
+    }
 
     public void setmUserId(String mUserId) {
         this.mUserId = mUserId;

@@ -70,10 +70,10 @@
                     android:background="@drawable/button_bg_orange_corner"
                     android:gravity="center"
                     android:minWidth="@dimen/_110sdp"
-                    android:text="+Add more items"
+                    android:onClick="onClick"
+                    android:text="@string/add_more_items"
                     android:textColor="@color/colorWhite"
                     android:textStyle="bold"
-                    android:onClick="onClick"
                     app:layout_constraintBottom_toBottomOf="@+id/textView8"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -195,7 +195,7 @@
                     android:text="100"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_12sdp"
-                    app:layout_constraintEnd_toStartOf="@+id/delivery_free_or_not"
+                    app:layout_constraintEnd_toStartOf="@id/delivery_free_or_not"
                     app:layout_constraintTop_toTopOf="@id/textView28" />
 
                 <TextView
@@ -207,8 +207,8 @@
                     android:textColor="@color/green_color"
                     android:textSize="@dimen/_12sdp"
                     android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="@+id/bagDiscount"
-                    app:layout_constraintTop_toTopOf="@+id/orderTotal" />
+                    app:layout_constraintEnd_toEndOf="@id/bagDiscount"
+                    app:layout_constraintTop_toTopOf="@id/orderTotal" />
 
                 <TextView
                     android:id="@+id/deliveryCharges"
@@ -219,7 +219,7 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/delivery_free_or_not"
+                    app:layout_constraintEnd_toEndOf="@id/delivery_free_or_not"
                     app:layout_constraintTop_toTopOf="@id/textView29" />
 
                 <TextView

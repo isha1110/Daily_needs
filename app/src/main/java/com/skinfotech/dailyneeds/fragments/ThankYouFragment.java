@@ -54,6 +54,7 @@ public class ThankYouFragment extends BaseFragment {
         super.onStart();
         mActivity.showBackButton();
         mActivity.hideCartIcon();
+        mActivity.hideSearchIcon();
         hideKeyboard();
     }
 }
