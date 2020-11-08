@@ -8,6 +8,7 @@ public class Constants {
     public static final String USER_LOGIN_DONE = "USER_LOGIN_DONE";
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_MOBILE = "USER_MOBILE";
+    public static final String USER_MODE = "USER_MODE";
     public static final String YES = "YES";
     public static final String NO = "NO";
     public static final String USER_ID = "USER_ID";
@@ -30,5 +31,11 @@ public class Constants {
     public interface IExpectedDeliveryModes {
 
         String DELIVERED = "1";
+    }
+
+    public interface AuthModes {
+        String FACEBOOK_AUTH = "facebook";
+        String GOOGLE_AUTH = "google";
+        String EMAIL_AUTH = "email";
     }
 }
