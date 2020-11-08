@@ -164,47 +164,31 @@
         app:layout_constraintStart_toEndOf="@id/createAccountTextView"
         app:layout_constraintTop_toTopOf="@id/createAccountTextView" />
 
-    <TextView
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/googleLoginTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_bg_red"
-        android:gravity="center"
+        android:layout_marginBottom="8dp"
         android:width="@dimen/_140sdp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingTop="@dimen/_6sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_6sdp"
-        android:text="@string/login_with_google"
-        android:textColor="@color/colorWhite"
+        android:gravity="center"
         android:textSize="@dimen/_12sdp"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_20sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/facebookLoginTextView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createAccountTextView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toTopOf="@+id/facebookLoginTextView"
+        app:layout_constraintEnd_toEndOf="@+id/facebookLoginTextView"
+        app:layout_constraintStart_toStartOf="@+id/facebookLoginTextView" />
 
-    <TextView
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/facebookLoginTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:background="@drawable/blue_bg_button"
-        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:width="@dimen/_140sdp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:text="@string/login_with_facbook"
+        android:onClick="onClick"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/_12sdp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/googleLoginTextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/loginCardView"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/googleLoginTextView"
-        app:layout_constraintTop_toTopOf="@id/googleLoginTextView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/loginCardView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

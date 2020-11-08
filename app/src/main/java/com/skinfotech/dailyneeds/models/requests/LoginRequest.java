@@ -8,6 +8,10 @@ public class LoginRequest {
     private String mEmailAddress = "";
     @SerializedName("password")
     private String mPassword = "";
+    @SerializedName("mode")
+    private String mMode = "";
+
+    public void setMode(String mode) { mMode = mode; }
 
     public void setEmailAddress(String emailAddress) {
         mEmailAddress = emailAddress;
