@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.razorpay.Checkout;
@@ -100,7 +101,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private TextView makeDefaultTextView;
     private List<AddressResponse.AddressItem> mAddressResponseList = new ArrayList<>();
     private AddressResponse addressResponse;
-
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mSideNavigationDrawer.addDrawerListener(mToggleButton);
         mToggleButton.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorWhite));
         mToggleButton.syncState();
+        mAuth = FirebaseAuth.getInstance();
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
@@ -155,7 +157,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         SharedPreferences preferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         if (Constants.YES.equalsIgnoreCase(preferences.getString(Constants.USER_LOGIN_DONE, Constants.NO))) {
-            launchFragment(new HomeScreenFragment(), false);
+            if(!preferences.getString(Constants.USER_MODE, "").equals(Constants.AuthModes.EMAIL_AUTH)){
+                if(mAuth.getCurrentUser() != null){
+                    launchFragment(new HomeScreenFragment(), false);
+                }
+                else {
+                    launchFragment(new LoginFragment(), false);
+                }
+            }
+            else{
+                launchFragment(new HomeScreenFragment(), false);
+            }
         } else {
             launchFragment(new LoginFragment(), false);
         }
@@ -241,7 +253,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
-
 
     private void saveAddressServerCall(String mode) {
         new Thread(new Runnable() {
@@ -424,6 +435,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_logout:
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                if(!getCurrentFragment().getStringDataFromSharedPref(Constants.USER_MODE).equals(Constants.AuthModes.EMAIL_AUTH)){
+                    mAuth.signOut();
+                }
+                getCurrentFragment().storeStringDataInSharedPref(Constants.USER_MODE, "");
                 getCurrentFragment().storeStringDataInSharedPref(Constants.USER_LOGIN_DONE, Constants.NO);
                 getCurrentFragment().storeStringDataInSharedPref(Constants.USER_ID, "");
                 launchFragment(new LoginFragment(), false);

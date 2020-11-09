@@ -138,6 +138,7 @@ public class SignUpFragment extends BaseFragment {
                             storeStringDataInSharedPref(Constants.USER_LOGIN_DONE, Constants.YES);
                             storeStringDataInSharedPref(Constants.USER_EMAIL, commonResponse.getUserEmail());
                             storeStringDataInSharedPref(Constants.USER_MOBILE, commonResponse.getUserMobile());
+                            storeStringDataInSharedPref(Constants.USER_MODE, Constants.AuthModes.EMAIL_AUTH);
                             launchFragment(new HomeScreenFragment(), false);
                         }
                         showToast(commonResponse.getErrorMessage());

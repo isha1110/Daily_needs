@@ -12,6 +12,12 @@ public class RegistrationRequest {
     private String mPassword = "";
     @SerializedName("mobile")
     private String mUserMobile = "";
+    @SerializedName("mode")
+    private String mMode = "";
+
+    public void setmMode(String mMode) {
+        this.mMode = mMode;
+    }
 
     public void setUserName(String userName) {
         mUserName = userName;
