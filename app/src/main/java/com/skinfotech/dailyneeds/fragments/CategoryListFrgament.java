@@ -188,7 +188,7 @@ public class CategoryListFrgament extends BaseFragment  {
         public void onBindViewHolder(@NonNull SubCategoryAdapter.RecyclerViewHolder holder, int position) {
             SubCategoryProductItem item = categoryItemList.get(position);
             if (!Utility.isEmpty(item.getSubCategoryImage())) {
-                Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.grocery_staples).into(holder.iconImage);
+                Picasso.get().load(item.getSubCategoryImage()).placeholder(R.drawable.app_logo).into(holder.iconImage);
             }
             holder.categoryNameTextView.setText(Utility.toCamelCase(item.getSubCategoryName()));
             holder.constraintLayout.setOnClickListener(v -> launchFragment(new ProductCategoryFragment(item.getSubCategoryId(), Constants.CatModes.SUBCATEGORIES,item.getSubCategoryName()), true));
@@ -207,7 +207,7 @@ public class CategoryListFrgament extends BaseFragment  {
 
             RecyclerViewHolder(@NonNull View itemView) {
                 super(itemView);
-                iconImage = itemView.findViewById(R.id.subCategoryImageView);
+                iconImage = itemView.findViewById(R.id.subCategoriesImageView);
                 categoryNameTextView = itemView.findViewById(R.id.subCategoryName);
                 constraintLayout = itemView.findViewById(R.id.constraintContainer);
                 constraintLayout.setOnClickListener(v -> launchFragment(new ProductCategoryFragment(), true));

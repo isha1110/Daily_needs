@@ -6,9 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,16 +21,12 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -55,8 +51,8 @@ public class LoginFragment extends BaseFragment {
 
     private TextInputEditText mUserEmailTextInputEditText;
     private TextInputEditText mUserPasswordTextInputEditText;
-    private LoginButton loginWithFacebook;
-    private SignInButton loginwithGoogle;
+    private TextView loginWithFacebook;
+    private TextView loginwithGoogle;
     private static final String TAG = "LoginFragment";
     private String email;
     private String password;
@@ -96,7 +92,7 @@ public class LoginFragment extends BaseFragment {
         loginWithFacebook = mContentView.findViewById(R.id.facebookLoginTextView);
 
         loginWithFacebook.setOnClickListener(this);
-        loginWithFacebook.setFragment(this);
+        //loginWithFacebook.setFr(this);
         loginwithGoogle.setOnClickListener(this);
         CardView cardView = mContentView.findViewById(R.id.appLogoCardView);
         cardView.setCardBackgroundColor(getResources().getColor(R.color.blue));
