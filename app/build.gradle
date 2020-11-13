@@ -2,6 +2,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\user1\\DailyNeeds\\daily_needs.jks')
+            storePassword 'Dailyneeds'
+            keyAlias 'Alias'
+            keyPassword 'Dailyneeds'
+        }
+        release {
+            storeFile file('C:\\Users\\user1\\DailyNeeds\\daily_needs.jks')
+            storePassword 'Dailyneeds'
+            keyAlias 'Alias'
+            keyPassword 'Dailyneeds'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -9,13 +23,14 @@ android {
         applicationId "com.skinfotech.dailyneeds"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 11
-        versionName "1.10"
+        versionCode 12
+        versionName "1.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

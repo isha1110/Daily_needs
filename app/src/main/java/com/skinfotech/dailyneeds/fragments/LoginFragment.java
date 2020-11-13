@@ -92,7 +92,9 @@ public class LoginFragment extends BaseFragment {
         loginWithFacebook = mContentView.findViewById(R.id.facebookLoginTextView);
 
         loginWithFacebook.setOnClickListener(this);
-        //loginWithFacebook.setFr(this);
+//        loginWithFacebook.setFragment(this);
+        if(AccessToken.getCurrentAccessToken() != null)
+            LoginManager.getInstance().logOut();
         loginwithGoogle.setOnClickListener(this);
         CardView cardView = mContentView.findViewById(R.id.appLogoCardView);
         cardView.setCardBackgroundColor(getResources().getColor(R.color.blue));
@@ -158,13 +160,15 @@ public class LoginFragment extends BaseFragment {
     }
 
     private void signInWithGoogle() {
-        showProgress();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void signInWithFacebook() {
-        showProgress();
+        if(AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
+            return;
+        }
         LoginManager.getInstance().logInWithReadPermissions(mActivity, Arrays.asList("email", "public_profile"));
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -173,14 +177,14 @@ public class LoginFragment extends BaseFragment {
             }
             @Override
             public void onCancel() {
+                LoginManager.getInstance().unregisterCallback(mCallbackManager);
                 Toast.makeText(mActivity, "Authentication Cancelled by the User!", Toast.LENGTH_SHORT).show();
-                stopProgress();
             }
             @Override
             public void onError(FacebookException error) {
                 Toast.makeText(mActivity, "Oops! Something Went Wrong.", Toast.LENGTH_SHORT).show();
-                stopProgress();
             }
+
         });
     }
 
@@ -195,6 +199,7 @@ public class LoginFragment extends BaseFragment {
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        showProgress();
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Toast.makeText(mActivity, "Successfully Login", Toast.LENGTH_SHORT).show();
@@ -230,7 +235,7 @@ public class LoginFragment extends BaseFragment {
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
-
+        showProgress();
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(mActivity, task -> {

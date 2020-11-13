@@ -31,6 +31,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -102,6 +106,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private List<AddressResponse.AddressItem> mAddressResponseList = new ArrayList<>();
     private AddressResponse addressResponse;
     private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mSideNavigationDrawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         launchFragment(new LoginFragment(), false);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
         headerView = navigationView.getHeaderView(0);
         mToggleButton = new ActionBarDrawerToggle(
                 this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -434,14 +444,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_logout:
-                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
-                if(!getCurrentFragment().getStringDataFromSharedPref(Constants.USER_MODE).equals(Constants.AuthModes.EMAIL_AUTH)){
-                    mAuth.signOut();
-                }
-                getCurrentFragment().storeStringDataInSharedPref(Constants.USER_MODE, "");
-                getCurrentFragment().storeStringDataInSharedPref(Constants.USER_LOGIN_DONE, Constants.NO);
-                getCurrentFragment().storeStringDataInSharedPref(Constants.USER_ID, "");
-                launchFragment(new LoginFragment(), false);
+                logoutCompleteApp();
                 break;
             case R.id.nav_my_cart:
                 launchFragment(new CartFragment(), true);
@@ -458,6 +461,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void logoutCompleteApp() {
+        mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+        if(!getCurrentFragment().getStringDataFromSharedPref(Constants.USER_MODE).equals(Constants.AuthModes.EMAIL_AUTH)){
+            if(getCurrentFragment().getStringDataFromSharedPref(Constants.USER_MODE).equals(Constants.AuthModes.FACEBOOK_AUTH))
+                LoginManager.getInstance().logOut();
+            else if(getCurrentFragment().getStringDataFromSharedPref(Constants.USER_MODE).equals(Constants.AuthModes.GOOGLE_AUTH))
+                mGoogleSignInClient.signOut();
+            mAuth.signOut();
+        }
+        getCurrentFragment().storeStringDataInSharedPref(Constants.USER_MODE, "");
+        getCurrentFragment().storeStringDataInSharedPref(Constants.USER_LOGIN_DONE, Constants.NO);
+        getCurrentFragment().storeStringDataInSharedPref(Constants.USER_ID, "");
+        launchFragment(new LoginFragment(), false);
     }
 
     public void showToast(final String msg) {
