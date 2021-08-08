@@ -56,7 +56,6 @@ public class ProductCategoryFragment extends BaseFragment {
         ToolBarManager.getInstance().setHeaderTitle(headerTitle);
         ToolBarManager.getInstance().onBackPressed(this);
         mActivity.isToggleButtonEnabled(false);
-
         return view;
     }
 

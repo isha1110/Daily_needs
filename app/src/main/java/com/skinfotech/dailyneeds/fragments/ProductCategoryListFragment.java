@@ -1,5 +1,4 @@
 package com.skinfotech.dailyneeds.fragments;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

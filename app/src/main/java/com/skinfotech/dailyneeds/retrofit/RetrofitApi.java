@@ -20,7 +20,7 @@ public class RetrofitApi {
          * */
     }
 
-    private static final String BASE_URL = "https://dailyneedsandsweets.com/api/";
+    private static final String BASE_URL = "https://skinfotechies.xyz/demo/dailyneeds/api/";
 
     private static AppServices sAppServices = null;
 
@@ -49,5 +49,4 @@ public class RetrofitApi {
         gson = new GsonBuilder().setLenient().create();
         return gson;
     }
-
 }
